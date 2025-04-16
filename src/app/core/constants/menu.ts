@@ -3,17 +3,14 @@ import { MenuItem } from '../models/menu.model';
 export class Menu {
   public static pages: MenuItem[] = [
     {
-      group: 'Base',
+      group: 'SportSync',
       separator: false,
       items: [
         {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Dashboard',
           route: '/dashboard',
-          children: [
-            { label: 'Nfts', route: '/dashboard/nfts' },
-            // { label: 'Podcast', route: '/dashboard/podcast' },
-          ],
+         
         },
         {
           icon: 'assets/icons/heroicons/outline/lock-closed.svg',
@@ -27,63 +24,177 @@ export class Menu {
             { label: 'Two Steps', route: '/auth/two-steps' },
           ],
         },
-        {
-          icon: 'assets/icons/heroicons/outline/shield-exclamation.svg',
-          label: 'Erros',
-          route: '/errors',
-          children: [
-            { label: '404', route: '/errors/404' },
-            { label: '500', route: '/errors/500' },
-          ],
-        },
+       
       ],
     },
+
+
     {
-      group: 'Collaboration',
+      group: 'Gestion users',
       separator: true,
       items: [
         {
           icon: 'assets/icons/heroicons/outline/download.svg',
-          label: 'Download',
+          label: 'users',
+          route: '/download',
+        },
+       
+        
+      ],
+    },
+
+
+
+
+
+
+
+
+    {
+      group: 'Gestion catégorie et produit',
+      separator: true,
+      items: [
+        {
+          icon: 'assets/icons/heroicons/outline/download.svg',
+          label: 'Categorie',
           route: '/download',
         },
         {
-          icon: 'assets/icons/heroicons/outline/gift.svg',
-          label: 'Gift Card',
-          route: '/gift',
+          icon: 'assets/icons/heroicons/outline/download.svg',
+          label: 'Produit',
+          route: '/download',
         },
         {
-          icon: 'assets/icons/heroicons/outline/users.svg',
-          label: 'Users',
-          route: '/users',
+          icon: 'assets/icons/heroicons/outline/download.svg',
+          label: 'Article',
+          route: '/download',
         },
       ],
     },
     {
-      group: 'Config',
-      separator: false,
+      group: 'Gestion des ventes',
+      separator: true,
+      items: [
+ 
+        {
+          icon: 'assets/icons/heroicons/outline/gift.svg',
+          label: 'Panier',
+          route: '/gift',
+        },
+        {
+          icon: 'assets/icons/heroicons/outline/users.svg',
+          label: 'Commande',
+          route: '/users',
+        },
+      ],}
+      ,
+   
+    {
+      group: 'Locaux et Evénements ',
+      separator: true,
       items: [
         {
           icon: 'assets/icons/heroicons/outline/cog.svg',
-          label: 'Settings',
+          label: 'Locaux',
+          route: '/local',
+        },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Evénements',
+          route: '/events',
+        },
+     
+      ],
+    },
+ 
+ 
+    {
+      group: 'Équipe Match  ',
+      separator: true,
+      items: [
+        {
+          icon: 'assets/icons/heroicons/outline/cog.svg',
+          label: 'Equipe',
+          route: '/local',
+        },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Match',
+          route: '/events',
+        },
+     
+      ],
+    },
+
+    {
+      group: ' Réservation des Matériels ',
+      separator: true,
+      items: [
+        {
+          icon: 'assets/icons/heroicons/outline/cog.svg',
+          label: 'Réservation des équipements ',
+          route: '/local',
+        },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Gestion de l’inventaire ',
+          route: '/events',
+        },
+     
+      ],
+    },
+
+
+
+
+
+    {
+      group: ' Médical  ',
+      separator: true,
+      items: [
+        {
+          icon: 'assets/icons/heroicons/outline/cog.svg',
+          label: 'Suivi médical des joueurs ',
+          route: '/local',
+        },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Gestion des autorisations médicales  ',
+          route: '/events',
+        },
+     
+      ],
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {
+      group: 'Blogging',
+      separator: true,
+      items: [
+        {
+          icon: 'assets/icons/heroicons/outline/cog.svg',
+          label: 'Blog',
           route: '/settings',
         },
         {
           icon: 'assets/icons/heroicons/outline/bell.svg',
-          label: 'Notifications',
+          label: 'Comments',
           route: '/gift',
         },
-        {
-          icon: 'assets/icons/heroicons/outline/folder.svg',
-          label: 'Folders',
-          route: '/folders',
-          children: [
-            { label: 'Current Files', route: '/folders/current-files' },
-            { label: 'Downloads', route: '/folders/download' },
-            { label: 'Trash', route: '/folders/trash' },
-          ],
-        },
+       
       ],
     },
+   
   ];
 }
