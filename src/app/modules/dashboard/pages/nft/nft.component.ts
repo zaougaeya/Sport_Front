@@ -31,8 +31,8 @@ export class NftComponent implements OnInit {
         price: 187.47,
         ending_in: '06h 52m 47s',
         last_bid: 0.12,
-        image: './assets/images/img-01.jpg',
-        avatar: './assets/avatars/avt-01.jpg',
+        image: '',
+        avatar: '',
       },
       {
         id: 34356772,

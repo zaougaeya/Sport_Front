@@ -48,7 +48,7 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cube.svg',
+          icon: 'assets/icons/heroicons/outline/cube.png',
           label: 'Catégories',
           route: '/categories',
         },
