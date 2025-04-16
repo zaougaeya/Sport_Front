@@ -43,51 +43,69 @@ export class Menu {
       ],
     },
 
-
-
-
-
-
-
-
     {
-      group: 'Gestion catégorie et produit',
+      group: 'Gestion Catalogue',
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/download.svg',
-          label: 'Categorie',
-          route: '/download',
+          icon: 'assets/icons/heroicons/outline/cube.svg',
+          label: 'Catégories',
+          route: '/categories',
         },
         {
-          icon: 'assets/icons/heroicons/outline/download.svg',
-          label: 'Produit',
-          route: '/download',
-        },
-        {
-          icon: 'assets/icons/heroicons/outline/download.svg',
-          label: 'Article',
-          route: '/download',
+          icon: 'assets/icons/heroicons/outline/cube-transparent.svg',
+          label: 'Produits',
+          route: '/produits',
         },
       ],
     },
+  
     {
-      group: 'Gestion des ventes',
+      group: 'Commandes et Paniers',
       separator: true,
       items: [
- 
         {
-          icon: 'assets/icons/heroicons/outline/gift.svg',
+          icon: 'assets/icons/heroicons/outline/shopping-cart.svg',
           label: 'Panier',
-          route: '/gift',
+          route: '/panier',
         },
         {
-          icon: 'assets/icons/heroicons/outline/users.svg',
-          label: 'Commande',
-          route: '/users',
+          icon: 'assets/icons/heroicons/outline/clipboard-check.svg',
+          label: 'Commandes',
+          route: '/commandes',
         },
-      ],}
-      ,
+      ],
+    },
+  
+    {
+      group: 'Livraison',
+      separator: true,
+      items: [
+        {
+          icon: 'assets/icons/heroicons/outline/truck.svg',
+          label: 'Suivi Livraison',
+          route: '/livraison',
+        },
+      ],
+    },
+  
+    {
+      group: 'Statistiques',
+      separator: true,
+      items: [
+        {
+          icon: 'assets/icons/heroicons/outline/chart-bar.svg',
+          label: 'Ventes',
+          route: '/stats-ventes',
+        },
+        {
+          icon: 'assets/icons/heroicons/outline/trending-up.svg',
+          label: 'Performance Produits',
+          route: '/performances',
+        },
+      ],
+    },
+
    
     {
       group: 'Locaux et Evénements ',
@@ -165,18 +183,6 @@ export class Menu {
      
       ],
     },
-
-
-
-
-
-
-
-
-
-
-
-
 
     {
       group: 'Blogging',
