@@ -1,0 +1,55 @@
+<td class="py-2 pr-2">
+  <div class="flex items-center">
+    <img [src]="event.picturevent" class="mr-2 h-10 w-10 flex-none rounded-sm" alt="Event Image">
+    <!--<div class="flex flex-col">-->
+    <!--  <td class="py-2 pl-4 text-right">
+      <a href="#" class="text-sm font-semibold text-foreground">{{ event.eventname }}</a>
+      </td>
+
+      <span class="text-sm font-semibold text-muted-foreground">{{ event.catevent }}</span>
+   </div>-->
+</div>
+<td class="py-2 pl-4 text-right">
+  <span class="text-sm font-semibold text-muted-foreground">{{ event.eventname }}</span>
+</td>
+
+<td class="py-2 pl-4 text-right">
+  <span class="text-sm font-semibold text-muted-foreground">{{ event.catevent }}</span>
+</td>
+<td class="py-2 pl-4 text-right">
+  <span class="text-sm font-semibold text-muted-foreground">{{ event.capacity }}</span>
+</td>
+<td class="py-2 pl-4 text-right">
+  <span class="text-sm font-semibold text-muted-foreground">{{ event.address }}</span>
+</td>
+
+<td class="py-2 pl-4 text-right">
+  <span class="text-sm font-semibold text-muted-foreground">{{ event.local }}</span>
+</td>
+
+<td class="py-2 pl-4 text-right">
+  <span class="text-sm font-semibold text-muted-foreground">{{ event.datdebevent }}</span>
+</td>
+
+<td class="py-2 pl-4 text-right">
+  <span class="text-sm font-semibold text-muted-foreground">{{ event.datfinevent }}</span>
+</td>
+
+<td class="py-2 pl-4 pr-2 text-right">
+  <div class="flex justify-end gap-2">
+    <!-- Bouton Afficher Détails -->
+    <button (click)="showDetails()" class="flex items-center text-sm text-primary hover:underline focus:outline-none">
+      Show Details
+    </button>
+   
+    <!-- Bouton Mettre à Jour -->
+    <button (click)="update()" class="flex items-center text-sm text-primary hover:underline focus:outline-none">
+      Update
+    </button>
+    
+    <!-- Bouton Supprimer -->
+    <button (click)="delete()" class="flex items-center text-sm text-primary hover:underline focus:outline-none">
+      Delete
+    </button>
+  </div>
+</td>
