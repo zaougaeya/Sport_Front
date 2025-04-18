@@ -34,7 +34,7 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/download.svg',
+          icon: 'assets/icons/heroicons/outline/u.jbg',
           label: 'users',
           route: '/download',
         },
@@ -48,12 +48,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cube.png',
+          icon: 'assets/icons/heroicons/outline/checklist.png',
           label: 'Catégories',
           route: '/categories',
         },
         {
-          icon: 'assets/icons/heroicons/outline/cube-transparent.svg',
+          icon: 'assets/icons/heroicons/outline/cubes.png',
           label: 'Produits',
           route: '/produits',
         },
@@ -65,12 +65,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/shopping-cart.svg',
+          icon: 'assets/icons/heroicons/outline/sh.png',
           label: 'Panier',
           route: '/panier',
         },
         {
-          icon: 'assets/icons/heroicons/outline/clipboard-check.svg',
+          icon: 'assets/icons/heroicons/outline/list.png',
           label: 'Commandes',
           route: '/commandes',
         },
@@ -82,7 +82,7 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/truck.svg',
+          icon: 'assets/icons/heroicons/outline/box.png',
           label: 'Suivi Livraison',
           route: '/livraison',
         },
@@ -94,12 +94,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/chart-bar.svg',
+          icon: 'assets/icons/heroicons/outline/a.png',
           label: 'Ventes',
           route: '/stats-ventes',
         },
         {
-          icon: 'assets/icons/heroicons/outline/trending-up.svg',
+          icon: 'assets/icons/heroicons/outline/v.png',
           label: 'Performance Produits',
           route: '/performances',
         },

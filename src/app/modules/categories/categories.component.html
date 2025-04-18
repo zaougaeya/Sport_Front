@@ -1,0 +1,60 @@
+<div *ngIf="successMessage" class="alert alert-success" role="alert">
+  <span>ℹ️ {{ successMessage }}</span>
+</div>
+
+<!-- Formulaire d'ajout de catégorie -->
+<form (ngSubmit)="ajouterCategorie()" #categorieForm="ngForm" class="categorie-form">
+  <div class="form-group">
+    <label for="nom">Nom de la catégorie</label>
+    <input
+      type="text"
+      id="nom"
+      name="nom"
+      [(ngModel)]="categorie.nom"
+      required
+      class="form-control"
+      placeholder="Entrez le nom de la catégorie"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description de la catégorie</label>
+    <textarea
+      id="description"
+      name="description"
+      [(ngModel)]="categorie.description"
+      required
+      class="form-control"
+      placeholder="Entrez une description"
+    ></textarea>
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="!categorieForm.form.valid"
+    class="btn btn-primary"
+  >
+    Ajouter
+  </button>
+</form>
+
+<!-- Tableau des catégories -->
+<div *ngIf="categories.length > 0">
+
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Nom</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let category of categories; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ category.nom }}</td>
+        <td>{{ category.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

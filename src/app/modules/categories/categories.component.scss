@@ -1,0 +1,123 @@
+.categorie-form {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+    /* Pour centrer le formulaire */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Etirer pour que les éléments prennent toute la largeur disponible */
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .form-control {
+    width: 100%; /* Assurer que le champ prend toute la largeur disponible */
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Inclure les bordures et les paddings dans la largeur */
+    background-color: #fff;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: #bb61b3;
+  }
+  
+  button {
+    width: 100%; /* Le bouton prend également toute la largeur disponible */
+    padding: 10px;
+    font-size: 1.1rem;
+    background-color: #ac5b9a;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-sizing: border-box; /* Assurez-vous que la taille est correcte avec le padding et la bordure */
+  }
+  
+  button:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+  }
+  
+  button:hover:enabled {
+    background-color: #df95cf;
+  }
+  .alert {
+    padding: 10px;
+    border-radius: 1px;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  /* Style info (bleu clair) */
+  .alert-info {
+    background-color: #e7f3fe;
+    color: #47bb60;
+    border: 1px solid #bce8f1;
+  }
+  .table {
+    width: 60%;
+    margin: 20px auto;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .table th {
+    background-color: #ada2ab;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .table td {
+    background-color: #f9f9f9;
+  }
+  
+  .table-bordered {
+    border: 1px solid #ddd;
+  }
+  
+  .table-bordered th, .table-bordered td {
+    border: 1px solid #ddd;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: #e68bd2;
+    border-color: #c28ab4;
+  }
+  
+  .btn-primary:hover {
+    background-color: #b860b8;
+    border-color: #8f6783;
+  }
+  
+  .mt-4 {
+    margin-top: 2rem;
+  }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./modules/layout/layout.module').then((m) => m.LayoutModule),
@@ -11,14 +11,22 @@ const routes: Routes = [
     loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
+    path: 'categories',
+    loadChildren: () => import('./modules/categories/categories.module').then(m => m.CategoriesModule),
+  },
+  
+  {
     path: 'errors',
     loadChildren: () => import('./modules/error/error.module').then((m) => m.ErrorModule),
   },
-  { path: '**', redirectTo: 'errors/404' },
+  {
+    path: '**',
+    redirectTo: 'errors/404',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

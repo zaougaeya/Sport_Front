@@ -153,6 +153,53 @@
     @apply pointer-events-auto block scale-100 animate-fade-in-up opacity-100 duration-200;
   }
 }
+.categorie-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.form-control:focus {
+  outline: none;
+ 
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
 
 /** Scroll bar **/
 @supports selector(::-webkit-scrollbar) {
