@@ -1,0 +1,39 @@
+<!--<div class="container mt-4">
+  <h2 class="mb-4">Liste des Commandes</h2>
+
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Montant Total</th>
+        <th>Nom Client</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Statut</th>
+        <th>Adresse de Livraison</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cmd of commandes">
+        <td>{{ cmd.idCommande }}</td>
+        <td>{{ cmd.dateCommande }}</td>
+        <td>{{ cmd.montantTotal | number:'1.2-2' }} €</td>
+        <td>{{ cmd.nomClient }}</td>
+        <td>{{ cmd.emailClient }}</td>
+        <td>{{ cmd.telephoneClient }}</td>
+        <td>
+          <span class="badge bg-primary" *ngIf="cmd.statutCommande === 'EN_PREPARATION'">En préparation</span>
+          <span class="badge bg-warning text-dark" *ngIf="cmd.statutCommande === 'EXPEDIEE'">Expédiée</span>
+          <span class="badge bg-success" *ngIf="cmd.statutCommande === 'LIVREE'">Livrée</span>
+          <span class="badge bg-danger" *ngIf="cmd.statutCommande === 'ANNULEE'">Annulée</span>
+        </td>
+        <td>{{ cmd.adresseLivraison }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="commandes.length === 0" class="alert alert-info mt-3">
+    Aucune commande trouvée.
+  </div>
+</div>-->

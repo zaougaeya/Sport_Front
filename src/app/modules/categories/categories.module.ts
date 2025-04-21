@@ -16,4 +16,5 @@ import { CategoryService } from './category.service';
   declarations: [CategoriesComponent],
   providers: [CategoryService],
 })
+
 export class CategoriesModule {}

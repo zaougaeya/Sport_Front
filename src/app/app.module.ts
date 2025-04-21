@@ -4,8 +4,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router'; 
 import { routes } from './app-routing.module'; 
-import { HttpClientModule } from '@angular/common/http';  // <-- Assure-toi que HttpClientModule est bien importé
+
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,  // <-- Importation de HttpClientModule ici
+    HttpClientModule,
+     // <-- Importation de HttpClientModule ici
     RouterModule.forRoot(routes),
     FormsModule, 
   ],

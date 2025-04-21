@@ -61,14 +61,9 @@ export class Menu {
     },
   
     {
-      group: 'Commandes et Paniers',
+      group: 'Commandes ',
       separator: true,
       items: [
-        {
-          icon: 'assets/icons/heroicons/outline/sh.png',
-          label: 'Panier',
-          route: '/panier',
-        },
         {
           icon: 'assets/icons/heroicons/outline/list.png',
           label: 'Commandes',

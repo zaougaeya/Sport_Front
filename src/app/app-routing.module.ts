@@ -16,6 +16,15 @@ export const routes: Routes = [
   },
   
   {
+    path: 'produits',
+    loadChildren: () => import('./modules/produits/produits.module').then(m => m.ProduitsModule),
+  },
+  {
+    path: 'commandes',
+    loadChildren: () => import('./modules/commandes/commandes.module').then(m => m.CommandesModule),
+  },
+  
+  {
     path: 'errors',
     loadChildren: () => import('./modules/error/error.module').then((m) => m.ErrorModule),
   },
