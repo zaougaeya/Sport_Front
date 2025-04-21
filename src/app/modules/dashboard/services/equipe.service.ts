@@ -14,8 +14,8 @@ export class EquipeService {
 
   getEquipeById(id: string): Observable<Equipe | null> {
     if (!id) return of(null);
-    return this.http.get<Equipe>(`http://localhost:8081/api/equipes/${id}`).pipe(
-      catchError(() => of(null)) // en cas d'erreur
+    return this.http.get<Equipe>(`${this.baseUrl}/${id}`).pipe(
+      catchError(() => of(null))
     );
   }
 
@@ -30,5 +30,10 @@ export class EquipeService {
   deleteEquipe(id: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
+
+  getJoueursByEquipe(equipeId: string) {
+    return this.http.get<any[]>(`${this.baseUrl}/${equipeId}/joueurs`);
+  }
+
 }
 

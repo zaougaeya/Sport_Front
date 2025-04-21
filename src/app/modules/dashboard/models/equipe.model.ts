@@ -1,7 +1,7 @@
 import { Joueur } from './joueur.model'; 
 
 export interface Equipe {
-  id: string;
+  id?: string;
   nameEquipe: string;
   logo: string;
   joueurs?: Joueur[]; 

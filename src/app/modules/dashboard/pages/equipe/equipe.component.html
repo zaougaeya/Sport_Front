@@ -1,1 +1,118 @@
-<p>equipe works!</p>
+<div class="users-container">
+    <div class="users-card add-user-card">
+        <app-alert [message]="message" [type]="alertType" (closeAlert)="closeAlert()"></app-alert>
+
+        <div class="add-header">
+            <h2 style="color: black; font-size: 30px; padding: 10px;">➕ Ajouter une équipe</h2>
+
+            <button *ngIf="!showAddEquipe" (click)="toggleAddEquipe()" class="toggle-btn">➕ Nouvelle</button>
+            <button *ngIf="showAddEquipe" (click)="closeAddEquipe()" class="toggle-btn">✖️ Fermer</button>
+        </div>
+
+        <div *ngIf="showAddEquipe" class="add-user-form animated">
+            <form (ngSubmit)="onAddEquipe()" #addEquipeForm="ngForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nameEquipe">Nom de l'équipe</label>
+                        <input type="text" name="nameEquipe" [(ngModel)]="newEquipe.nameEquipe" required
+                            class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="logo">URL du drapeau / logo</label>
+                    <input type="text" name="logo" [(ngModel)]="newEquipe.logo" class="form-control"
+                        placeholder="https://..." />
+                </div>
+                <!-- <div class="form-group">
+                    <label for="logo">Logo (drapeau)</label>
+                    <input type="file" (change)="onFileSelected($event)" class="form-control" />
+                </div> -->
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-save">✔️ Valider</button>
+                    <button type="button" class="btn btn-cancel" (click)="cancelAddEquipe()">❌ Annuler</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Liste des équipes -->
+    <div class="match-card">
+        <h2 style="color: black; font-size: 30px; padding: 10px;">📋 Liste des équipes</h2>
+
+        <div *ngIf="errorMessage" class="error-message">
+            <p>{{ errorMessage }}</p>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th></th>
+                    <th>Nom de l'équipe</th>
+                    <th>Liste des joueurs</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let equipe of equipes">
+
+                    <tr>
+
+                        <td class="equipe-info">
+                            <div class="equipe-nom-image">
+                                <img *ngIf="equipe.logo" [src]="equipe.logo" alt="Logo" class="equipe-logo" />
+                                <div *ngIf="equipe.id && editMode[equipe.id]; else viewMode">
+                                    <input type="text" [(ngModel)]="editedEquipe[equipe.id].nameEquipe"
+                                        class="form-control" />
+                                </div>
+                                <ng-template #viewMode>{{ equipe.nameEquipe }}</ng-template>
+                            </div>
+                        </td>
+
+
+                        <!-- <td>
+                            <div *ngIf="equipe.id && editMode[equipe.id]; else viewMode">
+                                <input type="text" [(ngModel)]="editedEquipe[equipe.id].nameEquipe"
+                                    class="form-control" />
+                            </div>
+                            <ng-template #viewMode>{{ equipe.nameEquipe }}</ng-template>
+                        </td> -->
+
+                        <td>
+                            <button *ngIf="equipe.id" class="btn btn-info" (click)="toggleJoueurs(equipe.id)">👥 Voir
+                                les joueurs</button>
+                        </td>
+
+
+                        <td class="actions-col">
+                            <button *ngIf="equipe.id && !editMode[equipe.id]" class="btn btn-edit"
+                                (click)="editEquipe(equipe)">Modifier</button>
+                            <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-save"
+                                (click)="saveEquipe(equipe.id)">Enregistrer</button>
+                            <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-cancel"
+                                (click)="cancelEdit(equipe.id)">Annuler</button>
+                            <button *ngIf="equipe.id && !editMode[equipe.id]" class="btn btn-delete ml-1"
+                                (click)="deleteEquipe(equipe.id)">Supprimer</button>
+                        </td>
+
+                    </tr>
+                    <tr *ngIf="equipe.id && joueursVisibles[equipe.id]">
+                        <td colspan="3">
+                            <ul *ngIf="joueursParEquipe[equipe.id]; else loading">
+                                <li *ngFor="let joueur of joueursParEquipe[equipe.id]">
+                                    {{ joueur.prenom }} {{ joueur.nom }} ({{ joueur.position }}) - N°{{ joueur.numero }}
+                                </li>
+                            </ul>
+                            <ng-template #loading>
+                                <p>Chargement des joueurs...</p>
+                            </ng-template>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+
+        </table>
+    </div>
+</div>
