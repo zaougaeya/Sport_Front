@@ -7,13 +7,13 @@ export class Menu {
       separator: false,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/chart-pie.svg',
+          // icon: 'assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Dashboard',
           route: '/dashboard',
          
         },
         {
-          icon: 'assets/icons/heroicons/outline/lock-closed.svg',
+          // icon: 'assets/icons/heroicons/outline/lock-closed.svg',
           label: 'Auth',
           route: '/auth',
           children: [
@@ -34,7 +34,7 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/download.svg',
+          // icon: 'assets/icons/heroicons/outline/download.svg',
           label: 'users',
           route: '/download',
         },
@@ -48,12 +48,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cube.svg',
+          // icon: 'assets/icons/heroicons/outline/cube.svg',
           label: 'Catégories',
           route: '/categories',
         },
         {
-          icon: 'assets/icons/heroicons/outline/cube-transparent.svg',
+          // icon: 'assets/icons/heroicons/outline/cube-transparent.svg',
           label: 'Produits',
           route: '/produits',
         },
@@ -65,12 +65,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/shopping-cart.svg',
+          // icon: 'assets/icons/heroicons/outline/shopping-cart.svg',
           label: 'Panier',
           route: '/panier',
         },
         {
-          icon: 'assets/icons/heroicons/outline/clipboard-check.svg',
+          // icon: 'assets/icons/heroicons/outline/clipboard-check.svg',
           label: 'Commandes',
           route: '/commandes',
         },
@@ -82,7 +82,7 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/truck.svg',
+          // icon: 'assets/icons/heroicons/outline/truck.svg',
           label: 'Suivi Livraison',
           route: '/livraison',
         },
@@ -94,12 +94,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/chart-bar.svg',
+          // icon: 'assets/icons/heroicons/outline/chart-bar.svg',
           label: 'Ventes',
           route: '/stats-ventes',
         },
         {
-          icon: 'assets/icons/heroicons/outline/trending-up.svg',
+          // icon: 'assets/icons/heroicons/outline/trending-up.svg',
           label: 'Performance Produits',
           route: '/performances',
         },
@@ -112,12 +112,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cog.svg',
+          // icon: 'assets/icons/heroicons/outline/cog.svg',
           label: 'Locaux',
           route: '/local',
         },
         {
-          icon: 'assets/icons/heroicons/outline/bell.svg',
+          // icon: 'assets/icons/heroicons/outline/bell.svg',
           label: 'Evénements',
           route: '/events',
         },
@@ -153,12 +153,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cog.svg',
+          // icon: 'assets/icons/heroicons/outline/cog.svg',
           label: 'Réservation des équipements ',
           route: '/local',
         },
         {
-          icon: 'assets/icons/heroicons/outline/bell.svg',
+          // icon: 'assets/icons/heroicons/outline/bell.svg',
           label: 'Gestion de l’inventaire ',
           route: '/events',
         },
@@ -175,12 +175,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cog.svg',
+          // icon: 'assets/icons/heroicons/outline/cog.svg',
           label: 'Suivi médical des joueurs ',
           route: '/local',
         },
         {
-          icon: 'assets/icons/heroicons/outline/bell.svg',
+          // icon: 'assets/icons/heroicons/outline/bell.svg',
           label: 'Gestion des autorisations médicales  ',
           route: '/events',
         },
@@ -193,12 +193,12 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cog.svg',
+          // icon: 'assets/icons/heroicons/outline/cog.svg',
           label: 'Blog',
           route: '/settings',
         },
         {
-          icon: 'assets/icons/heroicons/outline/bell.svg',
+          // icon: 'assets/icons/heroicons/outline/bell.svg',
           label: 'Comments',
           route: '/gift',
         },

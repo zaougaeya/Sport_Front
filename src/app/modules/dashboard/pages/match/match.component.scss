@@ -112,6 +112,15 @@
   .btn-edit:hover {
     background-color: #ffa000;
   }
+
+  .btn-delete {
+    background-color: rgba(253, 37, 37, 0.863);
+    color: black;
+  }
+  
+  .btn-delete:hover {
+    background-color: #ff4949;
+  }
   
   .table {
     width: 100%;

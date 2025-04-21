@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import{ HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Match } from '../models/match.model';
 @Injectable({
@@ -10,15 +10,15 @@ export class MatchService {
 
   constructor(private http: HttpClient) { }
 
-// ✅ créer un match
+  // ✅ créer un match
   createMatch(match: Match): Observable<Match> {
-    
-    
+
+
     return this.http.post<Match>(`${this.apiUrl}`, match);
   }
 
-   // ✅ récupérer tous les matchs
-   getAllMatches(): Observable<Match[]> {
+  // ✅ récupérer tous les matchs
+  getAllMatches(): Observable<Match[]> {
     return this.http.get<Match[]>(`${this.apiUrl}`);
   }
 
@@ -28,22 +28,24 @@ export class MatchService {
   }
 
   // ✅ mettre à jour un  match 
-  updateMatch(id: string, match: Match): Observable<string> {
-    return this.http.put<string>(`${this.apiUrl}/update/${id}`, match);
+  updateMatch(id: string, match: Match): Observable<Match> {
+    return this.http.put<Match>(`${this.apiUrl}/${id}`, match);
   }
 
+
   // ✅ Supprimer un match
-  deleteMatch(id: string): Observable<string> {
-    return this.http.delete<string>(`${this.apiUrl}/delete/${id}`);
+  deleteMatch(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
 
   // ✅ Affecter deux équipes à un match
   affecterEquipes(matchId: string, equipeId1: string, equipeId2: string): Observable<Match> {
     return this.http.post<Match>(`${this.apiUrl}/${matchId}/affecter-equipes`, { equipeId1, equipeId2 });
   }
 
-   // ✅ Affecter un terrain
-   affecterTerrain(matchId: string, terrainId: string): Observable<Match> {
+  // ✅ Affecter un terrain
+  affecterTerrain(matchId: string, terrainId: string): Observable<Match> {
     return this.http.post<Match>(`${this.apiUrl}/${matchId}/affecter-terrain`, { terrainId });
   }
 
@@ -52,8 +54,8 @@ export class MatchService {
     return this.http.post<Match>(`${this.apiUrl}/${matchId}/affecter-date`, { date });
   }
 
-   // ✅ Affecter un score
-   affecterScores(matchId: string, score1: number, score2: number): Observable<Match> {
+  // ✅ Affecter un score
+  affecterScores(matchId: string, score1: number, score2: number): Observable<Match> {
     return this.http.post<Match>(`${this.apiUrl}/${matchId}/affecter-scores`, { score1, score2 });
   }
   // ✅ Obtenir les statistiques d’un match

@@ -5,5 +5,11 @@ export interface Terrain {
   name: string;
   adresse: string;
   type: string;
-  matchsReservés?: Match[]; // facultatif
+  matchsReserves?: Match[]; // facultatif
+}
+
+export interface TerrainCreationDTO {
+  name: string;
+  adresse: string;
+  type: string;
 }

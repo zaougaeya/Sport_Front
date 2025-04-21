@@ -1,109 +1,143 @@
 <div class="users-container">
-    <div class="users-card add-user-card">
-      <div class="add-header">
-        <h2 style="color: black; font-size: 30px; padding: 10px;">➕ Ajouter un match</h2>
-  
-        <button *ngIf="!showAddMatch" (click)="toggleAddMatch()" class="toggle-btn">➕ Nouveau</button>
-        <button *ngIf="showAddMatch" (click)="closeAddMatch()" class="toggle-btn">✖️ Fermer</button>
-      </div>
-  
-      <div *ngIf="showAddMatch" class="add-user-form animated">
-        <form (ngSubmit)="onAddMatch()" #addMatchForm="ngForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="equipe1">Équipe 1</label>
-              <select name="equipe1" [(ngModel)]="newMatch.idEquipe1" required class="form-control">
-                <option *ngFor="let e of equipes" [value]="e.id">{{ e.nameEquipe }}</option>
-              </select>
-            </div>
-  
-            <div class="form-group">
-              <label for="equipe2">Équipe 2</label>
-              <select name="equipe2" [(ngModel)]="newMatch.idEquipe2" required class="form-control">
-                <option *ngFor="let e of equipes" [value]="e.id">{{ e.nameEquipe }}</option>
-              </select>
-            </div>
-          </div>
-  
-          <div class="form-row">
-            <div class="form-group">
-              <label for="terrain">Terrain</label>
-              <select name="terrain" [(ngModel)]="newMatch.idTerrain" required class="form-control">
-                <option [value]="null">-- Sélectionner un Terrain --</option>
-                <option *ngFor="let t of terrains" [value]="t.id">{{ t.name }}</option>
-              </select>
-            </div>
-  
-            <div class="form-group">
-              <label for="date">Date</label>
-              <input type="datetime-local" name="date" [(ngModel)]="newMatch.date" required class="form-control" />
-            </div>
-          </div>
-  
-          <div class="form-actions">
-            <button type="submit" class="btn btn-save" >✔️ Valider</button>
-            <button type="button" class="btn btn-cancel" (click)="cancelAddMatch()">❌ Annuler</button>
-          </div>
-        </form>
-      </div>
+  <div class="users-card add-user-card">
+    <app-alert [message]="message" [type]="alertType" (closeAlert)="closeAlert()"></app-alert>
+
+    <div class="add-header">
+      <h2 style="color: black; font-size: 30px; padding: 10px;">➕ Ajouter un match</h2>
+
+      <button *ngIf="!showAddMatch" (click)="toggleAddMatch()" class="toggle-btn">➕ Nouveau</button>
+      <button *ngIf="showAddMatch" (click)="closeAddMatch()" class="toggle-btn">✖️ Fermer</button>
     </div>
-  
-    <!-- Liste des matchs -->
-    <div class="match-card">
-      <h2 style="color: black; font-size: 30px; padding: 10px;">📋 Liste des matchs</h2>
-  
-      <div *ngIf="errorMessage" class="error-message">
-        <p>{{ errorMessage }}</p>
-      </div>
-  
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Équipe 1</th>
-            <th>Équipe 2</th>
-            <th>Terrain</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let match of matches">
-            <td>
-              <div *ngIf="editMode[match.id]; else equipe1View">
-                <input [(ngModel)]="editedMatch[match.id].equipe1" name="equipe1-{{match.id}}" class="form-control" />
-              </div>
-              <ng-template #equipe1View>{{ match.idEquipe1 | nameequipe}}</ng-template>
-            </td>
-  
-            <td>
-              <div *ngIf="editMode[match.id]; else equipe2View">
-                <input [(ngModel)]="editedMatch[match.id].equipe2" name="equipe2-{{match.id}}" class="form-control" />
-              </div>
-              <ng-template #equipe2View>{{ match.idEquipe2 | nameequipe}}</ng-template>
-            </td>
-  
-            <td>
-              <div *ngIf="editMode[match.id]; else terrainView">
-                <input [(ngModel)]="editedMatch[match.id].terrain" name="terrain-{{match.id}}" class="form-control" />
-              </div>
-              <ng-template #terrainView>{{ match.idTerrain | nameterrain }}</ng-template>
-            </td>
-  
-            <td>
-              <div *ngIf="editMode[match.id]; else dateView">
-                <input type="datetime-local" [(ngModel)]="editedMatch[match.id].date" name="date-{{match.id}}" class="form-control" />
-              </div>
-              <ng-template #dateView>{{ match.date | date: 'dd/MM/yyyy HH:mm' }}</ng-template>
-            </td>
-  
-            <td class="actions-col">
-              <button *ngIf="!editMode[match.id]" class="btn btn-edit" (click)="editMatch(match)">Modifier</button>
-              <button *ngIf="editMode[match.id]" class="btn btn-save" (click)="saveMatch(match.id)">Enregistrer</button>
-              <button *ngIf="editMode[match.id]" class="btn btn-cancel" (click)="cancelEdit(match.id)">Annuler</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+    <div *ngIf="showAddMatch" class="add-user-form animated">
+      <form (ngSubmit)="onAddMatch()" #addMatchForm="ngForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="equipe1">Équipe 1</label>
+            <select name="equipe1" [(ngModel)]="newMatch.idEquipe1" required class="form-control">
+              <option *ngFor="let e of equipes" [value]="e.id">{{ e.nameEquipe }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="equipe2">Équipe 2</label>
+            <select name="equipe2" [(ngModel)]="newMatch.idEquipe2" required class="form-control">
+              <option *ngFor="let e of equipes" [value]="e.id">{{ e.nameEquipe }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="terrain">Terrain</label>
+            <select name="terrain" [(ngModel)]="newMatch.idTerrain" required class="form-control">
+              <option *ngFor="let t of terrains" [value]="t.id">{{ t.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="date">Date</label>
+            <input type="datetime-local" name="date" [(ngModel)]="newMatch.date" required class="form-control" />
+          </div>
+        </div>
+
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-save">✔️ Valider</button>
+          <button type="button" class="btn btn-cancel" (click)="cancelAddMatch()">❌ Annuler</button>
+        </div>
+      </form>
     </div>
   </div>
-  
+
+  <!-- Liste des matchs -->
+  <div class="match-card">
+    <h2 style="color: black; font-size: 30px; padding: 10px;">📋 Liste des matchs</h2>
+
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Équipe 1</th>
+          <th>Équipe 2</th>
+          <th>Terrain</th>
+          <th>Date</th>
+          <th>Score</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let match of matches">
+          <!-- Équipe 1 -->
+          <td>
+            <div *ngIf="editMode[match.id]; else equipe1View">
+              <select [(ngModel)]="editedMatch[match.id].idEquipe1" name="equipe1-{{ match.id }}" class="form-control">
+                <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
+              </select>
+            </div>
+            <ng-template #equipe1View>{{ match.idEquipe1 | nameequipe }}</ng-template>
+          </td>
+
+          <!-- Équipe 2 -->
+          <td>
+            <div *ngIf="editMode[match.id]; else equipe2View">
+              <select [(ngModel)]="editedMatch[match.id].idEquipe2" name="equipe2-{{ match.id }}" class="form-control">
+                <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
+              </select>
+            </div>
+            <ng-template #equipe2View>{{ match.idEquipe2 | nameequipe }}</ng-template>
+          </td>
+
+          <!-- Terrain -->
+          <td>
+            <div *ngIf="editMode[match.id]; else terrainView">
+              <select [(ngModel)]="editedMatch[match.id].idTerrain" name="terrain-{{ match.id }}" class="form-control">
+                <option *ngFor="let terrain of terrains" [value]="terrain.id">{{ terrain.name }}</option>
+              </select>
+            </div>
+            <ng-template #terrainView>{{ match.idTerrain | nameterrain }}</ng-template>
+          </td>
+
+          <!-- Date -->
+          <td>
+            <div *ngIf="editMode[match.id]; else dateView">
+              <input type="datetime-local" [(ngModel)]="editedMatch[match.id].date" name="date-{{ match.id }}"
+                class="form-control" />
+            </div>
+            <ng-template #dateView>{{ match.date | date: 'dd/MM/yyyy HH:mm' }}</ng-template>
+          </td>
+
+          <td>
+            <div *ngIf="editMode[match.id]; else scoreView">
+              <input type="number" [(ngModel)]="editedMatch[match.id].scoreEquipe1" name="score1-{{ match.id }}"
+                class="form-control" placeholder="Score équipe 1" />
+              <span> - </span>
+              <input type="number" [(ngModel)]="editedMatch[match.id].scoreEquipe2" name="score2-{{ match.id }}"
+                class="form-control" placeholder="Score équipe 2" />
+            </div>
+            <ng-template #scoreView>
+              {{ match.scoreEquipe1 }} - {{ match.scoreEquipe2 }}
+            </ng-template>
+          </td>
+
+
+          <!-- Actions -->
+          <td class="actions-col w-[240px]">
+            <button *ngIf="!editMode[match.id]" class="btn btn-edit" (click)="editMatch(match)">Modifier</button>
+            <button *ngIf="editMode[match.id]" class="btn btn-save" (click)="saveMatch(match.id)">Enregistrer</button>
+            <button *ngIf="editMode[match.id]" class="btn btn-cancel" (click)="cancelEdit(match.id)">Annuler</button>
+
+            <!-- 🔥 Bouton de suppression -->
+            <button *ngIf="!editMode[match.id]" class="btn btn-delete ml-1"
+              (click)="deleteMatch(match.id)">Supprimer</button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

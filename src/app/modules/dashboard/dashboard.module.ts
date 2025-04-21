@@ -9,6 +9,7 @@ import { Nameterrainpipe } from './pipe/nameterrain.pipe';
 import { MatchComponent } from './pages/match/match.component';
 import { EquipeComponent } from './pages/equipe/equipe.component';
 import { TerrainComponent } from './pages/terrain/terrain.component';
+import { AlertComponent } from './pages/alert/alert.component';
 
 @NgModule({
 
@@ -22,6 +23,7 @@ import { TerrainComponent } from './pages/terrain/terrain.component';
     MatchComponent,
     EquipeComponent,
     TerrainComponent,
+    AlertComponent
   ],
 })
 export class DashboardModule { }

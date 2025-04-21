@@ -1,1 +1,96 @@
-<p>terrain works!</p>
+<!-- terrain.component.html -->
+<div class="users-container">
+  <!-- Carte d'ajout de terrain -->
+  <div class="users-card add-user-card">
+    <app-alert [message]="message" [type]="alertType" (closeAlert)="closeAlert()"></app-alert>
+
+    <div class="add-header">
+      <h2 style="color: black; font-size: 30px; padding: 10px;">➕ Ajouter un terrain</h2>
+      <button *ngIf="!showAddTerrain" (click)="toggleAddTerrain()" class="toggle-btn">➕ Nouveau</button>
+      <button *ngIf="showAddTerrain" (click)="closeAddTerrain()" class="toggle-btn">✖️ Fermer</button>
+    </div>
+
+    <div *ngIf="showAddTerrain" class="add-user-form animated">
+      <form (ngSubmit)="onAddTerrain()" #addTerrainForm="ngForm">
+        <div class="form-group">
+          <label for="name">Nom</label>
+          <input id="name" name="name" [(ngModel)]="newTerrain.name" required class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="adresse">Adresse</label>
+          <input id="adresse" name="adresse" [(ngModel)]="newTerrain.adresse" required class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="type">Type</label>
+          <input id="type" name="type" [(ngModel)]="newTerrain.type" required class="form-control" />
+        </div>
+
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-save">✔️ Valider</button>
+          <button type="button" class="btn btn-cancel" (click)="cancelAddTerrain()">❌ Annuler</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Liste des terrains -->
+  <div class="match-card">
+    <h2 style="color: black; font-size: 25px; padding: 10px;">📋 Liste des terrains</h2>
+
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Adresse</th>
+          <th>Type</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let terrain of terrains">
+          <!-- Nom -->
+          <td>
+            <div *ngIf="editMode[terrain.id]; else nameView">
+              <input [(ngModel)]="editedTerrain[terrain.id].name" name="name-{{terrain.id}}" class="form-control" />
+            </div>
+            <ng-template #nameView>{{ terrain.name }}</ng-template>
+          </td>
+
+          <!-- Adresse -->
+          <td>
+            <div *ngIf="editMode[terrain.id]; else adresseView">
+              <input [(ngModel)]="editedTerrain[terrain.id].adresse" name="adresse-{{terrain.id}}"
+                class="form-control" />
+            </div>
+            <ng-template #adresseView>{{ terrain.adresse }}</ng-template>
+          </td>
+
+          <!-- Type -->
+          <td>
+            <div *ngIf="editMode[terrain.id]; else typeView">
+              <input [(ngModel)]="editedTerrain[terrain.id].type" name="type-{{terrain.id}}" class="form-control" />
+            </div>
+            <ng-template #typeView>{{ terrain.type }}</ng-template>
+          </td>
+
+          <!-- Actions -->
+          <td class="actions-col w-[240px]">
+            <button *ngIf="!editMode[terrain.id]" class="btn btn-edit" (click)="editTerrain(terrain)">Modifier</button>
+            <button *ngIf="editMode[terrain.id]" class="btn btn-save"
+              (click)="saveTerrain(terrain.id)">Enregistrer</button>
+            <button *ngIf="editMode[terrain.id]" class="btn btn-cancel"
+              (click)="cancelEdit(terrain.id)">Annuler</button>
+            <button *ngIf="!editMode[terrain.id]" class="btn btn-delete ml-1"
+              (click)="deleteMatch(terrain.id)">Supprimer</button>
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
