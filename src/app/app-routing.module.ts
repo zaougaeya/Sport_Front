@@ -11,6 +11,15 @@ const routes: Routes = [
     loadChildren: () => import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
+    path: 'admin/materiels', // Route pour la gestion des matériels
+    loadChildren: () => import('./modules/Gestion_Materiel/materiels/materiels.module').then(m => m.MaterielsModule),
+  },
+  {
+    path: 'admin/reservations', // Route pour la gestion des réservations
+    loadChildren: () => import('./modules/Gestion_Materiel/Reservation/reservations.module').then(m => m.ReservationsModule),
+  },
+  { path: '', redirectTo: '/materiels', pathMatch: 'full' },
+  {
     path: 'errors',
     loadChildren: () => import('./modules/error/error.module').then((m) => m.ErrorModule),
   },
