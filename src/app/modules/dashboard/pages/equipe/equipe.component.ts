@@ -73,23 +73,51 @@ export class EquipeComponent implements OnInit {
   }
 
   onAddEquipe(): void {
-    // Assurer que l'ID n'est pas inclus dans l'objet
-    // MongoDB générera automatiquement un ID
-    this.equipeService.createEquipe(this.newEquipe).subscribe({
+
+    if (
+      !this.newEquipe.nameEquipe ||
+      !this.newEquipe.logo
+    ) {
+      this.message = '❌ Tous les champs sont obligatoires.';
+      this.alertType = 'error';
+      setTimeout(() => {
+        this.message = '';
+      }, 5000);
+      return;
+    }
+
+
+    const formData = new FormData();
+    formData.append('nameEquipe', this.newEquipe.nameEquipe);  // Ajouter le nom de l'équipe
+    formData.append('logo', this.newEquipe.logo);  // Ajouter l'image
+
+    this.equipeService.createEquipe(formData).subscribe({
       next: () => {
         this.loadEquipes();
-        this.message = 'Équipe ajoutée avec succès.';
+        this.message = '✅ Équipe ajoutée avec succès.';
         this.alertType = 'success';
         this.showAddEquipe = false;
+        setTimeout(() => {
+          this.message = '';
+        }, 3000);
         console.log(this.newEquipe); // Afficher l'objet sans ID
       },
       error: () => {
-        this.message = 'Erreur lors de l\'ajout.';
+        this.message = ' ❌ Erreur lors de l\'ajout.';
         this.alertType = 'error';
+        setTimeout(() => {
+          this.message = '';
+        }, 3000);
       }
     });
-
   }
+
+
+  onFileChange(event: any) {
+    this.newEquipe.logo = event.target.files[0];
+  }
+
+
 
   editEquipe(equipe: Equipe): void {
     if (!equipe.id) {
@@ -121,14 +149,20 @@ export class EquipeComponent implements OnInit {
     this.equipeService.updateEquipe(id, this.editedEquipe[id]).subscribe({
       next: () => {
         this.loadEquipes();
-        this.message = 'Équipe mise à jour.';
+        this.message = '✅ Équipe mise à jour.';
         this.alertType = 'success';
         this.editMode[id] = false;
+        setTimeout(() => {
+          this.message = '';
+        }, 3000);
       },
       error: (err) => {
         console.error('Erreur lors de la mise à jour:', err);
-        this.message = 'Erreur lors de la mise à jour.';
+        this.message = '❌ Erreur lors de la mise à jour.';
         this.alertType = 'error';
+        setTimeout(() => {
+          this.message = '';
+        }, 3000);
       }
     });
   }
@@ -143,12 +177,18 @@ export class EquipeComponent implements OnInit {
       this.equipeService.deleteEquipe(id).subscribe({
         next: () => {
           this.loadEquipes();
-          this.message = 'Équipe supprimée.';
+          this.message = '✅ Équipe supprimée.';
           this.alertType = 'success';
+          setTimeout(() => {
+            this.message = '';
+          }, 3000);
         },
         error: () => {
-          this.message = 'Erreur lors de la suppression.';
+          this.message = '❌ Erreur lors de la suppression.';
           this.alertType = 'error';
+          setTimeout(() => {
+            this.message = '';
+          }, 3000);
         }
       });
     }

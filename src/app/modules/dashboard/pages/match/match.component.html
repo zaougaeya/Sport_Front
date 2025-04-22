@@ -78,7 +78,7 @@
                 <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
               </select>
             </div>
-            <ng-template #equipe1View>{{ match.idEquipe1 | nameequipe }}</ng-template>
+            <ng-template #equipe1View>{{ getEquipesName(match.idEquipe1) }}</ng-template>
           </td>
 
           <!-- Équipe 2 -->
@@ -88,7 +88,8 @@
                 <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
               </select>
             </div>
-            <ng-template #equipe2View>{{ match.idEquipe2 | nameequipe }}</ng-template>
+            <ng-template #equipe2View>{{ getEquipesName(match.idEquipe2) }}</ng-template>
+
           </td>
 
           <!-- Terrain -->
@@ -98,7 +99,8 @@
                 <option *ngFor="let terrain of terrains" [value]="terrain.id">{{ terrain.name }}</option>
               </select>
             </div>
-            <ng-template #terrainView>{{ match.idTerrain | nameterrain }}</ng-template>
+            <ng-template #terrainView>{{ getTerrainName(match.idTerrain) }}</ng-template>
+
           </td>
 
           <!-- Date -->
@@ -113,10 +115,10 @@
           <td>
             <div *ngIf="editMode[match.id]; else scoreView">
               <input type="number" [(ngModel)]="editedMatch[match.id].scoreEquipe1" name="score1-{{ match.id }}"
-                class="form-control" placeholder="Score équipe 1" />
+                class="form-control" placeholder="Score équipe 1" min="0" />
               <span> - </span>
               <input type="number" [(ngModel)]="editedMatch[match.id].scoreEquipe2" name="score2-{{ match.id }}"
-                class="form-control" placeholder="Score équipe 2" />
+                class="form-control" placeholder="Score équipe 2" min="0" />
             </div>
             <ng-template #scoreView>
               {{ match.scoreEquipe1 }} - {{ match.scoreEquipe2 }}
@@ -127,7 +129,7 @@
           <!-- Actions -->
           <td class="actions-col w-[240px]">
             <button *ngIf="!editMode[match.id]" class="btn btn-edit" (click)="editMatch(match)">Modifier</button>
-            <button *ngIf="editMode[match.id]" class="btn btn-save" (click)="saveMatch(match.id)">Enregistrer</button>
+            <button *ngIf="editMode[match.id]" class="btn btn-save mr-1" (click)="saveMatch(match.id)">Enregistrer</button>
             <button *ngIf="editMode[match.id]" class="btn btn-cancel" (click)="cancelEdit(match.id)">Annuler</button>
 
             <!-- 🔥 Bouton de suppression -->

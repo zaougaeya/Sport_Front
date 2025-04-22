@@ -81,7 +81,7 @@
           <!-- Actions -->
           <td class="actions-col w-[240px]">
             <button *ngIf="!editMode[terrain.id]" class="btn btn-edit" (click)="editTerrain(terrain)">Modifier</button>
-            <button *ngIf="editMode[terrain.id]" class="btn btn-save"
+            <button *ngIf="editMode[terrain.id]" class="btn btn-save mr-1"
               (click)="saveTerrain(terrain.id)">Enregistrer</button>
             <button *ngIf="editMode[terrain.id]" class="btn btn-cancel"
               (click)="cancelEdit(terrain.id)">Annuler</button>

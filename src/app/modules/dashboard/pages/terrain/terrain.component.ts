@@ -125,21 +125,31 @@ export class TerrainComponent implements OnInit {
   }
 
 
-  saveTerrain(id: string) {
+  saveTerrain(id: string): void {
     const updated = this.editedTerrain[id];
+
+    // Vérification des champs obligatoires
+    if (!updated.name || !updated.adresse || !updated.type) {
+      this.message = '❌ Tous les champs sont obligatoires.';
+      this.alertType = 'error';
+      setTimeout(() => {
+        this.message = '';
+      }, 5000);
+      return;
+    }
+
+    // Appel du service pour mettre à jour le terrain
     this.terrainService.updateTerrain(id, updated).subscribe({
       next: () => {
-        this.loadTerrains();
-        this.editMode[id] = false;
-        this.editedTerrain[id];
+        this.loadTerrains(); // Recharger la liste des terrains
+        this.editMode[id] = false; // Désactiver le mode d'édition
         this.message = '✅ Terrain modifié avec succès !';
         this.alertType = 'success';
 
-        // ➤ Faire disparaître l'alerte après 3 secondes
+        // Faire disparaître l'alerte après 3 secondes
         setTimeout(() => {
           this.message = '';
         }, 3000);
-
       },
       error: (err) => {
         this.message = '❌ Erreur lors de la modification du Terrain.';
@@ -152,7 +162,6 @@ export class TerrainComponent implements OnInit {
       }
     });
   }
-
 
   cancelEdit(id: string) {
     this.editMode[id] = false;

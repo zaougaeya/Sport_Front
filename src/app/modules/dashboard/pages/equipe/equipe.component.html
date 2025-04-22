@@ -19,15 +19,15 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="logo">URL du drapeau / logo</label>
                     <input type="text" name="logo" [(ngModel)]="newEquipe.logo" class="form-control"
                         placeholder="https://..." />
-                </div>
-                <!-- <div class="form-group">
-                    <label for="logo">Logo (drapeau)</label>
-                    <input type="file" (change)="onFileSelected($event)" class="form-control" />
                 </div> -->
+                <div class="form-group">
+                    <label for="logo">Logo (drapeau)</label>
+                    <input type="file" (change)="onFileChange($event)" accept="image/*">
+                </div>
 
                 <div class="form-actions">
                     <button type="submit" class="btn btn-save">✔️ Valider</button>
@@ -48,8 +48,6 @@
         <table class="table">
             <thead>
                 <tr>
-
-                    <th></th>
                     <th>Nom de l'équipe</th>
                     <th>Liste des joueurs</th>
                     <th>Actions</th>
@@ -62,7 +60,7 @@
 
                         <td class="equipe-info">
                             <div class="equipe-nom-image">
-                                <img *ngIf="equipe.logo" [src]="equipe.logo" alt="Logo" class="equipe-logo" />
+                                <img *ngIf="equipe.logo" [src]="'http://localhost:8081' + equipe.logo" alt="Logo" class="equipe-logo" />
                                 <div *ngIf="equipe.id && editMode[equipe.id]; else viewMode">
                                     <input type="text" [(ngModel)]="editedEquipe[equipe.id].nameEquipe"
                                         class="form-control" />
@@ -89,7 +87,7 @@
                         <td class="actions-col">
                             <button *ngIf="equipe.id && !editMode[equipe.id]" class="btn btn-edit"
                                 (click)="editEquipe(equipe)">Modifier</button>
-                            <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-save"
+                            <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-save mr-1"
                                 (click)="saveEquipe(equipe.id)">Enregistrer</button>
                             <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-cancel"
                                 (click)="cancelEdit(equipe.id)">Annuler</button>

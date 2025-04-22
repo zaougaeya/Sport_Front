@@ -19,8 +19,11 @@ export class EquipeService {
     );
   }
 
-  createEquipe(equipe: Equipe): Observable<Equipe> {
-    return this.http.post<Equipe>(this.baseUrl, equipe);
+  // createEquipe(equipe: Equipe): Observable<Equipe> {
+  //   return this.http.post<Equipe>(this.baseUrl, equipe);
+  // }
+  createEquipe(formData: FormData): Observable<Equipe> {
+    return this.http.post<Equipe>(this.baseUrl, formData);
   }
 
   updateEquipe(id: string, equipe: Equipe): Observable<any> {

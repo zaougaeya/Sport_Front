@@ -154,13 +154,35 @@ export class MatchComponent implements OnInit {
     const match = this.editedMatch[id];
     match.id = id;
 
-    if (this.editedMatch[id].idEquipe1 === this.editedMatch[id].idEquipe2) {
+    const champsManquants: string[] = [];
+
+    if (!match.idEquipe1) champsManquants.push("Équipe 1");
+    if (!match.idEquipe2) champsManquants.push("Équipe 2");
+    if (!match.idTerrain) champsManquants.push("Terrain");
+    if (!match.date) champsManquants.push("Date");
+
+    if (champsManquants.length > 0) {
+      this.message = `❌ Les champs suivants sont obligatoires : ${champsManquants.join(", ")}.`;
+      this.alertType = 'error';
+      setTimeout(() => {
+        this.message = '';
+      }, 5000);
+      return;
+    }
+
+    if (match.idEquipe1 === match.idEquipe2) {
       alert("❌ Vous ne pouvez pas jouer un match avec deux fois la même équipe !");
       return;
     }
+
+    if (match.scoreEquipe1 < 0 || match.scoreEquipe2 < 0) {
+      alert("❌ Les scores doivent être des nombres positifs !");
+      return;
+    }
+    console.log("🔄 Mise à jour du match :", match);
+
     this.matchService.updateMatch(match.id, match).subscribe({
       next: () => {
-        // Recharge les matchs à jour depuis le backend
         this.loadMatches();
         this.editMode[id] = false;
         this.message = '✅ Match modifié avec succès !';
@@ -177,10 +199,11 @@ export class MatchComponent implements OnInit {
         }, 3000);
         this.errorMessage = 'Erreur lors de la sauvegarde du match.';
         console.error("erreur");
-
       }
     });
   }
+
+
 
 
 
@@ -208,6 +231,16 @@ export class MatchComponent implements OnInit {
       },
       error: (err) => console.error('Erreur chargement terrains', err)
     });
+  }
+
+  getTerrainName(id: string): string {
+    const terrain = this.terrains.find(t => t.id === id);
+    return terrain ? terrain.name : 'Terrain Inexistant';
+  }
+
+  getEquipesName(id: string): string {
+    const equipe = this.equipes.find(t => t.id === id);
+    return equipe ? equipe.nameEquipe : 'Equipe Inexistante';
   }
 
   deleteMatch(id: string): void {
