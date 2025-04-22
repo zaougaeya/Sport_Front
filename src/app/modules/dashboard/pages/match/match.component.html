@@ -52,25 +52,42 @@
 
   <!-- Liste des matchs -->
   <div class="match-card">
-    <h2 style="color: black; font-size: 30px; padding: 10px;">📋 Liste des matchs</h2>
+    <div class="flex flex-row justify-between">
+      <h2 style="color: black; font-size: 30px; padding: 10px;margin-bottom: 10px;">📅 Liste des matchs</h2>
+      <div class="search-bar w-[220px] h-[45px] mt-3">
+        <input type="text" [(ngModel)]="searchMatchTerm" placeholder="🔍 Rechercher un match..." class="form-control" />
+      </div>
 
-    <div *ngIf="errorMessage" class="error-message">
-      <p>{{ errorMessage }}</p>
+      <div *ngIf="errorMessage" class="error-message">
+        <p>{{ errorMessage }}</p>
+      </div>
+
     </div>
+
 
     <table class="table">
       <thead>
         <tr>
-          <th>Équipe 1</th>
-          <th>Équipe 2</th>
-          <th>Terrain</th>
-          <th>Date</th>
-          <th>Score</th>
+          <th (click)="sortMatchesBy('equipe1')" class="cursor-pointer">
+            Équipe 1 <span>{{ getMatchSortIcon('equipe1') }}</span>
+          </th>
+          <th (click)="sortMatchesBy('equipe2')" class="cursor-pointer">
+            Équipe 2 <span>{{ getMatchSortIcon('equipe2') }}</span>
+          </th>
+          <th (click)="sortMatchesBy('terrain')" class="cursor-pointer">
+            Terrain <span>{{ getMatchSortIcon('terrain') }}</span>
+          </th>
+          <th (click)="sortMatchesBy('date')" class="cursor-pointer">
+            Date <span>{{ getMatchSortIcon('date') }}</span>
+          </th>
+          <th (click)="sortMatchesBy('score')" class="cursor-pointer">
+            Score <span>{{ getMatchSortIcon('score') }}</span>
+          </th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let match of matches">
+        <tr *ngFor="let match of displayedMatches;">
           <!-- Équipe 1 -->
           <td>
             <div *ngIf="editMode[match.id]; else equipe1View">
@@ -129,7 +146,8 @@
           <!-- Actions -->
           <td class="actions-col w-[240px]">
             <button *ngIf="!editMode[match.id]" class="btn btn-edit" (click)="editMatch(match)">Modifier</button>
-            <button *ngIf="editMode[match.id]" class="btn btn-save mr-1" (click)="saveMatch(match.id)">Enregistrer</button>
+            <button *ngIf="editMode[match.id]" class="btn btn-save mr-1"
+              (click)="saveMatch(match.id)">Enregistrer</button>
             <button *ngIf="editMode[match.id]" class="btn btn-cancel" (click)="cancelEdit(match.id)">Annuler</button>
 
             <!-- 🔥 Bouton de suppression -->

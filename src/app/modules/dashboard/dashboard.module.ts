@@ -18,8 +18,6 @@ import { AlertComponent } from './pages/alert/alert.component';
     FormsModule,
     HttpClientModule,
     DashboardRoutingModule,
-    NameEquipePipe,
-    Nameterrainpipe,
     MatchComponent,
     EquipeComponent,
     TerrainComponent,

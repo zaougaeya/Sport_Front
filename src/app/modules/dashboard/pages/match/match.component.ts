@@ -18,7 +18,7 @@ import { AlertComponent } from "../alert/alert.component";
   selector: 'app-match',
   standalone: true,
   imports: [CommonModule,
-    FormsModule, HttpClientModule, NameEquipePipe, Nameterrainpipe, AlertComponent],
+    FormsModule, HttpClientModule, AlertComponent],
   templateUrl: './match.component.html',
   styleUrl: './match.component.scss'
 })
@@ -242,6 +242,99 @@ export class MatchComponent implements OnInit {
     const equipe = this.equipes.find(t => t.id === id);
     return equipe ? equipe.nameEquipe : 'Equipe Inexistante';
   }
+
+  // Recherche
+  searchMatchTerm: string = '';
+
+  // Tri
+  sortMatchColumn: string = '';
+  sortMatchDirection: 'asc' | 'desc' = 'asc';
+
+  get filteredMatches() {
+    if (!this.searchMatchTerm) return this.matches;
+
+    const term = this.searchMatchTerm.toLowerCase();
+    return this.matches.filter(match =>
+      this.getEquipesName(match.idEquipe1).toLowerCase().includes(term) ||
+      this.getEquipesName(match.idEquipe2).toLowerCase().includes(term) ||
+      this.getTerrainName(match.idTerrain).toLowerCase().includes(term) ||
+      new Date(match.date).toLocaleDateString('fr-FR').toLowerCase().includes(term) ||
+      match.scoreEquipe1.toString().includes(term) ||
+      match.scoreEquipe2.toString().includes(term) ||
+      (`${match.scoreEquipe1} - ${match.scoreEquipe2}`).includes(term)
+    );
+  }
+
+  get displayedMatches() {
+    let arr = [...this.filteredMatches];
+
+    if (this.sortMatchColumn) {
+      arr.sort((a, b) => {
+        let valA: string | number, valB: string | number;
+
+        switch (this.sortMatchColumn) {
+          case 'equipe1':
+            valA = this.getEquipesName(a.idEquipe1).toLowerCase();
+            valB = this.getEquipesName(b.idEquipe1).toLowerCase();
+            break;
+
+          case 'equipe2':
+            valA = this.getEquipesName(a.idEquipe2).toLowerCase();
+            valB = this.getEquipesName(b.idEquipe2).toLowerCase();
+            break;
+
+          case 'terrain':
+            valA = this.getTerrainName(a.idTerrain).toLowerCase();
+            valB = this.getTerrainName(b.idTerrain).toLowerCase();
+            break;
+
+          case 'date':
+            valA = new Date(a.date).getTime();
+            valB = new Date(b.date).getTime();
+            break;
+
+          case 'score':
+            // Exemple : on trie sur score1, puis score2
+            valA = a.scoreEquipe1 * 10000 + a.scoreEquipe2;
+            valB = b.scoreEquipe1 * 10000 + b.scoreEquipe2;
+            break;
+
+          default:
+            valA = ''; valB = '';
+        }
+
+        if (valA < valB) return this.sortMatchDirection === 'asc' ? -1 : 1;
+        if (valA > valB) return this.sortMatchDirection === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return arr;
+  }
+
+  sortMatchesBy(column: string) {
+    if (this.sortMatchColumn !== column) {
+      this.sortMatchColumn = column;
+      this.sortMatchDirection = 'asc';
+    } else if (this.sortMatchDirection === 'asc') {
+      this.sortMatchDirection = 'desc';
+    } else {
+      this.sortMatchColumn = '';
+      this.sortMatchDirection = 'asc';
+    }
+  }
+
+  getMatchSortIcon(column: string): string {
+    if (this.sortMatchColumn === column) {
+      return this.sortMatchDirection === 'asc' ? '⬆️' : '⬇️';
+    }
+    return '⇅';
+  }
+
+
+
+
+
 
   deleteMatch(id: string): void {
     if (confirm("Êtes-vous sûr de vouloir supprimer ce match ?")) {

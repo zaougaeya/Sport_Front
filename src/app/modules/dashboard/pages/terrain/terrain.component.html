@@ -36,23 +36,46 @@
 
   <!-- Liste des terrains -->
   <div class="match-card">
-    <h2 style="color: black; font-size: 25px; padding: 10px;">📋 Liste des terrains</h2>
+    <div class="flex flex-row justify-between">
+      <h2 style="color: black; font-size: 30px; padding: 10px; margin-bottom: 10px;">🏟️ Liste des terrains</h2>
 
-    <div *ngIf="errorMessage" class="error-message">
-      <p>{{ errorMessage }}</p>
+      <div class="search-bar w-[220px] h-[45px] mt-3">
+        <input type="text" [(ngModel)]="searchTerrainTerm" placeholder="🔍 Rechercher un terrain..."
+          class="form-control" />
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        <p>{{ errorMessage }}</p>
+      </div>
     </div>
+
 
     <table class="table">
       <thead>
         <tr>
-          <th>Nom</th>
-          <th>Adresse</th>
-          <th>Type</th>
+          <th (click)="sortTerrainBy('name')" class="cursor-pointer">
+            Nom <span>{{ getSortIcon('name') }}</span>
+          </th>
+
+          <th (click)="sortTerrainBy('adresse')" class="cursor-pointer">
+            Adresse
+            <span>
+              {{ getSortIcon('adresse') }}
+            </span>
+          </th>
+          <th (click)="sortTerrainBy('type')" class="cursor-pointer">
+            Type
+            <span>
+              {{ getSortIcon('type') }}
+            </span>
+          </th>
           <th>Actions</th>
         </tr>
       </thead>
+
+
       <tbody>
-        <tr *ngFor="let terrain of terrains">
+        <tr *ngFor="let terrain of filteredTerrains;">
           <!-- Nom -->
           <td>
             <div *ngIf="editMode[terrain.id]; else nameView">

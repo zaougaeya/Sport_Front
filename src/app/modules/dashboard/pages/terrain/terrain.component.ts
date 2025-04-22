@@ -31,6 +31,65 @@ export class TerrainComponent implements OnInit {
     this.loadTerrains();
   }
 
+  searchTerrainTerm: string = '';
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
+  get filteredTerrains() {
+    let terrains = [...this.terrains];
+
+    if (this.searchTerrainTerm) {
+      const term = this.searchTerrainTerm.toLowerCase();
+      terrains = terrains.filter(t =>
+        t.name?.toLowerCase().includes(term) ||
+        t.adresse?.toLowerCase().includes(term) ||
+        t.type?.toLowerCase().includes(term)
+      );
+    }
+
+    if (this.sortColumn) {
+      terrains.sort((a, b) => {
+        const key = this.sortColumn as keyof Terrain;
+        const valA = (a[key] || '').toString().toLowerCase();
+        const valB = (b[key] || '').toString().toLowerCase();
+
+        if (valA < valB) return this.sortDirection === 'asc' ? -1 : 1;
+        if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
+        return 0;
+      });
+
+    }
+
+    return terrains;
+  }
+  
+  getSortIcon(column: keyof Terrain): string {
+    if (this.sortColumn === column) {
+      return this.sortDirection === 'asc' ? '⬆️' : '⬇️';
+    }
+    return '⇅';
+  }
+
+
+  // Dans ton component.ts
+  sortTerrainBy(column: keyof Terrain) {
+    if (this.sortColumn !== column) {
+      // Premier clic sur une nouvelle colonne → tri ascendant
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    } else if (this.sortDirection === 'asc') {
+      // Deuxième clic → tri descendant
+      this.sortDirection = 'desc';
+    } else {
+      // Troisième clic → plus de tri
+      this.sortColumn = '';
+      this.sortDirection = 'asc';
+    }
+  }
+
+
+
+
   // Gestion ajout
   toggleAddTerrain() {
     this.newTerrain = { id: '', name: '', adresse: '', type: '' };

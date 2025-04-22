@@ -13,7 +13,7 @@ import { Joueur } from '../../models/joueur.model';
   selector: 'app-equipe',
   templateUrl: './equipe.component.html',
   styleUrls: ['./equipe.component.scss'],
-  imports: [CommonModule, FormsModule, HttpClientModule, NameEquipePipe, Nameterrainpipe, AlertComponent],
+  imports: [CommonModule, FormsModule, HttpClientModule, AlertComponent],
   standalone: true
 })
 
@@ -31,6 +31,8 @@ export class EquipeComponent implements OnInit {
   alertType: 'success' | 'error' = 'success';
   errorMessage = '';
 
+
+
   constructor(private equipeService: EquipeService) { }
 
   ngOnInit(): void {
@@ -46,6 +48,73 @@ export class EquipeComponent implements OnInit {
         error: () => console.error("Erreur lors du chargement des joueurs de l'équipe"),
       });
     }
+  }
+
+
+  // Recherche
+  searchEquipeTerm: string = '';
+
+  // Tri
+  sortEquipeColumn: string = '';
+  sortEquipeDirection: 'asc' | 'desc' = 'asc';
+
+  // 1) Filtrage des équipes avec recherche
+  get filteredEquipes() {
+    if (!this.searchEquipeTerm) return this.equipes;
+    return this.equipes.filter(e =>
+      e.nameEquipe.toLowerCase().includes(this.searchEquipeTerm.toLowerCase())
+    );
+  }
+
+  // 2) Filtrage + Tri des équipes
+  get displayedEquipes() {
+    let arr = [...this.filteredEquipes];
+
+    if (this.sortEquipeColumn) {
+      arr.sort((a, b) => {
+        let valA: string | number, valB: string | number;
+
+        switch (this.sortEquipeColumn) {
+          case 'name':
+            valA = a.nameEquipe.toLowerCase();
+            valB = b.nameEquipe.toLowerCase();
+            break;
+
+          default:
+            valA = ''; valB = '';
+        }
+
+        if (valA < valB) return this.sortEquipeDirection === 'asc' ? -1 : 1;
+        if (valA > valB) return this.sortEquipeDirection === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return arr;
+  }
+
+  // 3) Fonction pour gérer le tri
+  sortEquipesBy(column: string) {
+    if (this.sortEquipeColumn !== column) {
+      // 1er clic sur une colonne : tri asc
+      this.sortEquipeColumn = column;
+      this.sortEquipeDirection = 'asc';
+    } else if (this.sortEquipeDirection === 'asc') {
+      // 2e clic : tri desc
+      this.sortEquipeDirection = 'desc';
+    } else {
+      // 3e clic : on réinitialise (aucun tri)
+      this.sortEquipeColumn = '';
+      this.sortEquipeDirection = 'asc';
+    }
+  }
+
+  // 4) Icône de tri
+  getEquipeSortIcon(column: string): string {
+    if (this.sortEquipeColumn === column) {
+      return this.sortEquipeDirection === 'asc' ? '⬆️' : '⬇️';
+    }
+    return '⇅';
   }
 
 
