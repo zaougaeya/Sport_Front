@@ -10,7 +10,7 @@ export class Menu {
           icon: 'assets/icons/heroicons/outline/chart-pie.svg',
           label: 'Dashboard',
           route: '/dashboard',
-         
+
         },
         {
           icon: 'assets/icons/heroicons/outline/lock-closed.svg',
@@ -24,7 +24,7 @@ export class Menu {
             { label: 'Two Steps', route: '/auth/two-steps' },
           ],
         },
-       
+
       ],
     },
 
@@ -38,8 +38,8 @@ export class Menu {
           label: 'users',
           route: '/download',
         },
-       
-        
+
+
       ],
     },
 
@@ -59,7 +59,7 @@ export class Menu {
         },
       ],
     },
-  
+
     {
       group: 'Commandes et Paniers',
       separator: true,
@@ -76,7 +76,7 @@ export class Menu {
         },
       ],
     },
-  
+
     {
       group: 'Livraison',
       separator: true,
@@ -88,7 +88,7 @@ export class Menu {
         },
       ],
     },
-  
+
     {
       group: 'Statistiques',
       separator: true,
@@ -106,7 +106,7 @@ export class Menu {
       ],
     },
 
-   
+
     {
       group: 'Locaux et Evénements ',
       separator: true,
@@ -121,11 +121,11 @@ export class Menu {
           label: 'Evénements',
           route: '/events',
         },
-     
+
       ],
     },
- 
- 
+
+
     {
       group: 'Équipe Match  ',
       separator: true,
@@ -140,25 +140,24 @@ export class Menu {
           label: 'Match',
           route: '/events',
         },
-     
+
       ],
     },
 
     {
-      group: ' Réservation des Matériels ',
+      group: 'Gestion des Matériels', // Nouveau groupe pour la gestion des matériels
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cog.svg',
-          label: 'Réservation des équipements ',
-          route: '/local',
+          icon: 'assets/icons/heroicons/outline/archive.svg', // Choisissez une icône appropriée
+          label: 'Matériels',
+          route: '/admin/materiels', // Utilisez la route que vous avez définie
         },
         {
-          icon: 'assets/icons/heroicons/outline/bell.svg',
-          label: 'Gestion de l’inventaire ',
-          route: '/events',
+          icon: 'assets/icons/heroicons/outline/calendar.svg', // Choisissez une icône appropriée
+          label: 'Réservations',
+          route: '/admin/reservations', // Utilisez la route que vous avez définie
         },
-     
       ],
     },
 
@@ -180,7 +179,7 @@ export class Menu {
           label: 'Gestion des autorisations médicales  ',
           route: '/events',
         },
-     
+
       ],
     },
 
@@ -198,9 +197,9 @@ export class Menu {
           label: 'Comments',
           route: '/gift',
         },
-       
+
       ],
     },
-   
+
   ];
 }
