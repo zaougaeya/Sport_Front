@@ -4,7 +4,6 @@ import { CommandeService } from './commande.service';
 @Component({
   selector: 'app-commandes',
   templateUrl: './commandes.component.html',
-  styleUrls: ['./commandes.component.css']
 })
 export class CommandesComponent implements OnInit {
   commandes: any[] = [];

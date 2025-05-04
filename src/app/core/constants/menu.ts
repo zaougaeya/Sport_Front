@@ -50,12 +50,12 @@ export class Menu {
         {
           icon: 'assets/icons/heroicons/outline/checklist.png',
           label: 'Catégories',
-          route: '/categories',
+          route: '/dashboard/categories',
         },
         {
           icon: 'assets/icons/heroicons/outline/cubes.png',
           label: 'Produits',
-          route: '/produits',
+          route: '/dashboard/produits',
         },
       ],
     },
@@ -67,7 +67,7 @@ export class Menu {
         {
           icon: 'assets/icons/heroicons/outline/list.png',
           label: 'Commandes',
-          route: '/commandes',
+          route: '/dashboard/commandes',
         },
       ],
     },
@@ -78,8 +78,8 @@ export class Menu {
       items: [
         {
           icon: 'assets/icons/heroicons/outline/box.png',
-          label: 'Suivi Livraison',
-          route: '/livraison',
+          label: 'Gestion Livreur',
+          route: '/dashboard/livreurs',
         },
       ],
     },
@@ -91,12 +91,12 @@ export class Menu {
         {
           icon: 'assets/icons/heroicons/outline/a.png',
           label: 'Ventes',
-          route: '/stats-ventes',
+          route: '/dashboard/stats-ventes',
         },
         {
           icon: 'assets/icons/heroicons/outline/v.png',
           label: 'Performance Produits',
-          route: '/performances',
+          route: '/dashboard/performances',
         },
       ],
     },

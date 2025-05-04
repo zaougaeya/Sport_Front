@@ -5,8 +5,9 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router'; 
 import { routes } from './app-routing.module'; 
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
      // <-- Importation de HttpClientModule ici
     RouterModule.forRoot(routes),
     FormsModule, 
+    ReactiveFormsModule,
+    DashboardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

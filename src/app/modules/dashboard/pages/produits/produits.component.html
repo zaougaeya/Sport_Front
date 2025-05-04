@@ -142,7 +142,7 @@
             <td class="px-4 py-2"><img [src]="produit.imageUrl" alt="Image" class="h-12 w-12 rounded-full object-cover" /></td>
             <td class="px-4 py-2">{{ produit.pourcentagePromotion }}%</td>
             <td class="px-4 py-2">{{ produit.genreProduit }}</td>
-            <td class="px-4 py-2">{{ getNomCategorie(produit.categorie?.id) }}</td>
+            <td class="px-4 py-2">{{ getNomCategorie(produit.categorie.id) }}</td>
             <td class="px-4 py-2">{{ produit.dateAjout | date: 'dd/MM/yyyy' }}</td>
             <td class="px-4 py-2 space-x-2">
               <button
