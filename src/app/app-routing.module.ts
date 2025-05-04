@@ -18,7 +18,17 @@ const routes: Routes = [
     path: 'admin/reservations', // Route pour la gestion des réservations
     loadChildren: () => import('./modules/Gestion_Materiel/Reservation/reservations.module').then(m => m.ReservationsModule),
   },
+<<<<<<< Updated upstream
   { path: '', redirectTo: '/materiels', pathMatch: 'full' },
+=======
+  {
+    path: 'equipeMedicale',
+    loadChildren: () =>
+      import('./modules/EquipeMedicale/equipe-medicale.module').then(m => m.EquipeMedicaleModule)
+  }
+  
+  ,
+>>>>>>> Stashed changes
   {
     path: 'errors',
     loadChildren: () => import('./modules/error/error.module').then((m) => m.ErrorModule),
