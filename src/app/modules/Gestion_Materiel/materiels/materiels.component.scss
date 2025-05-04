@@ -1,0 +1,139 @@
+.custom-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-0.125rem);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+  }
+}
+
+.btn-success.custom-button {
+  background-color: #28a745;
+  border-color: #28a745;
+
+  &:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+
+  &:active {
+    background-color: #1e7e34;
+    border-color: #1c7430;
+  }
+}
+
+.btn-secondary.custom-button {
+  background-color: #6c757d;
+  border-color: #6c757d;
+
+  &:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+
+  &:active {
+    background-color: #545b62;
+    border-color: #4e555b;
+  }
+}
+
+.btn-danger.custom-button {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+
+  &:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+
+  &:active {
+    background-color: #bd2130;
+    border-color: #b21e2c;
+  }
+}
+
+.btn-primary.custom-button {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+
+  &:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+
+  &:active {
+    background-color: #0062cc;
+    border-color: #005cbf;
+  }
+}
+
+.custom-table {
+  thead {
+    th {
+      background-color: #343a40;
+      color: white;
+    }
+  }
+
+  tbody {
+    tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f0f0f0;
+    }
+  }
+
+  td,
+  th {
+    padding: 1rem;
+    vertical-align: middle;
+  }
+}
+
+.edit-button {
+  background-color: #007bff;
+  /* Couleur bleue pour l'icône de stylo */
+  border-color: #007bff;
+  color: white;
+  padding: 0.5rem;
+  /* Ajuster la taille du bouton si nécessaire */
+  border-radius: 0.25rem;
+  display: flex;
+  /* Pour aligner l'icône et le texte, si vous ajoutez du texte */
+  align-items: center;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+  border-color: #004080;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  /* Couleur rouge pour l'icône de poubelle */
+  border-color: #dc3545;
+  color: white;
+  padding: 0.5rem;
+  /* Ajuster la taille du bouton */
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+  border-color: #b21e2c;
+}
