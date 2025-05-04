@@ -1,0 +1,71 @@
+<form (ngSubmit)="saveCategory(categoryForm)" #categoryForm="ngForm" class="my-10 space-y-6 max-w-md mx-auto">
+  <div class="text-center">
+      <h2 class="mb-1 text-3xl font-semibold text-foreground">Ajouter Catégorie <span class="text-primary">!</span></h2>
+      <p class="text-sm text-muted-foreground">Veuillez remplir le formulaire pour ajouter une nouvelle catégorie</p>
+  </div>
+  <div class="space-y-6 text-left">
+      <div class="relative">
+          <input type="text" id="category-name" name="namecat" [(ngModel)]="namecat" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " />
+          <label for="category-name" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Nom</label>
+      </div>
+      <div class="relative">
+          <input type="text" id="category-image" name="picturecat" [(ngModel)]="picturecat" class="peer block w-full pl-2 text-sm text-muted-foreground border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " />
+          <label for="category-image" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Chemin de l'image</label>
+      </div>
+  </div>
+  <div>
+      <button type="submit" class="w-full py-2 px-4 bg-primary text-white font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"> Ajouter </button>
+  </div>
+</form>
+
+<div class="max-w-md mx-auto mt-10">
+  <table class="min-w-full bg-white">
+      <thead>
+          <tr>
+              <th class="py-2 px-4 border-b">Nom de catégorie</th>
+              <th class="py-2 px-4 border-b">Image</th>
+              <th class="py-2 px-4 border-b">Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let category of categories">
+              <td class="py-2 px-4 border-b">{{ category.namecat }}</td>
+              <td class="py-2 px-4 border-b">
+                  <img [src]="category.picturecat" alt="Image de {{ category.namecat }}" class="h-16 w-16 object-cover" />
+              </td>
+              <td class="py-2 px-4 border-b">
+                  <button class="text-sm text-blue-500 hover:text-blue-700 mr-2" (click)="openEditModal(category)" data-bs-toggle="modal" data-bs-target="#updateCategoryModal">Update</button>
+                  <button class="text-sm text-red-500 hover:text-red-700" (click)="deleteCategory(category)">Delete</button>
+              </td>
+          </tr>
+          <tr *ngIf="categories.length === 0">
+              <td colspan="3" class="py-4 px-4 text-center text-gray-500">Aucune catégorie trouvée</td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+<!-- Add the modal for updating category -->
+<div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="updateCategoryModalLabel">Modifier la catégorie</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form #updateCategoryForm="ngForm" (ngSubmit)="updateCategory()">
+                  <div class="form-group">
+                      <label for="updateCategoryName">Nom</label>
+                      <input type="text" class="form-control" id="updateCategoryName" [ngModel]="categoryToEdit?.['namecat']" (ngModelChange)="categoryToEdit ? categoryToEdit['namecat'] = $event : null" name="updateCategoryName">
+                  </div>
+                  <div class="form-group">
+                      <label for="updateCategoryImage">Chemin de l'image</label>
+                      <input type="text" class="form-control" id="updateCategoryImage" [ngModel]="categoryToEdit?.['picturecat']" (ngModelChange)="categoryToEdit ? categoryToEdit['picturecat'] = $event : null" name="updateCategoryImage">
+                  </div>
+                  <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Mettre à jour</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>

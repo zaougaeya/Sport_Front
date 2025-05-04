@@ -1,0 +1,36 @@
+.container {
+    max-width: 1200px; /* Increase max-width to allow more space for the table */
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .profile-menu-container {
+    position: absolute;
+    left: 92%; /* Adjust this value to your desired position */
+    top: 30px; /* Adjust this value to your desired position */
+  }
+  
+  .table-container {
+    width: 100%; /* Ensure the table container takes the full width */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+  }
+  
+  table {
+    width: 100%; /* Ensure the table takes the full width of the container */
+  }
+  
+  th.mat-header-cell, td.mat-cell {
+    padding: 16px; /* Add padding to header and cells for better spacing */
+  }
+  
+  .item-image {
+    max-width: 50px; /* Limit image width to 50px */
+    max-height: 50px; /* Limit image height to 50px */
+  }
+  
+  .actions-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Add space between action buttons */
+  }
+  

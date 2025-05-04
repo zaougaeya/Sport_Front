@@ -1,0 +1,78 @@
+<div class="max-w-lg mx-auto my-10 px-4">
+  <form (ngSubmit)="saveProduct()" class="space-y-4">
+    <div class="text-center">
+      <h2 class="mb-1 text-2xl font-semibold text-foreground">Ajouter Produit <span class="text-primary">!</span></h2>
+      <p class="text-sm text-muted-foreground">Remplissez le formulaire pour ajouter un produit</p>
+    </div>
+    <div class="space-y-4">
+      <div class="relative">
+        <input type="text" id="product-name" name="nameprod" [(ngModel)]="newProduct.nameprod" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="product-name" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Nom</label>
+      </div>
+      <div class="relative">
+        <input type="text" id="product-description" name="desc" [(ngModel)]="newProduct.desc" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="product-description" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Description</label>
+      </div>
+      <div class="relative">
+        <input type="number" id="product-price" name="prix" [(ngModel)]="newProduct.prix" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="product-price" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Prix</label>
+      </div>
+      <div class="relative">
+        <input type="text" id="product-image" name="pictureprod" [(ngModel)]="newProduct.pictureprod" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="product-image" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Chemin de l'image</label>
+      </div>
+      <div class="relative">
+        <input type="number" id="product-quantity" name="quantiteprod" [(ngModel)]="newProduct.quantiteprod" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="product-quantity" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Quantité</label>
+      </div>
+      <div class="relative">
+        <select id="product-category" name="categoryprod" [(ngModel)]="newProduct.categoryprod" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" required>
+          <option *ngFor="let category of categories" [ngValue]="category._id">{{ category.namecat }}</option>
+        </select>
+        <label for="product-category" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Catégorie</label>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="w-full py-2 px-4 bg-primary text-white font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"> Ajouter </button>
+    </div>
+  </form>
+</div>
+
+<div class="max-w-4xl mx-auto my-10 px-4">
+  <table class="min-w-full bg-white">
+    <thead>
+      <tr>
+        <th class="py-2 px-4 border-b text-left">Nom de produit</th>
+        <th class="py-2 px-4 border-b text-left">Description</th>
+        <th class="py-2 px-4 border-b text-left">Prix</th>
+        <th class="py-2 px-4 border-b text-left">Image</th>
+        <th class="py-2 px-4 border-b text-left">Quantité</th>
+        <th class="py-2 px-4 border-b text-left">Catégorie</th>
+        <th class="py-2 px-4 border-b text-left">Date d'ajout</th>
+        <th class="py-2 px-4 border-b text-left">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td class="py-2 px-4 border-b">{{ product.nameprod }}</td>
+        <td class="py-2 px-4 border-b">{{ product.desc }}</td>
+        <td class="py-2 px-4 border-b">{{ product.prix }}TND</td>
+        <td class="py-2 px-4 border-b">
+          <img [src]="product.pictureprod" alt="Image de {{ product.nameprod }}" class="h-16 w-16 object-cover" />
+        </td>
+        <td class="py-2 px-4 border-b">{{ product.quantiteprod }}piéces</td>
+        <td class="py-2 px-4 border-b">{{ product.categoryObject?.namecat }}</td>
+        <td class="py-2 px-4 border-b">{{ product.dateAddedprod }}</td>
+        <td class="py-2 px-4 border-b">
+          <button class="text-sm text-blue-500 hover:text-blue-700 mr-2" (click)="openEditModal(product)" data-bs-toggle="modal" data-bs-target="#updateProductModal">Modifier</button>
+          <button class="text-sm text-red-500 hover:text-red-700" (click)="deleteProduct(product)">Supprimer</button>
+          <button class="text-sm text-red-500 hover:text-yellow-700" (click)="addToCart(product)">Ajouter au panier</button>
+
+        </td>
+      </tr>
+      <tr *ngIf="products.length === 0">
+        <td colspan="8" class="py-4 px-4 text-center text-gray-500">Aucun produit trouvé</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

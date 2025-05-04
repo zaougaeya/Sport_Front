@@ -1,0 +1,58 @@
+<nav class="bg-blue-800 p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="text-white font-bold text-xl">WELCOME To ARTY.tn</div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <ul class="flex space-x-4">
+      <li><a href="/user" class="text-gray-300 hover:text-white">Accueil</a></li>
+      <li><a href="/article" class="text-gray-300 hover:text-white">Articles</a></li>
+      <li><a href="#" class="text-gray-300 hover:text-white">Blog</a></li>
+      <li><a href="#" class="text-gray-300 hover:text-white">Locaux</a></li>
+      <li><a href="#" class="text-gray-300 hover:text-white">Events</a></li>
+      <li>
+        <a href="#" (click)="showModal($event)" class="text-gray-300 hover:text-white flex items-center">
+          <span>Contact</span>
+          <i class="fas fa-phone ml-2"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="bg-gray-100 p-4">
+  <div class="container mx-auto flex justify-center">
+    <input type="text" placeholder="Rechercher par catégorie..." [(ngModel)]="searchCategory" (input)="onSearch()" class="p-2 rounded-l-md bg-white text-gray-700 focus:outline-none focus:bg-white">
+    <button class="bg-gray-300 p-2 rounded-r-md hover:bg-gray-400">
+      <i class="fas fa-search text-gray-700"></i>
+    </button>
+  </div>
+</div>
+
+<div class="container mx-auto flex justify-end my-4">
+  <button class="bg-gray-300 p-2 rounded-md hover:bg-gray-400 flex items-center"(click)="sortByPriceLowToHigh()">
+    Filtrer par prix
+    <i class="fas fa-filter ml-2"></i>
+  </button>
+</div>
+
+<div class="container mx-auto px-4 py-4">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div *ngFor="let product of filteredProducts" class="max-w-sm rounded overflow-hidden shadow-lg">
+      <img class="w-full" [src]="product.pictureprod" alt="Image of {{ product.nameprod }}">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">{{ product.nameprod }}</div>
+        <p class="text-gray-700 text-base">{{ product.desc }}</p>
+      </div>
+      <div class="px-6 pt-4 pb-2">
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ product.prix }}TND</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Quantité: {{ product.quantiteprod }}</span>
+        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ findCategoryById(product.categoryprod) }}</span>
+        <button class="mt-4 bg-blue-500 text-white font-bold py-1 px-3 rounded-full hover:bg-blue-700">
+          Ajouter au panier
+          <i class="fas fa-shopping-cart ml-2"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-contact-modal *ngIf="isModalVisible" (close)="hideModal()"></app-contact-modal>

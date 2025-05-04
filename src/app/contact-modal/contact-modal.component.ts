@@ -1,0 +1,17 @@
+import { Component, EventEmitter, Output } from '@angular/core';
+
+@Component({
+  selector: 'app-contact-modal',
+  standalone: true,
+  imports: [],
+  templateUrl: './contact-modal.component.html',
+  styleUrl: './contact-modal.component.scss'
+})
+export class ContactModalComponent {
+  @Output() close = new EventEmitter<void>();
+
+  closeModal() {
+    this.close.emit();
+  }
+  
+}

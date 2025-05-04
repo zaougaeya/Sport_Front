@@ -1,0 +1,91 @@
+<div class="max-w-lg mx-auto my-10 px-4">
+  <form (ngSubmit)="saveArticle()" class="space-y-4">
+    <div class="text-center">
+      <h2 class="mb-1 text-2xl font-semibold text-foreground">Ajouter Article <span class="text-primary">!</span></h2>
+      <p class="text-sm text-muted-foreground">Remplissez le formulaire</p>
+    </div>
+    <div class="space-y-4">
+      <div class="relative">
+        <input type="text" id="article-name" name="namearti" [(ngModel)]="newArticle.namearti" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="article-name" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Nom</label>
+      </div>
+      <div class="relative">
+        <input type="text" id="article-description" name="desc" [(ngModel)]="newArticle.desc" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="article-description" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Description</label>
+      </div>
+      <div class="relative">
+        <input type="number" id="article-price" name="prix" [(ngModel)]="newArticle.prix" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="article-price" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Prix</label>
+      </div>
+      <div class="relative">
+        <input type="text" id="article-image" name="picturearti" [(ngModel)]="newArticle.picturearti" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="article-image" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Chemin de l'image</label>
+      </div>
+      <div class="relative">
+        <input type="number" id="article-quantity" name="quantite" [(ngModel)]="newArticle.Quantite" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="article-quantity" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Quantité</label>
+      </div>
+      <div class="relative">
+        <select id="article-category" name="category" [(ngModel)]="newArticle.category" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" required>
+          <option *ngFor="let category of categories" [ngValue]="category._id">{{ category.namecat }}</option>
+        </select>
+        <label for="article-category" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Catégorie</label>
+      </div>
+      <div class="relative">
+        <input type="number" id="article-discount" name="discount" [(ngModel)]="newArticle.discount" class="peer block w-full pl-2 border-b-2 border-gray-300 focus:border-primary focus:outline-none" placeholder=" " required>
+        <label for="article-discount" class="absolute top-1 left-3 z-10 origin-[0] -translate-y-4 scale-75 transform bg-background px-2 text-sm text-muted-foreground duration-300">Remise</label>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="w-full py-2 px-4 bg-primary text-white font-bold rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">Ajouter</button>
+    </div>
+  </form>
+</div>
+
+<div class="mt-4 max-w-4xl mx-auto px-4 flex items-center justify-center">
+  <label for="search" class="mr-2 text-sm font-medium text-red-500">Search</label>
+  <input type="text" id="search" [(ngModel)]="searchTerm" (ngModelChange)="searchArticle()" placeholder="Rechercher article" class="block w-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary sm:text-sm">
+</div>
+
+<div class="max-w-4xl mx-auto my-10 px-4">
+  <table class="min-w-full bg-white">
+    <thead>
+      <tr>
+        <th class="py-2 px-4 border-b text-left">Nom Article</th>
+        <th class="py-2 px-4 border-b text-left">Description</th>
+        <th class="py-2 px-4 border-b text-left">Prix</th>
+        <th class="py-2 px-4 border-b text-left">Image</th>
+        <th class="py-2 px-4 border-b text-left">Quantité</th>
+        <th class="py-2 px-4 border-b text-left">Catégorie</th>
+        <th class="py-2 px-4 border-b text-left">Date d'ajout</th>
+        <th class="py-2 px-4 border-b text-left">Remise</th>
+        <th class="py-2 px-4 border-b text-left">Prix après remise</th>
+        <th class="py-2 px-4 border-b text-left">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of filteredArticles">
+        <td class="py-2 px-4 border-b">{{ article.namearti }}</td>
+        <td class="py-2 px-4 border-b">{{ article.desc }}</td>
+        <td class="py-2 px-4 border-b">{{ article.prix }} DT</td>
+        <td class="py-2 px-4 border-b">
+          <img [src]="article.picturearti" alt="Image de {{ article.namearti }}" class="h-16 w-16 object-cover" />
+        </td>
+        <td class="py-2 px-4 border-b">{{ article.Quantite }}</td>
+        <td class="py-2 px-4 border-b">{{ article.categoryObject?.namecat }}</td>
+        <td class="py-2 px-4 border-b">{{ article.dateAdded | date }}</td>
+        <td class="py-2 px-4 border-b">{{ article.discount }}%</td>
+        <td class="py-2 px-4 border-b">{{ calculateDiscountedPrice(article.prix, article.discount) }} DT</td>
+        <td class="py-2 px-4 border-b">
+          <button class="text-sm text-blue-500 hover:text-blue-700 mr-2" (click)="openEditModal(article)" data-bs-toggle="modal" data-bs-target="#updateArticleModal">Modifier</button>
+          <button class="text-sm text-red-500 hover:text-red-700" (click)="deleteArticle(article)">Supprimer</button>
+          <button class="text-sm text-red-500 hover:text-yellow-700" (click)="addToCart(article)">Ajouter au panier</button>
+           
+        </td>
+      </tr>
+      <tr *ngIf="filteredArticles.length === 0">
+        <td colspan="10" class="py-4 px-4 text-center text-gray-500">Aucun article trouvé</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,67 @@
+<nav class="bg-blue-800 p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="text-white font-bold text-xl">WELCOME To ARTY.tn</div>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <ul class="flex space-x-4">
+      <li><a href="/user" class="text-gray-300 hover:text-white">Accueil</a></li>
+      <li><a href="/article" class="text-gray-300 hover:text-white">Articles</a></li>
+      <li><a href="#" class="text-gray-300 hover:text-white">Blog</a></li>
+      <li><a href="#" class="text-gray-300 hover:text-white">Locaux</a></li>
+      <li><a href="#" class="text-gray-300 hover:text-white">Events</a></li>
+      <li>
+        <a href="#" class="text-gray-300 hover:text-white flex items-center">
+          <span>Contact</span>
+          <i class="fas fa-phone ml-2"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="bg-gray-100 p-4">
+  <div class="container mx-auto flex justify-center">
+    <input type="text" placeholder="Rechercher un article..." [(ngModel)]="searchTerm" (input)="onSearch()" class="p-2 rounded-l-md bg-white text-gray-700 focus:outline-none focus:bg-white">
+    <button class="bg-gray-300 p-2 rounded-r-md hover:bg-gray-400">
+      <i class="fas fa-search text-gray-700"></i>
+    </button>
+    <button class="bg-gray-300 p-1 rounded-md ml-4 flex items-center gap-1 hover:bg-gray-400" (click)="showPromoArticles()">
+      <span class="text-sm">Articles en promo</span>
+    </button>
+  </div>
+</div>
+
+<div class="container mx-auto px-4 py-4">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <ng-container *ngFor="let article of filteredArticles">
+      <div class="max-w-sm rounded overflow-hidden shadow-lg relative">
+        <img class="w-full" [src]="article.picturearti" alt="Image de {{ article.namearti }}">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">{{ article.namearti }}</div>
+          <p class="text-gray-700 text-base">{{ article.desc }}</p>
+        </div>
+        <div class="px-6 pt-4 pb-2">
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2" [ngClass]="{'line-through': article.discount > 0}">
+            {{ article.prix }} DT
+          </span>
+          <span *ngIf="article.discount > 0" class="inline-block bg-green-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            {{ article.discount }}% de remise
+          </span>
+          <span *ngIf="article.discount > 0" class="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            {{ calculateDiscountedPrice(article.prix, article.discount) }} TND
+          </span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Quantité: {{ article.Quantite }}</span>
+          <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ findCategoryById(article.category) }}</span>
+          <button class="mt-4 bg-blue-500 text-white font-bold py-1 px-3 rounded-full hover:bg-blue-700">
+            Ajouter au panier
+            <i class="fas fa-shopping-cart ml-2"></i>
+          </button>
+          <div *ngIf="article.discount > 0" class="absolute top-0 right-0 mt-4 mr-4 bg-red-500 text-white px-4 py-1 rounded-full">
+            Offre spéciale
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+
