@@ -32,6 +32,9 @@ export class MatchService {
     return this.http.put<Match>(`${this.apiUrl}/${id}`, match);
   }
 
+  updateMatchScore(id: string, scoreEquipe1: number, scoreEquipe2: number): Observable<string> {
+    return this.http.put<string>(`${this.apiUrl}/${id}/score?scoreEquipe1=${scoreEquipe1}&scoreEquipe2=${scoreEquipe2}`, {});
+  }
 
   // ✅ Supprimer un match
   deleteMatch(id: string): Observable<void> {

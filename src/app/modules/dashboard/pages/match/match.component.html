@@ -83,6 +83,7 @@
           <th (click)="sortMatchesBy('score')" class="cursor-pointer">
             Score <span>{{ getMatchSortIcon('score') }}</span>
           </th>
+          <th>Match joué</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -95,8 +96,16 @@
                 <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
               </select>
             </div>
-            <ng-template #equipe1View>{{ getEquipesName(match.idEquipe1) }}</ng-template>
+
+            <ng-template #equipe1View>
+              <div class="flex items-center">
+                <img *ngIf="getEquipeLogo(match.idEquipe1)" [src]="getEquipeLogo(match.idEquipe1)" alt="Logo"
+                  class="w-8 h-8 object-cover rounded-full mr-2" />
+                <span>{{ getEquipesName(match.idEquipe1) }}</span>
+              </div>
+            </ng-template>
           </td>
+
 
           <!-- Équipe 2 -->
           <td>
@@ -105,9 +114,16 @@
                 <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
               </select>
             </div>
-            <ng-template #equipe2View>{{ getEquipesName(match.idEquipe2) }}</ng-template>
 
+            <ng-template #equipe2View>
+              <div class="flex items-center">
+                <img *ngIf="getEquipeLogo(match.idEquipe2)" [src]="getEquipeLogo(match.idEquipe2)" alt="Logo"
+                  class="w-8 h-8 object-cover rounded-full mr-2" />
+                <span>{{ getEquipesName(match.idEquipe2) }}</span>
+              </div>
+            </ng-template>
           </td>
+
 
           <!-- Terrain -->
           <td>
@@ -138,14 +154,26 @@
                 class="form-control" placeholder="Score équipe 2" min="0" />
             </div>
             <ng-template #scoreView>
-              {{ match.scoreEquipe1 }} - {{ match.scoreEquipe2 }}
+              {{ match.scoreEquipe1 === null ? '0' : match.scoreEquipe1 }}
+              - {{ match.scoreEquipe2 === null ? '0' : match.scoreEquipe2 }}
             </ng-template>
+          </td>
+
+          <td>
+            <input type="checkbox" [(ngModel)]="match.matchJoue"
+              [checked]="match.scoreEquipe1 !== null && match.scoreEquipe2 !== null"
+              [disabled]="match.scoreEquipe1 !== null && match.scoreEquipe2 !== null" />
           </td>
 
 
           <!-- Actions -->
           <td class="actions-col w-[240px]">
-            <button *ngIf="!editMode[match.id]" class="btn btn-edit" (click)="editMatch(match)">Modifier</button>
+            <button class="btn btn-save mr-1" *ngIf="!editMode[match.id]" (click)="editMatch(match)"
+              [disabled]="match.matchJoue && match.scoreEquipe1 !== null && match.scoreEquipe2 !== null">
+              Modifier
+            </button>
+
+
             <button *ngIf="editMode[match.id]" class="btn btn-save mr-1"
               (click)="saveMatch(match.id)">Enregistrer</button>
             <button *ngIf="editMode[match.id]" class="btn btn-cancel" (click)="cancelEdit(match.id)">Annuler</button>
@@ -158,6 +186,22 @@
         </tr>
       </tbody>
     </table>
+    <div class="pagination-controls">
+      <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination-button">
+        ◀
+      </button>
+
+      <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+        <button (click)="goToPage(i + 1)" [class.active]="currentPage === i + 1" class="pagination-button">
+          {{ i + 1 }}
+        </button>
+      </ng-container>
+
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">
+        ▶
+      </button>
+    </div>
+
 
   </div>
 </div>

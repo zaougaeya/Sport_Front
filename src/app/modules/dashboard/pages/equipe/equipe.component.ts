@@ -32,6 +32,10 @@ export class EquipeComponent implements OnInit {
   errorMessage = '';
 
 
+  //pagination 
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+
 
   constructor(private equipeService: EquipeService) { }
 
@@ -60,16 +64,21 @@ export class EquipeComponent implements OnInit {
 
   // 1) Filtrage des équipes avec recherche
   get filteredEquipes() {
-    if (!this.searchEquipeTerm) return this.equipes;
-    return this.equipes.filter(e =>
-      e.nameEquipe.toLowerCase().includes(this.searchEquipeTerm.toLowerCase())
+    return this.equipes.filter(equipe =>
+      equipe.nameEquipe.toLowerCase().includes(this.searchEquipeTerm?.toLowerCase() || '')
     );
+  }
+
+  //pagination
+  get totalPages(): number {
+    return Math.ceil(this.filteredEquipes.length / this.itemsPerPage);
   }
 
   // 2) Filtrage + Tri des équipes
   get displayedEquipes() {
     let arr = [...this.filteredEquipes];
 
+    // Tri
     if (this.sortEquipeColumn) {
       arr.sort((a, b) => {
         let valA: string | number, valB: string | number;
@@ -79,7 +88,6 @@ export class EquipeComponent implements OnInit {
             valA = a.nameEquipe.toLowerCase();
             valB = b.nameEquipe.toLowerCase();
             break;
-
           default:
             valA = ''; valB = '';
         }
@@ -90,8 +98,25 @@ export class EquipeComponent implements OnInit {
       });
     }
 
-    return arr;
+    // Pagination
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return arr.slice(startIndex, endIndex);
   }
+
+
+  prevPage() {
+    if (this.currentPage > 1) this.currentPage--;
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) this.currentPage++;
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) this.currentPage = page;
+  }
+
 
   // 3) Fonction pour gérer le tri
   sortEquipesBy(column: string) {
@@ -118,6 +143,7 @@ export class EquipeComponent implements OnInit {
   }
 
 
+
   loadEquipes(): void {
     this.equipeService.getAllEquipes().subscribe({
       next: (data: Equipe[]) => this.equipes = data,
@@ -142,11 +168,7 @@ export class EquipeComponent implements OnInit {
   }
 
   onAddEquipe(): void {
-
-    if (
-      !this.newEquipe.nameEquipe ||
-      !this.newEquipe.logo
-    ) {
+    if (!this.newEquipe.nameEquipe || !this.newEquipe.logo) {
       this.message = '❌ Tous les champs sont obligatoires.';
       this.alertType = 'error';
       setTimeout(() => {
@@ -155,10 +177,9 @@ export class EquipeComponent implements OnInit {
       return;
     }
 
-
     const formData = new FormData();
-    formData.append('nameEquipe', this.newEquipe.nameEquipe);  // Ajouter le nom de l'équipe
-    formData.append('logo', this.newEquipe.logo);  // Ajouter l'image
+    formData.append('nameEquipe', this.newEquipe.nameEquipe);
+    formData.append('logo', this.newEquipe.logo); // fichier
 
     this.equipeService.createEquipe(formData).subscribe({
       next: () => {
@@ -166,13 +187,14 @@ export class EquipeComponent implements OnInit {
         this.message = '✅ Équipe ajoutée avec succès.';
         this.alertType = 'success';
         this.showAddEquipe = false;
+        // Réinitialiser le formulaire
+        this.newEquipe = { nameEquipe: '', logo: '' };
         setTimeout(() => {
           this.message = '';
         }, 3000);
-        console.log(this.newEquipe); // Afficher l'objet sans ID
       },
       error: () => {
-        this.message = ' ❌ Erreur lors de l\'ajout.';
+        this.message = '❌ Erreur lors de l\'ajout.';
         this.alertType = 'error';
         setTimeout(() => {
           this.message = '';
@@ -182,9 +204,13 @@ export class EquipeComponent implements OnInit {
   }
 
 
-  onFileChange(event: any) {
-    this.newEquipe.logo = event.target.files[0];
+  onFileChange(event: any): void {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      this.newEquipe.logo = file;  // Stocke l'objet fichier (pas l'URL)
+    }
   }
+
 
 
 

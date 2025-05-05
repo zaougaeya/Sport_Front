@@ -10,5 +10,6 @@ export interface Match {
     equipe1?: any;
     equipe2?: any;
     terrain?: any;
+    matchJoue: boolean;
   }
   

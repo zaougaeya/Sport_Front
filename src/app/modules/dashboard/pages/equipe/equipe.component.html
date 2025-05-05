@@ -68,8 +68,7 @@
 
                         <td class="equipe-info">
                             <div class="equipe-nom-image">
-                                <img *ngIf="equipe.logo" [src]="'http://localhost:8081' + equipe.logo" alt="Logo"
-                                    class="equipe-logo" />
+                                <img *ngIf="equipe.logo" [src]="equipe.logo" alt="Logo" class="equipe-logo" />
                                 <div *ngIf="equipe.id && editMode[equipe.id]; else viewMode">
                                     <input type="text" [(ngModel)]="editedEquipe[equipe.id].nameEquipe"
                                         class="form-control" />
@@ -120,6 +119,24 @@
                 </ng-container>
             </tbody>
 
+
+
         </table>
+        <div class="pagination-controls">
+            <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination-button">
+                ◀
+            </button>
+
+            <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+                <button (click)="goToPage(i + 1)" [class.active]="currentPage === i + 1" class="pagination-button">
+                    {{ i + 1 }}
+                </button>
+            </ng-container>
+
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-button">
+                ▶
+            </button>
+        </div>
+
     </div>
 </div>

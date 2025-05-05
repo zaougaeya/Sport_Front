@@ -35,9 +35,14 @@ export class TerrainComponent implements OnInit {
   sortColumn: string = '';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-  get filteredTerrains() {
+
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+
+  get filteredTerrainsData() {
     let terrains = [...this.terrains];
 
+    // Filtrage
     if (this.searchTerrainTerm) {
       const term = this.searchTerrainTerm.toLowerCase();
       terrains = terrains.filter(t =>
@@ -47,6 +52,7 @@ export class TerrainComponent implements OnInit {
       );
     }
 
+    // Tri
     if (this.sortColumn) {
       terrains.sort((a, b) => {
         const key = this.sortColumn as keyof Terrain;
@@ -57,18 +63,36 @@ export class TerrainComponent implements OnInit {
         if (valA > valB) return this.sortDirection === 'asc' ? 1 : -1;
         return 0;
       });
-
     }
 
     return terrains;
   }
-  
-  getSortIcon(column: keyof Terrain): string {
-    if (this.sortColumn === column) {
-      return this.sortDirection === 'asc' ? '⬆️' : '⬇️';
-    }
-    return '⇅';
+
+  // Affichage paginé
+  get filteredTerrains() {
+    const terrains = this.filteredTerrainsData;
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return terrains.slice(startIndex, endIndex);
   }
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredTerrainsData.length / this.itemsPerPage);
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) this.currentPage--;
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) this.currentPage++;
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) this.currentPage = page;
+  }
+
+
 
 
   // Dans ton component.ts
@@ -88,7 +112,12 @@ export class TerrainComponent implements OnInit {
   }
 
 
-
+  getSortIcon(column: keyof Terrain): string {
+    if (this.sortColumn === column) {
+      return this.sortDirection === 'asc' ? '⬆️' : '⬇️';
+    }
+    return '⇅';
+  }
 
   // Gestion ajout
   toggleAddTerrain() {

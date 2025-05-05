@@ -8,8 +8,6 @@ import { MatchService } from '../../services/match.service';
 import { HttpClientModule } from '@angular/common/http';
 import { EquipeService } from '../../services/equipe.service';
 import { TerrainService } from '../../services/terrain.service';
-import { NameEquipePipe } from '../../pipe/nameequipe.pipe';
-import { Nameterrainpipe } from '../../pipe/nameterrain.pipe';
 import { AlertComponent } from "../alert/alert.component";
 //import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 //import { PopupAlertComponent } from '../../../popup-alert/popup-alert.component'; // adapte le chemin
@@ -30,17 +28,21 @@ export class MatchComponent implements OnInit {
   ) { }
 
   matches: any[] = [];  // Tableau pour stocker les matchs
-  newMatch: Match = {}
+  newMatch: Match = {} as Match
   showAddMatch: boolean = false
 
   equipes: Equipe[] = [];
   terrains: Terrain[] = [];
   errorMessage: string = '';
-  editMode: { [key: number]: boolean } = {};
-  editedMatch: { [key: number]: any } = {};
+  editMode: { [key: string]: boolean } = {};
+  editedMatch: { [key: string]: any } = {};
 
   message: string = '';
   alertType: 'success' | 'error' = 'success';
+
+  //Pagination
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
 
   ngOnInit(): void {
     this.loadMatches();
@@ -48,15 +50,23 @@ export class MatchComponent implements OnInit {
     this.loadTerrains();
   }
 
-  cancelAddMatch() { this.newMatch = {}; }
+  cancelAddMatch() {
+    this.newMatch = {} as Match;
+
+    // Vérifiez les propriétés manquantes et initialisez-les si nécessaire
+    if (!this.newMatch.matchJoue) {
+      this.newMatch.matchJoue = false;  // Valeur par défaut pour matchJoue
+    }
+  }
   toggleAddMatch() {
-    this.newMatch = {};
+    this.newMatch = {} as Match;
     this.showAddMatch = true;
   }
 
   closeAlert() {
     this.message = ''; // Ferme l'alerte
   }
+
 
   onAddMatch() {
     if (
@@ -76,6 +86,10 @@ export class MatchComponent implements OnInit {
       alert("❌ Vous ne pouvez pas jouer un match avec deux fois la même équipe !");
       return;
     }
+
+    console.log(this.newMatch);
+
+
     this.matchService.createMatch(this.newMatch).subscribe({
       next: (createdMatch) => {
         if (createdMatch) {
@@ -95,7 +109,7 @@ export class MatchComponent implements OnInit {
           }, 3000);
           this.loadMatches(); // Si rien n’est retourné, recharge depuis l’API
         }
-        this.newMatch = {};
+        this.newMatch = {} as Match;
         this.showAddMatch = false;
         this.errorMessage = ''; // Réinitialise le message d’erreur si besoin
       },
@@ -113,12 +127,17 @@ export class MatchComponent implements OnInit {
 
 
   editMatch(match: any): void {
+    // Si match déjà joué ET scores renseignés, empêcher l'édition
+    if (match.matchJoue && match.scoreEquipe1 !== null && match.scoreEquipe2 !== null) {
+      alert("❌ Ce match a déjà été joué et ne peut plus être modifié !");
+      return;
+    }
+
     this.editMode[match.id] = true;
 
     // Copier les données existantes dans editedMatch pour les modifier
     this.editedMatch[match.id] = { ...match };
 
-    // Forcer la conversion de la date reçue (en string ISO) vers un format valide pour datetime-local
     const rawDate = new Date(match.date);
     const formattedDate = rawDate.toISOString().slice(0, 16);
     this.editedMatch[match.id].date = formattedDate;
@@ -150,12 +169,11 @@ export class MatchComponent implements OnInit {
     });
   }
 
-  saveMatch(id: number): void {
+  saveMatch(id: string): void {
     const match = this.editedMatch[id];
     match.id = id;
 
     const champsManquants: string[] = [];
-
     if (!match.idEquipe1) champsManquants.push("Équipe 1");
     if (!match.idEquipe2) champsManquants.push("Équipe 2");
     if (!match.idTerrain) champsManquants.push("Terrain");
@@ -170,16 +188,16 @@ export class MatchComponent implements OnInit {
       return;
     }
 
-    if (match.idEquipe1 === match.idEquipe2) {
-      alert("❌ Vous ne pouvez pas jouer un match avec deux fois la même équipe !");
+    // Vérifier que les scores sont valides
+    if (match.scoreEquipe1 == null || match.scoreEquipe1 < 0 || match.scoreEquipe2 == null || match.scoreEquipe2 < 0) {
+      alert("❌ Les scores doivent être renseignés et positifs !");
       return;
     }
 
-    if (match.scoreEquipe1 < 0 || match.scoreEquipe2 < 0) {
-      alert("❌ Les scores doivent être des nombres positifs !");
-      return;
+    // Si un score est renseigné (différent de -1), on force matchJoue = true
+    if (match.scoreEquipe1 !== null && match.scoreEquipe2 !== null) {
+      match.matchJoue = true;
     }
-    console.log("🔄 Mise à jour du match :", match);
 
     this.matchService.updateMatch(match.id, match).subscribe({
       next: () => {
@@ -197,12 +215,10 @@ export class MatchComponent implements OnInit {
         setTimeout(() => {
           this.message = '';
         }, 3000);
-        this.errorMessage = 'Erreur lors de la sauvegarde du match.';
-        console.error("erreur");
+        console.error("Erreur lors de la mise à jour du match.");
       }
     });
   }
-
 
 
 
@@ -243,6 +259,12 @@ export class MatchComponent implements OnInit {
     return equipe ? equipe.nameEquipe : 'Equipe Inexistante';
   }
 
+  getEquipeLogo(idEquipe: string | number): string | null {
+    const equipe = this.equipes.find(e => e.id === idEquipe);
+    return equipe ? equipe.logo : null;
+  }
+
+
   // Recherche
   searchMatchTerm: string = '';
 
@@ -265,9 +287,15 @@ export class MatchComponent implements OnInit {
     );
   }
 
+
+  get totalPages(): number {
+    return Math.ceil(this.filteredMatches.length / this.itemsPerPage);
+  }
+
   get displayedMatches() {
     let arr = [...this.filteredMatches];
 
+    // Tri
     if (this.sortMatchColumn) {
       arr.sort((a, b) => {
         let valA: string | number, valB: string | number;
@@ -294,7 +322,6 @@ export class MatchComponent implements OnInit {
             break;
 
           case 'score':
-            // Exemple : on trie sur score1, puis score2
             valA = a.scoreEquipe1 * 10000 + a.scoreEquipe2;
             valB = b.scoreEquipe1 * 10000 + b.scoreEquipe2;
             break;
@@ -309,9 +336,27 @@ export class MatchComponent implements OnInit {
       });
     }
 
-    return arr;
+    // Pagination 
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return arr.slice(startIndex, endIndex);
   }
 
+
+  prevPage() {
+    if (this.currentPage > 1) this.currentPage--;
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) this.currentPage++;
+  }
+
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) this.currentPage = page;
+  }
+
+
+  //tri
   sortMatchesBy(column: string) {
     if (this.sortMatchColumn !== column) {
       this.sortMatchColumn = column;
@@ -330,8 +375,6 @@ export class MatchComponent implements OnInit {
     }
     return '⇅';
   }
-
-
 
 
 
