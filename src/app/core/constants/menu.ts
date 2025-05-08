@@ -145,6 +145,11 @@ export class Menu {
           label: 'Terrain',
           route: '/dashboard/terrain',
         },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Planning',
+          route: '/dashboard/planning',
+        },
       ],
     },
 

@@ -104,11 +104,11 @@
                         </td>
 
                     </tr>
-                    <tr *ngIf="equipe.id && joueursVisibles[equipe.id]">
+                    <tr *ngIf="equipe.id && usersVisible[equipe.id]">
                         <td colspan="3">
-                            <ul *ngIf="joueursParEquipe[equipe.id]; else loading">
-                                <li *ngFor="let joueur of joueursParEquipe[equipe.id]">
-                                    {{ joueur.prenom }} {{ joueur.nom }} ({{ joueur.position }}) - N°{{ joueur.numero }}
+                            <ul *ngIf="usersParEquipe[equipe.id]; else loading">
+                                <li *ngFor="let user of usersParEquipe[equipe.id]">
+                                    {{ user.prenom }} {{ user.nom }} - {{ user.age }} 
                                 </li>
                             </ul>
                             <ng-template #loading>

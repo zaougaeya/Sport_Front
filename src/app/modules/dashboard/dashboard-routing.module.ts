@@ -6,6 +6,7 @@ import { PodcastComponent } from './pages/podcast/podcast.component';
 import { MatchComponent } from './pages/match/match.component';
 import { EquipeComponent } from './pages/equipe/equipe.component';
 import { TerrainComponent } from './pages/terrain/terrain.component';
+import { PlanningMatchComponent } from './pages/planning-match/planning-match.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: 'match', component: MatchComponent },
       { path: 'equipe', component: EquipeComponent },
       { path: 'terrain', component: TerrainComponent },
+      { path: 'planning', component: PlanningMatchComponent },
       { path: 'podcast', component: PodcastComponent },
       { path: '**', redirectTo: 'errors/404' },
     ],

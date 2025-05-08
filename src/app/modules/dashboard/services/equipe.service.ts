@@ -34,8 +34,8 @@ export class EquipeService {
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
-  getJoueursByEquipe(equipeId: string) {
-    return this.http.get<any[]>(`${this.baseUrl}/${equipeId}/joueurs`);
+  getUsersByEquipe(equipeId: string) {
+    return this.http.get<any[]>(`${this.baseUrl}/${equipeId}/users`);
   }
 
 }

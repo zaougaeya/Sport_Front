@@ -73,7 +73,8 @@ export class MatchComponent implements OnInit {
       !this.newMatch.idEquipe1 ||
       !this.newMatch.idEquipe2 ||
       !this.newMatch.idTerrain ||
-      !this.newMatch.date
+      !this.newMatch.startDate ||
+      !this.newMatch.endDate
     ) {
       this.message = '❌ Tous les champs sont obligatoires.';
       this.alertType = 'error';
@@ -139,8 +140,14 @@ export class MatchComponent implements OnInit {
     this.editedMatch[match.id] = { ...match };
 
     const rawDate = new Date(match.date);
-    const formattedDate = rawDate.toISOString().slice(0, 16);
-    this.editedMatch[match.id].date = formattedDate;
+    const rawStartDate = new Date(match.startDate);
+    const formattedStartDate = rawStartDate.toISOString().slice(0, 16);
+    this.editedMatch[match.id].startDate = formattedStartDate;
+
+    const rawEndDate = new Date(match.endDate);
+    const formattedEndDate = rawEndDate.toISOString().slice(0, 16);
+    this.editedMatch[match.id].endDate = formattedEndDate;
+
   }
 
 
@@ -177,7 +184,10 @@ export class MatchComponent implements OnInit {
     if (!match.idEquipe1) champsManquants.push("Équipe 1");
     if (!match.idEquipe2) champsManquants.push("Équipe 2");
     if (!match.idTerrain) champsManquants.push("Terrain");
-    if (!match.date) champsManquants.push("Date");
+    if (!match.startDate) champsManquants.push("Date de début");
+    if (!match.endDate) champsManquants.push("Date de fin");
+    if (!match.type) champsManquants.push("Type");
+
 
     if (champsManquants.length > 0) {
       this.message = `❌ Les champs suivants sont obligatoires : ${champsManquants.join(", ")}.`;

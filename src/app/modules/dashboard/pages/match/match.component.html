@@ -36,11 +36,27 @@
           </div>
 
           <div class="form-group">
-            <label for="date">Date</label>
-            <input type="datetime-local" name="date" [(ngModel)]="newMatch.date" required class="form-control" />
+            <label for="type">Type de match</label>
+            <select [(ngModel)]="newMatch.type" name="type" class="form-control" required>
+              <option value="">-- Sélectionner --</option>
+              <option value="foot">Football</option>
+              <option value="hand">Handball</option>
+              <option value="basket">Basketball</option>
+            </select>
           </div>
+
         </div>
 
+        <div class="form-row">
+          <div class="form-group">
+            <label for="startDate">Date de début</label>
+            <input type="datetime-local" [(ngModel)]="newMatch.startDate" name="startDate" required
+              class="form-control" />
+
+            <label for="endDate">Date de fin</label>
+            <input type="datetime-local" [(ngModel)]="newMatch.endDate" name="endDate" required class="form-control" />
+          </div>
+        </div>
 
         <div class="form-actions">
           <button type="submit" class="btn btn-save">✔️ Valider</button>
@@ -64,19 +80,19 @@
 
     </div>
 
-
     <table class="table">
       <thead>
         <tr>
           <th (click)="sortMatchesBy('equipe1')" class="cursor-pointer">
-            Équipe 1 <span>{{ getMatchSortIcon('equipe1') }}</span>
+            Équipe 1 <span>{{ getMatchSortIcon('equipe1') }}</span>
           </th>
           <th (click)="sortMatchesBy('equipe2')" class="cursor-pointer">
-            Équipe 2 <span>{{ getMatchSortIcon('equipe2') }}</span>
+            Équipe 2 <span>{{ getMatchSortIcon('equipe2') }}</span>
           </th>
           <th (click)="sortMatchesBy('terrain')" class="cursor-pointer">
             Terrain <span>{{ getMatchSortIcon('terrain') }}</span>
           </th>
+          <th>Type de match</th>
           <th (click)="sortMatchesBy('date')" class="cursor-pointer">
             Date <span>{{ getMatchSortIcon('date') }}</span>
           </th>
@@ -96,7 +112,6 @@
                 <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
               </select>
             </div>
-
             <ng-template #equipe1View>
               <div class="flex items-center">
                 <img *ngIf="getEquipeLogo(match.idEquipe1)" [src]="getEquipeLogo(match.idEquipe1)" alt="Logo"
@@ -106,7 +121,6 @@
             </ng-template>
           </td>
 
-
           <!-- Équipe 2 -->
           <td>
             <div *ngIf="editMode[match.id]; else equipe2View">
@@ -114,7 +128,6 @@
                 <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
               </select>
             </div>
-
             <ng-template #equipe2View>
               <div class="flex items-center">
                 <img *ngIf="getEquipeLogo(match.idEquipe2)" [src]="getEquipeLogo(match.idEquipe2)" alt="Logo"
@@ -124,7 +137,6 @@
             </ng-template>
           </td>
 
-
           <!-- Terrain -->
           <td>
             <div *ngIf="editMode[match.id]; else terrainView">
@@ -133,18 +145,31 @@
               </select>
             </div>
             <ng-template #terrainView>{{ getTerrainName(match.idTerrain) }}</ng-template>
+          </td>
 
+          <!-- Type de match -->
+          <td>
+            <div *ngIf="editMode[match.id]; else typeView">
+              <select [(ngModel)]="editedMatch[match.id].type" class="form-control">
+                <option value="">-- Sélectionner --</option>
+                <option value="foot">Football</option>
+                <option value="hand">Handball</option>
+                <option value="basket">Basketball</option>
+              </select>
+            </div>
+            <ng-template #typeView>{{ match.type }}</ng-template> <!-- Affichage du type -->
           </td>
 
           <!-- Date -->
           <td>
             <div *ngIf="editMode[match.id]; else dateView">
-              <input type="datetime-local" [(ngModel)]="editedMatch[match.id].date" name="date-{{ match.id }}"
+              <input type="datetime-local" [(ngModel)]="editedMatch[match.id].startDate" name="editStartDate"
                 class="form-control" />
             </div>
-            <ng-template #dateView>{{ match.date | date: 'dd/MM/yyyy HH:mm' }}</ng-template>
+            <ng-template #dateView>{{ match.startDate | date: 'dd/MM/yyyy HH:mm' }}</ng-template>
           </td>
 
+          <!-- Score -->
           <td>
             <div *ngIf="editMode[match.id]; else scoreView">
               <input type="number" [(ngModel)]="editedMatch[match.id].scoreEquipe1" name="score1-{{ match.id }}"
@@ -159,12 +184,12 @@
             </ng-template>
           </td>
 
+          <!-- Match joué -->
           <td>
             <input type="checkbox" [(ngModel)]="match.matchJoue"
               [checked]="match.scoreEquipe1 !== null && match.scoreEquipe2 !== null"
               [disabled]="match.scoreEquipe1 !== null && match.scoreEquipe2 !== null" />
           </td>
-
 
           <!-- Actions -->
           <td class="actions-col w-[240px]">
@@ -172,19 +197,15 @@
               [disabled]="match.matchJoue && match.scoreEquipe1 !== null && match.scoreEquipe2 !== null">
               Modifier
             </button>
-
-
             <button *ngIf="editMode[match.id]" class="btn btn-save mr-1"
               (click)="saveMatch(match.id)">Enregistrer</button>
             <button *ngIf="editMode[match.id]" class="btn btn-cancel" (click)="cancelEdit(match.id)">Annuler</button>
-
-            <!-- 🔥 Bouton de suppression -->
             <button *ngIf="!editMode[match.id]" class="btn btn-delete ml-1"
               (click)="deleteMatch(match.id)">Supprimer</button>
           </td>
-
         </tr>
       </tbody>
+
     </table>
     <div class="pagination-controls">
       <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination-button">
@@ -201,7 +222,5 @@
         ▶
       </button>
     </div>
-
-
   </div>
 </div>

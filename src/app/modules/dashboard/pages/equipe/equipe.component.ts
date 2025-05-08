@@ -23,8 +23,8 @@ export class EquipeComponent implements OnInit {
   editedEquipe: { [key: string]: Equipe } = {};
   editMode: { [key: string]: boolean } = {};
 
-  joueursParEquipe: { [equipeId: string]: any[] } = {};
-  joueursVisibles: { [equipeId: string]: boolean } = {};
+  usersParEquipe: { [equipeId: string]: any[] } = {};
+  usersVisible: { [equipeId: string]: boolean } = {};
 
   showAddEquipe = false;
   message: string = '';
@@ -44,15 +44,17 @@ export class EquipeComponent implements OnInit {
   }
 
   toggleJoueurs(equipeId: string): void {
-    this.joueursVisibles[equipeId] = !this.joueursVisibles[equipeId];
-
-    if (this.joueursVisibles[equipeId] && !this.joueursParEquipe[equipeId]) {
-      this.equipeService.getJoueursByEquipe(equipeId).subscribe({
-        next: (data) => this.joueursParEquipe[equipeId] = data,
-        error: () => console.error("Erreur lors du chargement des joueurs de l'équipe"),
+    this.usersVisible[equipeId] = !this.usersVisible[equipeId];
+  
+    if (this.usersVisible[equipeId] && !this.usersParEquipe[equipeId]) {
+      // Appelle l'endpoint pour récupérer les utilisateurs de l'équipe
+      this.equipeService.getUsersByEquipe(equipeId).subscribe({
+        next: (data) => this.usersParEquipe[equipeId] = data, // Assigne directement la liste des utilisateurs
+        error: () => console.error("Erreur lors du chargement des utilisateurs de l'équipe"),
       });
     }
   }
+  
 
 
   // Recherche
