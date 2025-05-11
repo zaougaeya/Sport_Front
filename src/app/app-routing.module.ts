@@ -3,6 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'equipes-medicales',
+    loadChildren: () =>
+    {
+      console.log('Navigating to equipes-medicales...');
+      return import('./modules/EquipesMedicales/equipes-medicales.module').then(m => m.EquipesMedicalesModule);
+    }
+     // import('./modules/EquipesMedicales/equipes-medicales.module').then((m) => m.EquipesMedicalesModule),
+  },
+  {
     path: '',
     loadChildren: () => import('./modules/layout/layout.module').then((m) => m.LayoutModule),
   },
@@ -14,6 +23,7 @@ const routes: Routes = [
     path: 'errors',
     loadChildren: () => import('./modules/error/error.module').then((m) => m.ErrorModule),
   },
+ 
   { path: '**', redirectTo: 'errors/404' },
 ];
 

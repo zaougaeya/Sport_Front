@@ -1,0 +1,59 @@
+<div class="container py-5" style="max-width: 600px;">
+    <h2 class="text-white mb-4 text-center">Add Medical Team</h2>
+  
+    <form [formGroup]="equipeForm" (ngSubmit)="onSubmit()" class="bg-dark p-4 rounded shadow">
+      <div class="form-group mb-3">
+        <label for="nomEquipeMedicale" class="text-white">Team Name</label>
+        <input
+  id="nomEquipeMedicale"
+  type="text"
+  class="form-control bg-secondary text-white border-0"
+  formControlName="nomEquipeMedicale"
+  placeholder="Enter team name"
+  [readonly]="false"
+/>
+      </div>
+  
+      <div class="form-group mb-4">
+        <label for="descEquipeMedicale" class="text-white">Description</label>
+        <textarea
+          id="descEquipeMedicale"
+          class="form-control bg-secondary text-white border-0"
+          formControlName="descEquipeMedicale"
+          placeholder="Enter a brief description"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-group mb-3">
+  <label for="membres" class="text-white">Select Members</label>
+  <select
+    id="membres"
+    class="form-control bg-secondary text-white border-0"
+    formControlName="membres"
+    multiple
+  >
+    <option *ngFor="let user of allUsers" [value]="user.id">
+      {{ user.nom }} {{ user.prenom }}
+    </option>
+  </select>
+</div>
+  
+      <button
+      type="submit"
+      class="btn w-100 mt-2"
+      style="
+        background-color: #0d6efd;
+        color: white;
+        border: none;
+        padding: 12px;
+        font-weight: bold;
+        border-radius: 6px;
+      "
+      [disabled]="equipeForm.invalid"
+    >
+      Add Team
+    </button>
+    </form>
+  </div>
+  

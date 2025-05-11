@@ -6,10 +6,15 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: LayoutComponent,
-    loadChildren: () => import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
+    loadChildren: () =>
+      import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: 'error/404' },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full',
+  }
+  //  Remove the wildcard route here!
 ];
 
 @NgModule({

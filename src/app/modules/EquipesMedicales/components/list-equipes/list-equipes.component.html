@@ -1,0 +1,40 @@
+<div class="container py-5">
+  <h2 class="text-white mb-4 text-center">Liste des équipes médicales</h2>
+
+  <div *ngIf="equipes.length === 0" class="text-white text-center">
+    <p>No medical teams available.</p>
+  </div>
+
+  <div *ngIf="equipes.length > 0">
+    <div *ngFor="let equipe of equipes" class="card mb-3">
+      <div class="card-body d-flex justify-content-between align-items-start">
+        <!-- Team Info -->
+        <div>
+          <h5 class="card-title text-white">{{ equipe.nomEquipeMedicale }}</h5>
+          <p class="card-text text-white">{{ equipe.descEquipeMedicale }}</p>
+          <p class="text-white">Members:
+            <span *ngFor="let membre of equipe.membres">
+              {{ membre.nom }} {{ membre.prenom }}
+            </span>
+          </p>
+          <p class="text-white">Consultations:
+            <span *ngFor="let consultation of equipe.consultations">
+              {{ consultation }}
+            </span>
+          </p>
+        </div>
+
+        <!-- Delete Button on the right -->
+      <div class="button-group">
+  <button mat-raised-button class="update-button" [routerLink]="['/equipes-medicales/update', equipe.id]">
+    <mat-icon>edit</mat-icon> Update
+  </button>
+
+  <button mat-raised-button class="delete-button" (click)="openDeleteConfirmDialog(equipe.id)">
+    <mat-icon>delete</mat-icon> Delete
+  </button>
+</div>
+      </div>
+    </div>
+  </div>
+</div>
