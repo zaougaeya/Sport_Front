@@ -9,7 +9,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { EquipeService } from '../../services/equipe.service';
 import { TerrainService } from '../../services/terrain.service';
 import { AlertComponent } from "../alert/alert.component";
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 //import { PopupAlertComponent } from '../../../popup-alert/popup-alert.component'; // adapte le chemin
 
 @Component({
