@@ -150,6 +150,11 @@ export class Menu {
           label: 'Planning',
           route: '/dashboard/planning',
         },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'statiqtique-equipe',
+          route: '/dashboard/statiqtique-equipe',
+        },
       ],
     },
 

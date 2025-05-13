@@ -1,1 +1,9 @@
-<p>stat-equipes works!</p>
+<div style="width: 50%; max-width: 1200px; height: 40px;">
+  <ngx-slider [(value)]="value" [(highValue)]="highValue" [options]="sliderOptions"
+    (userChangeEnd)="onDateRangeChange()">
+  </ngx-slider>
+</div>
+<div class="chart-wrapper">
+  <canvas baseChart [data]="chartData" [type]="chartType" [options]="chartOptions">
+  </canvas>
+</div>

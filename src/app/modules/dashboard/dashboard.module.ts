@@ -13,10 +13,14 @@ import { EquipeComponent } from './pages/equipe/equipe.component';
 import { TerrainComponent } from './pages/terrain/terrain.component';
 import { AlertComponent } from './pages/alert/alert.component';
 import { PlanningMatchComponent } from './pages/planning-match/planning-match.component';
+import { NgChartsModule } from 'ng2-charts';
+import { Ng5SliderModule } from 'ng5-slider';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   imports: [
+    NgxSliderModule,
     CommonModule,
     FormsModule,
     HttpClientModule,
@@ -26,6 +30,7 @@ import { PlanningMatchComponent } from './pages/planning-match/planning-match.co
     TerrainComponent,
     AlertComponent,
     PlanningMatchComponent,
+    NgChartsModule,  // <= ajoute cette ligne
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
   ],
 })

@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { EquipeService } from '../../services/equipe.service';
 import { TerrainService } from '../../services/terrain.service';
 import { AlertComponent } from "../alert/alert.component";
-//import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 //import { PopupAlertComponent } from '../../../popup-alert/popup-alert.component'; // adapte le chemin
 
 @Component({
@@ -203,6 +203,14 @@ export class MatchComponent implements OnInit {
       alert("❌ Les scores doivent être renseignés et positifs !");
       return;
     }
+
+    if (match.cartonsJaunesEquipe1 != null && match.cartonsJaunesEquipe1 < 0 ||
+      match.cartonsRougesEquipe1 != null && match.cartonsRougesEquipe1 < 0 ||
+      match.cartonsJaunesEquipe2 != null && match.cartonsJaunesEquipe2 < 0 ||
+      match.cartonsRougesEquipe2 != null && match.cartonsRougesEquipe2 < 0) {
+    alert("❌ Les cartons (jaunes ou rouges) ne peuvent pas être négatifs !");
+    return;
+  }
 
     // Si un score est renseigné (différent de -1), on force matchJoue = true
     if (match.scoreEquipe1 !== null && match.scoreEquipe2 !== null) {

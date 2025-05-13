@@ -1,0 +1,12 @@
+.chart-wrapper {
+  width: 50%;
+  max-width: 100%;
+  height: 70vh; // 60% de la hauteur visible de l'écran
+  padding: 1rem;
+  box-sizing: border-box;
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}

@@ -7,6 +7,7 @@ import { MatchComponent } from './pages/match/match.component';
 import { EquipeComponent } from './pages/equipe/equipe.component';
 import { TerrainComponent } from './pages/terrain/terrain.component';
 import { PlanningMatchComponent } from './pages/planning-match/planning-match.component';
+import { StatEquipesComponent } from './pages/stat-equipes/stat-equipes.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'equipe', component: EquipeComponent },
       { path: 'terrain', component: TerrainComponent },
       { path: 'planning', component: PlanningMatchComponent },
+      { path: 'statiqtique-equipe', component: StatEquipesComponent },
       { path: 'podcast', component: PodcastComponent },
       { path: '**', redirectTo: 'errors/404' },
     ],

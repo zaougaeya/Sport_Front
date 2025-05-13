@@ -202,3 +202,11 @@
   font-weight: bold;
   box-shadow: 0 0 5px rgba(160, 160, 160, 0.5);
 }
+
+.text-danger.small {
+  font-size: 0.75rem; /* Réduit encore la taille */
+}
+.text-danger {
+  color: red !important; /* Assure que la couleur rouge est appliquée */
+}
+

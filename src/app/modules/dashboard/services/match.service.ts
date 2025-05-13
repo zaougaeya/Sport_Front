@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Match } from '../models/match.model';
+//import { MatDialog } from '@angular/material/dialog';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -59,10 +61,19 @@ export class MatchService {
   affecterScores(matchId: string, score1: number, score2: number): Observable<Match> {
     return this.http.post<Match>(`${this.apiUrl}/${matchId}/affecter-scores`, { score1, score2 });
   }
-  // ✅ Obtenir les statistiques d’un match
-  getStatistiques(matchId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${matchId}/statistiques`);
-  }
+  // ✅ Obtenir les statistiques d’une équipe
+// Dans le service MatchService
+getStatistiquesParEquipe(): Observable<Map<string, Map<string, number>>> {
+  return this.http.get<Map<string, Map<string, number>>>(`${this.apiUrl}/statistiques`);
+}
+
+getStatistiquesParEquipeEtDates(dateD: string, dateF: string): Observable<Map<string, Map<string, number>>> {
+  console.log(dateD);
+  console.log(dateF);
+  
+  return this.http.get<Map<string, Map<string, number>>>(`${this.apiUrl}/statistiques/${dateD}/${dateF}`);
+}
+
 
 
 }

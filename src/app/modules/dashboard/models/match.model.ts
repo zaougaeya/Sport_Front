@@ -4,12 +4,15 @@ export interface Match {
   idEquipe2?: string;
   idTerrain?: string;
   date?: Date;
-  scoreEquipe1?: number;
-  scoreEquipe2?: number;
-  startDate: Date; // ⬅️ nouveau champ
+  startDate: Date;
   endDate: Date;
   type: string;
-  // objets liés (optionnel si tu veux les afficher)
+  scoreEquipe1?: number;
+  scoreEquipe2?: number;
+  cartonsJaunesEquipe1?: number;
+  cartonsRougesEquipe1?: number;
+  cartonsJaunesEquipe2?: number;
+  cartonsRougesEquipe2?: number;
   equipe1?: any;
   equipe2?: any;
   terrain?: any;

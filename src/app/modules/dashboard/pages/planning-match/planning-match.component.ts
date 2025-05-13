@@ -92,7 +92,7 @@ export class PlanningMatchComponent implements AfterViewInit {
     }));
   }
 
-
+//chargement du nouveau match dans le calendrier 
   onSubmit(): void {
     const matchToAdd: Match = {
       ...this.newMatch,
@@ -249,7 +249,10 @@ export class PlanningMatchComponent implements AfterViewInit {
       start: new DayPilot.Date(matchToAdd.startDate),
       end: new DayPilot.Date(matchToAdd.endDate),
       text: matchToAdd.type,
-      backColor: matchToAdd.matchJoue ? "#2ecc71" : "#e74c3c"
+      backColor: matchToAdd.matchJoue ? "#2ecc71" : "#e74c3c",
+      equipe1: matchToAdd.equipe1,
+      equipe2: matchToAdd.equipe2,
+      terrain: matchToAdd.terrain
     });
 
     // Sauvegarder dans la base
@@ -308,7 +311,7 @@ export class PlanningMatchComponent implements AfterViewInit {
   configDay: DayPilot.CalendarConfig = {
     durationBarVisible: false,
     onTimeRangeSelected: this.onTimeRangeSelected.bind(this),
-    onEventClick: (args: any) => {
+     onEventClick: (args: any) => {
       // Exemple de popup avec les détails du match
       const match = this.matches.find(m => m.id === args.e.id);
       if (match) {
@@ -324,6 +327,7 @@ export class PlanningMatchComponent implements AfterViewInit {
     onTimeRangeSelected: this.onTimeRangeSelected.bind(this),
     onEventClick: this.onEventClick.bind(this),
     onBeforeEventRender: this.onBeforeEventRender.bind(this),
+
     visible: false
   };
 
@@ -366,12 +370,12 @@ export class PlanningMatchComponent implements AfterViewInit {
 
   async onEventClick(args: any) {
     // Création du formulaire avec les champs à modifier
-
+    
     const form = [
       { name: "Type", id: "type" },
       { name: "Début", id: "startDate", type: "datetime", dateFormat: "yyyy-MM-ddTHH:mm" },
       { name: "Fin", id: "endDate", type: "datetime", dateFormat: "yyyy-MM-ddTHH:mm" },
-      { name: "Match joué", id: "matchJoue", type: "checkbox" },
+      
       {
         name: "Couleur", id: "backColor", type: "select", options: [
           { name: "Rouge", id: "#e74c3c" },
@@ -467,6 +471,6 @@ export class PlanningMatchComponent implements AfterViewInit {
     });
   }
 
-
+  
 
 }

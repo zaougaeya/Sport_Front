@@ -91,19 +91,26 @@
                                 les joueurs</button>
                         </td>
 
+                        <td class="actions-col w-[240px]">
+                       <button *ngIf="equipe.id && !editMode[equipe.id]" class="btn btn-icon ml-1"
+                      (click)="editEquipe(equipe)"  title="modifier"> 
+                    <i class="fas fa-edit text-xl transition duration-200 text-yellow-600 hover:text-yellow-800"></i>
+                     </button>
 
-                        <td class="actions-col">
-                            <button *ngIf="equipe.id && !editMode[equipe.id]" class="btn btn-edit"
-                                (click)="editEquipe(equipe)">Modifier</button>
-                            <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-save mr-1"
-                                (click)="saveEquipe(equipe.id)">Enregistrer</button>
-                            <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-cancel"
-                                (click)="cancelEdit(equipe.id)">Annuler</button>
-                            <button *ngIf="equipe.id && !editMode[equipe.id]" class="btn btn-delete ml-1"
-                                (click)="deleteEquipe(equipe.id)">Supprimer</button>
-                        </td>
+               <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-save mr-1"
+             (click)="saveEquipe(equipe.id)">Enregistrer</button>
 
-                    </tr>
+             <button *ngIf="equipe.id && editMode[equipe.id]" class="btn btn-cancel"
+                (click)="cancelEdit(equipe.id)">Annuler</button>
+
+
+             <button *ngIf="equipe.id && !editMode[equipe.id]" class="btn btn-icon ml-1"
+              (click)="deleteEquipe(equipe.id)"  title="Supprimer" >
+                 <i class="fas fa-trash text-red-600 text-xl hover:text-red-800 transition duration-200"></i>
+              </button>
+               </td>
+
+               </tr>
                     <tr *ngIf="equipe.id && usersVisible[equipe.id]">
                         <td colspan="3">
                             <ul *ngIf="usersParEquipe[equipe.id]; else loading">
