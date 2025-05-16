@@ -1,0 +1,74 @@
+<div class="container mx-auto p-6">
+  <h2 class="text-3xl font-semibold text-center mb-8 text-gray-800">Ajouter une Réservation</h2>
+
+  <div class="bg-white shadow-md rounded-lg p-6 max-w-5xl mx-auto">
+    <form [formGroup]="reservationForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+      <!-- Équipe Médicale -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Équipe Médicale</label>
+        <select formControlName="equipeMedicaleId"
+                (change)="onEquipeChange($event)"
+                class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2 bg-white text-gray-800">
+          <option value="" disabled selected>Choisir une équipe</option>
+          <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nomEquipeMedicale }}</option>
+        </select>
+      </div>
+
+      <!-- Médecin -->
+      <div *ngIf="filteredMembres.length > 0">
+        <label class="block text-sm font-medium text-gray-700">Médecin</label>
+        <select formControlName="medecinId"
+                class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2 bg-white text-gray-800">
+          <option value="" disabled selected>Choisir un médecin</option>
+          <option *ngFor="let membre of filteredMembres" [value]="membre.id">
+            {{ membre.nom }} {{ membre.prenom }} - {{ membre.profession }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Date de consultation -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Date de consultation</label>
+        <input type="date" formControlName="dateConsultation"
+               class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2"
+               [min]="minDate" />
+      </div>
+
+      <!-- Motif -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Motif de la consultation</label>
+        <input type="text" formControlName="motifConsultation" placeholder="Douleur, Check-up..."
+               class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" />
+      </div>
+
+      <!-- Moyen de communication -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Moyen de communication</label>
+        <select formControlName="moyenCommunication"
+                class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2 bg-white text-gray-800">
+          <option value="Présentiel">Présentiel</option>
+          <option value="Visio">Visio</option>
+          <option value="Téléphone">Téléphone</option>
+        </select>
+      </div>
+
+      <!-- Durée de la consultation -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Durée (en minutes)</label>
+        <input type="number" formControlName="dureeConsultation" min="5"
+               class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" />
+      </div>
+
+      <!-- Bouton -->
+      <div class="text-center">
+        <button type="submit"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md disabled:opacity-50"
+                [disabled]="reservationForm.invalid">
+          Ajouter la Réservation
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

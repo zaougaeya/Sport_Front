@@ -1,0 +1,61 @@
+<div class="container py-5">
+  <h2 class="text-dark mb-4 text-center">Liste des équipes médicales</h2>
+
+  <!-- Search Bar -->
+  <div class="form-group mb-4 text-end">
+    <input type="text"
+           class="form-control w-50 d-inline"
+           placeholder="Rechercher une équipe médicale..."
+           [(ngModel)]="searchText"
+           (ngModelChange)="filterEquipes()" />
+  </div>
+
+  <div *ngIf="paginatedEquipes.length === 0" class="text-muted text-center">
+    <p>Aucune équipe médicale correspondante.</p>
+  </div>
+
+  <div *ngIf="paginatedEquipes.length > 0" class="equipes-list">
+    <div *ngFor="let equipe of paginatedEquipes" class="card custom-card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <h5 class="card-title text-primary">{{ equipe.nomEquipeMedicale }}</h5>
+          <div class="button-group">
+            <button mat-raised-button color="primary" [routerLink]="['/dashboard/equipesMedicales/update', equipe.id]">
+              <mat-icon>edit</mat-icon> Modifier
+            </button>
+            <button mat-raised-button color="warn" (click)="openDeleteConfirmDialog(equipe.id)">
+              <mat-icon>delete</mat-icon> Supprimer
+            </button>
+          </div>
+        </div>
+
+        <p class="text-muted mb-2">{{ equipe.descEquipeMedicale }}</p>
+
+        <div>
+          <strong>Membres:</strong>
+          <ul class="ps-3">
+            <li *ngFor="let membre of equipe.membres">
+              {{ membre.nom }} {{ membre.prenom }}
+            </li>
+          </ul>
+        </div>
+
+        <div *ngIf="equipe.consultations?.length">
+          <strong>Consultations:</strong>
+          <ul class="ps-3">
+            <li *ngFor="let consultation of equipe.consultations">
+              {{ consultation }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paginator -->
+  <mat-paginator [length]="filteredEquipes.length"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="[5, 10, 25]"
+                 (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

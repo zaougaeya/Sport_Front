@@ -1,0 +1,63 @@
+<!-- ajouter-consultation.component.html -->
+<div class="container mx-auto p-6">
+  <h2 class="text-3xl font-semibold text-center mb-8 text-gray-800">Ajouter une Consultation</h2>
+
+  <div class="bg-white shadow-md rounded-lg p-6 max-w-5xl mx-auto">
+    <form [formGroup]="consultationForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      
+      <!-- Ligne 1: Utilisateur et Équipe Médicale -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="userId" class="block text-sm font-medium text-gray-700">Utilisateur</label>
+          <select id="userId" formControlName="userId" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2">
+            <option value="" disabled selected>Sélectionnez un utilisateur</option>
+            <option *ngFor="let user of allUsers" [value]="user.id">
+              {{ user.nom }} {{ user.prenom }}
+            </option>
+          </select>
+          <div *ngIf="consultationForm.controls['userId'].invalid && consultationForm.controls['userId'].touched" class="text-red-500 text-sm mt-1">
+            L'utilisateur est requis.
+          </div>
+        </div>
+
+        <div>
+          <label for="equipeMedicaleId" class="block text-sm font-medium text-gray-700">Équipe Médicale</label>
+          <select id="equipeMedicaleId" formControlName="equipeMedicaleId" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2">
+            <option value="" disabled selected>Sélectionnez une équipe</option>
+            <option *ngFor="let equipe of allEquipes" [value]="equipe.id">
+              {{ equipe.nomEquipeMedicale }}
+            </option>
+          </select>
+          <div *ngIf="consultationForm.controls['equipeMedicaleId'].invalid && consultationForm.controls['equipeMedicaleId'].touched" class="text-red-500 text-sm mt-1">
+            L'équipe médicale est requise.
+          </div>
+        </div>
+      </div>
+
+      <!-- Ligne 2: Date de Consultation -->
+      <div>
+        <label for="dateConsultation" class="block text-sm font-medium text-gray-700">Date de Consultation</label>
+        <input type="date" id="dateConsultation" formControlName="dateConsultation" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" />
+        <div *ngIf="consultationForm.controls['dateConsultation'].invalid && consultationForm.controls['dateConsultation'].touched" class="text-red-500 text-sm mt-1">
+          La date de consultation est requise.
+        </div>
+      </div>
+
+      <!-- Ligne 3: Rapport -->
+      <div>
+        <label for="rapport" class="block text-sm font-medium text-gray-700">Rapport</label>
+        <textarea id="rapport" formControlName="rapport" rows="4" placeholder="Détails de la consultation" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2"></textarea>
+        <div *ngIf="consultationForm.controls['rapport'].invalid && consultationForm.controls['rapport'].touched" class="text-red-500 text-sm mt-1">
+          Le rapport est requis.
+        </div>
+      </div>
+
+      <!-- Bouton de soumission -->
+      <div class="text-center">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md disabled:opacity-50" [disabled]="consultationForm.invalid">
+          Ajouter la Consultation
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

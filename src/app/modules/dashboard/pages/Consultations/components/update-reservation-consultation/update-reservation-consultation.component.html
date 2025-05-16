@@ -1,0 +1,93 @@
+<div class="container mx-auto p-6 max-w-3xl bg-white shadow-lg rounded-lg">
+  <h2 class="text-2xl font-semibold mb-6 text-center text-gray-700">Modifier la Réservation</h2>
+
+  <form [formGroup]="reservationForm" (ngSubmit)="updateReservation()">
+    <div class="grid grid-cols-1 gap-4 mb-4">
+
+      <!-- Équipe Médicale -->
+      <label>
+        Équipe Médicale :
+        <select formControlName="equipeMedicaleId" class="w-full border border-gray-300 rounded px-3 py-2" (change)="onEquipeChange()">
+          <option value="">-- Sélectionner une équipe --</option>
+          <option *ngFor="let equipe of equipes" [value]="equipe.id">
+            {{ equipe.nomEquipeMedicale }}
+          </option>
+        </select>
+      </label>
+
+      <!-- Médecin -->
+      <label>
+        Médecin :
+        <select formControlName="medecinId" class="w-full border border-gray-300 rounded px-3 py-2" [disabled]="filteredUsers.length === 0">
+          <option value="">-- Sélectionner un médecin --</option>
+          <option *ngFor="let user of filteredUsers" [value]="user.id">
+            {{ user.nom }} {{ user.prenom }}
+          </option>
+        </select>
+      </label>
+
+      <!-- Date -->
+      <label>
+        Date de Consultation :
+        <input type="date" formControlName="dateConsultation" class="w-full border border-gray-300 rounded px-3 py-2" />
+      </label>
+
+      <!-- Motif -->
+      <label>
+        Motif de Consultation :
+        <input type="text" formControlName="motifConsultation" class="w-full border border-gray-300 rounded px-3 py-2" />
+      </label>
+
+      <!-- Moyen de Communication -->
+      <label>
+        Moyen de Communication :
+        <select formControlName="moyenCommunication" class="w-full border border-gray-300 rounded px-3 py-2">
+          <option value="Téléphone">Téléphone</option>
+          <option value="Visio">Visio</option>
+          <option value="Présentiel">Présentiel</option>
+        </select>
+      </label>
+
+      <!-- Durée (minutes) -->
+      <label>
+        Durée (en minutes) :
+        <input type="number" min="1" formControlName="dureeConsultation" class="w-full border border-gray-300 rounded px-3 py-2" />
+      </label>
+
+      <!-- Spécialité -->
+      <label>
+        Spécialité :
+        <select formControlName="specialite" class="w-full border border-gray-300 rounded px-3 py-2" [disabled]="specialites.length === 0">
+          <option value="">-- Sélectionner une spécialité --</option>
+          <option *ngFor="let spec of specialites" [value]="spec">{{ spec }}</option>
+        </select>
+      </label>
+
+      <!-- Statut de la consultation -->
+      <label>
+        Statut de la Consultation :
+        <select formControlName="statutConsultation" class="w-full border border-gray-300 rounded px-3 py-2">
+          <option value="A_TRAITER">À Traiter</option>
+          <option value="A_VENIR">À Venir</option>
+          <option value="FINIE">Finie</option>
+          <option value="ANNULEE">Annulée</option>
+        </select>
+      </label>
+
+      <!-- Urgence -->
+      <label>
+        Est-ce urgent ?
+        <select formControlName="isUrgent" class="w-full border border-gray-300 rounded px-3 py-2">
+          <option value="non">Non</option>
+          <option value="oui">Oui</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded">
+        Enregistrer les modifications
+      </button>
+    </div>
+  </form>
+</div>

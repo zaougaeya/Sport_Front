@@ -1,0 +1,61 @@
+<div class="container mx-auto p-6"> 
+  <h2 class="text-3xl font-semibold text-center mb-8 text-gray-800">
+    Liste des Réservations
+  </h2>
+
+  <div class="overflow-x-auto bg-white shadow-md rounded-lg p-4">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Médecin</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Équipe Médicale</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Date</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Motif</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Communication</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Durée (min)</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Spécialité</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Statut</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let r of reservations">
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ r.medecin?.nom }} {{ r.medecin?.prenom }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ r.equipeMedicale?.nomEquipeMedicale }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ r.dateConsultation | date: 'mediumDate' }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ r.motifConsultation }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ r.moyenCommunication }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ convertDurationToMinutes(r.dureeConsultation) }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ r.specialite }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800">
+            {{ r.statutConsultation }}
+          </td>
+          <td class="px-4 py-2 text-sm text-gray-800 flex gap-2">
+            <button mat-raised-button color="warn" (click)="openDeleteConfirmDialog(r.id)">
+              <mat-icon>delete</mat-icon>
+              Supprimer
+            </button>
+            <button mat-raised-button color="primary" [routerLink]="['/dashboard/reservations/update', r.id]">
+              <mat-icon>edit</mat-icon>
+              Modifier
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

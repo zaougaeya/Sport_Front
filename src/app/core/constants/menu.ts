@@ -172,14 +172,34 @@ export class Menu {
       items: [
         {
           icon: 'assets/icons/heroicons/outline/cog.svg',
-          label: 'Suivi médical des joueurs ',
-          route: '/local',
+          label: 'Ajouter une équipe médicale ',
+          route: '/dashboard/equipesMedicales',
         },
         {
           icon: 'assets/icons/heroicons/outline/bell.svg',
-          label: 'Gestion des autorisations médicales  ',
-          route: '/events',
+          label: 'Liste équipes médicales',
+          route: '/dashboard/listeEquipesMedicales',
         },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Ajouter consultation',
+          route: '/dashboard/consultations',
+        },
+           {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Réserver une consultation',
+          route: '/dashboard/reserverConsultation',
+        },
+
+         {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Liste des réservations',
+          route: '/dashboard/listReservationsConsultations',
+        },
+
+        
+
+        
      
       ],
     },
