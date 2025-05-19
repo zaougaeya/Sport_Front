@@ -16,6 +16,7 @@ export class CategoriesComponent implements OnInit {
   successMessage: string = '';
   isEditMode: boolean = false;
   currentCategoryId: string | undefined;
+  p: number = 1;
 
   constructor(private categoryService: CategoryService) {}
 

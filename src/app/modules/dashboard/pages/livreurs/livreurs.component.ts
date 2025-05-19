@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class LivreursComponent implements OnInit {
   livreurForm: FormGroup;
   livreurs: Livreur[] = [];
-
+  p: number = 1;
   constructor(
     private fb: FormBuilder,
     private livreurService: LivreurService,
@@ -24,7 +24,11 @@ export class LivreursComponent implements OnInit {
       numeroTelephone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       statutLivreur: ['DISPONIBLE', Validators.required],
+   
+
     });
+   
+
   }
 
   ngOnInit(): void {

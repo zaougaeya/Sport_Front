@@ -50,7 +50,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let cat of categories; let i = index" [id]="'category-' + cat.id">
+          <tr *ngFor="let cat of categories | paginate: { itemsPerPage: 3, currentPage: p }; let i = index" [id]="'category-' + cat.id">
+
             <td>{{ i + 1 }}</td>
             <td>{{ cat.nom }}</td>
             <td>{{ cat.description }}</td>
@@ -62,4 +63,4 @@
           </tr>
         </tbody>
       </table>
-      
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>

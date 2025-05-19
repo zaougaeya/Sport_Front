@@ -91,7 +91,7 @@ export class Menu {
         {
           icon: 'assets/icons/heroicons/outline/a.png',
           label: 'Ventes',
-          route: '/dashboard/stats-ventes',
+          route: '/dashboard/stat-v',
         },
         {
           icon: 'assets/icons/heroicons/outline/v.png',

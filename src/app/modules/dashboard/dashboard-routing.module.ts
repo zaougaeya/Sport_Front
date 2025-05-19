@@ -7,6 +7,7 @@ import { LivreursComponent } from './pages/livreurs/livreurs.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProduitsComponent } from './pages/produits/produits.component';
 import { CommandesComponent } from './pages/commandes/commandes.component';
+import { StatVComponent } from './pages/stat-v/stat-v.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
       {path:'categories',component:CategoriesComponent},
       {path:'produits', component:ProduitsComponent},
       {path:'commandes',component:CommandesComponent},
-      
+      {path:'stat-v',component:StatVComponent},
       { path: '**', redirectTo: 'errors/404' },
     ],
   },

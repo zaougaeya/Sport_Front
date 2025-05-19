@@ -8,6 +8,7 @@ import { routes } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
     FormsModule, 
     ReactiveFormsModule,
     DashboardModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

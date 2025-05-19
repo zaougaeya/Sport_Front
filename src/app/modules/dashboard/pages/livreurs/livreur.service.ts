@@ -8,7 +8,7 @@ import { Livreur } from './livreur.model';
   providedIn: 'root'
 })
 export class LivreurService {
-  private baseUrl = 'http://localhost:8081/api/livreurs';
+  private baseUrl = 'http://localhost:8087/api/livreurs';
 
   constructor(private http: HttpClient) {}
 
@@ -31,4 +31,8 @@ export class LivreurService {
   getLivreurById(id: string): Observable<Livreur> {
     return this.http.get<Livreur>(`${this.baseUrl}/${id}`);
   }
+  getLivreursDisponibles(): Observable<Livreur[]> {
+    return this.http.get<Livreur[]>(`${this.baseUrl}/disponibles`);
+  }
 }
+

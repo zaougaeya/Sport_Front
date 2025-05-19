@@ -19,7 +19,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       BrowserModule,
       AppRoutingModule,
-      HttpClientModule // ✅ Ajouter ici
+      HttpClientModule 
     ),
     provideAnimations(),
   ],

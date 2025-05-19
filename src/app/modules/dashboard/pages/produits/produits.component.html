@@ -68,6 +68,7 @@
             <option value="HOMME">Homme</option>
             <option value="FEMME">Femme</option>
             <option value="ENFANT">Enfant</option>
+            <option value="ENFANT">TOUT</option>
           </select>
         </div>
 
@@ -129,7 +130,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let produit of filteredProduits" class="border-t">
+          <tr *ngFor="let produit of filteredProduits | paginate: { itemsPerPage: 2, currentPage: currentPage }">
             <td class="px-4 py-2">{{ produit.nom }}</td>
             <td class="px-4 py-2">{{ produit.description }}</td>
             <td class="px-4 py-2">{{ produit.prix }} Dt</td>
@@ -159,6 +160,11 @@
           </tr>
         </tbody>
       </table>
+      <pagination-controls
+      (pageChange)="currentPage = $event"
+      class="mt-4 flex justify-center">
+    </pagination-controls>    
+
     </div>
   </div>
 </div>

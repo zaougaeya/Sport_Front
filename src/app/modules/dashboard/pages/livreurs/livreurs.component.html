@@ -60,7 +60,8 @@
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-100">
-          <tr *ngFor="let livreur of livreurs" class="hover:bg-gray-50">
+          <tr *ngFor="let livreur of livreurs | paginate: { itemsPerPage: 3, currentPage: p }" class="hover:bg-gray-50">
+
             <td class="px-6 py-4 text-sm text-gray-800">{{ livreur.nom }}</td>
             <td class="px-6 py-4 text-sm text-gray-800">{{ livreur.prenom }}</td>
             <td class="px-6 py-4 text-sm text-gray-800">{{ livreur.numeroTelephone }}</td>
@@ -76,6 +77,8 @@
           </tr>
         </tbody>
       </table>
+      <pagination-controls (pageChange)="p = $event" class="mt-4 flex justify-center"></pagination-controls>
+
     </div>
   </div>
 </div>

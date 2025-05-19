@@ -1,39 +1,96 @@
-<!--<div class="container mt-4">
-  <h2 class="mb-4">Liste des Commandes</h2>
+<div class="container mx-auto p-6 bg-white shadow-md rounded-lg">
+  <h2 class="text-2xl font-bold mb-4 text-gray-800">Liste des Commandes</h2>
 
-  <table class="table table-bordered table-striped table-hover">
-    <thead class="table-dark">
-      <tr>
-        <th>ID</th>
-        <th>Date</th>
-        <th>Montant Total</th>
-        <th>Nom Client</th>
-        <th>Email</th>
-        <th>Téléphone</th>
-        <th>Statut</th>
-        <th>Adresse de Livraison</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cmd of commandes">
-        <td>{{ cmd.idCommande }}</td>
-        <td>{{ cmd.dateCommande }}</td>
-        <td>{{ cmd.montantTotal | number:'1.2-2' }} €</td>
-        <td>{{ cmd.nomClient }}</td>
-        <td>{{ cmd.emailClient }}</td>
-        <td>{{ cmd.telephoneClient }}</td>
-        <td>
-          <span class="badge bg-primary" *ngIf="cmd.statutCommande === 'EN_PREPARATION'">En préparation</span>
-          <span class="badge bg-warning text-dark" *ngIf="cmd.statutCommande === 'EXPEDIEE'">Expédiée</span>
-          <span class="badge bg-success" *ngIf="cmd.statutCommande === 'LIVREE'">Livrée</span>
-          <span class="badge bg-danger" *ngIf="cmd.statutCommande === 'ANNULEE'">Annulée</span>
-        </td>
-        <td>{{ cmd.adresseLivraison }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div *ngIf="commandes.length === 0" class="alert alert-info mt-3">
-    Aucune commande trouvée.
+  <div class="table-responsive">
+    <table class="w-full border-collapse">
+      <thead class="bg-[#2c3e50] text-white">
+        <tr>
+          <th class="p-3 text-left">Client</th>
+          <th class="p-3 text-left">Email</th>
+          <th class="p-3 text-left">Adresse de Livraison</th>
+          <th class="p-3 text-left">Montant Total</th>
+          <th class="p-3 text-left">Statut de la Commande</th>
+          <th class="p-3 text-left">Date de la Commande</th>
+          <th class="p-3 text-left">Affecter Livreurs</th>
+          <th class="p-3 text-left">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let commande of commandes | paginate: { itemsPerPage: pageSize, currentPage: currentPage }"
+          class="hover:bg-gray-200 transition duration-300"
+          [ngClass]="{
+            'bg-[#ecf0f1]': commandes.indexOf(commande) % 2 === 0,
+            'bg-white': commandes.indexOf(commande) % 2 !== 0
+          }"
+        >
+          <td class="p-3">{{ commande.nomClient }}</td>
+          <td class="p-3">{{ commande.emailClient }}</td>
+          <td class="p-3">{{ commande.adresseLivraison }}</td>
+          <td class="p-3">{{ commande.montantTotal | currency: 'DT' }}</td>
+          <td class="p-3">
+            <span
+              class="px-3 py-1 rounded-full text-sm font-semibold shadow-sm"
+              [ngClass]="{
+                'bg-[#27ae60] text-white': commande.statutCommande === 'LIVREE',
+                'bg-[#f39c12] text-white': commande.statutCommande === 'EN_PREPARATION',
+                'bg-[#2980b9] text-white': commande.statutCommande === 'EXPEDIEE',
+                'bg-[#e74c3c] text-white': commande.statutCommande === 'ANNULEE'
+              }"
+            >
+              {{ commande.statutCommande }}
+            </span>
+          </td>
+          <td class="p-3">{{ commande.dateCommande | date:'dd/MM/yyyy' }}</td>
+          <td class="p-3">
+            <select
+              [(ngModel)]="selectedLivreur[commande.idCommande]"
+              class="w-full p-2 rounded-md border border-gray-300"
+            >
+              <option [ngValue]="null" disabled>-- Sélectionner un livreur --</option>
+              <option *ngFor="let livreur of livreursDisponibles" [ngValue]="livreur.idLivreur">
+                {{ livreur.nom }} {{ livreur.prenom }}
+              </option>
+            </select>
+          </td>
+          <td class="p-3">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md transition duration-300"
+              (click)="affecterLivreur(selectedLivreur[commande.idCommande], commande.idCommande)"
+              [disabled]="!selectedLivreur[commande.idCommande]"
+            >
+              Affecter
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-</div>-->
+
+  <div class="flex justify-center mt-4" *ngIf="commandes.length > pageSize">
+    <button
+      class="mx-1 px-3 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition duration-300"
+      (click)="currentPage = currentPage - 1"
+      [disabled]="currentPage === 1"
+    >
+      Précédent
+    </button>
+
+    <span class="mx-2 text-gray-700 flex items-center">Page {{ currentPage }} / {{ totalPages }}</span>
+
+    <button
+      class="mx-1 px-3 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition duration-300"
+      (click)="currentPage = currentPage + 1"
+      [disabled]="currentPage === totalPages"
+    >
+      Suivant
+    </button>
+  </div>
+</div>
+
+<style>
+.table-responsive {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+</style>

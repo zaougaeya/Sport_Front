@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProduitsComponent } from './pages/produits/produits.component';
 import { CommandesComponent } from './pages/commandes/commandes.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { StatVComponent } from './pages/stat-v/stat-v.component';
 
 
 @NgModule({
@@ -15,13 +17,15 @@ import { CommandesComponent } from './pages/commandes/commandes.component';
     LivreursComponent,
    CategoriesComponent,
    ProduitsComponent,
-   CommandesComponent
+   CommandesComponent,
+   StatVComponent
   ],
   imports: [DashboardRoutingModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    NgxPaginationModule,
   ],
 })
 export class DashboardModule {}

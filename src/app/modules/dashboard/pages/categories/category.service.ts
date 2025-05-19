@@ -13,7 +13,7 @@ export interface Categorie {
   providedIn: 'root' // <-- Assure-toi que `providedIn: 'root'` est bien présent
 })
 export class CategoryService {
-  private baseUrl = 'http://localhost:8081/api/categories'; // Remplace par ton backend
+  private baseUrl = 'http://localhost:8087/api/categories'; // Remplace par ton backend
 
   constructor(private http: HttpClient) {}
 

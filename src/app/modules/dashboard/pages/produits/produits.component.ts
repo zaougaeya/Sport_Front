@@ -15,8 +15,9 @@ export class ProduitsComponent implements OnInit {
   categories: Categorie[] = [];
   categorieMap: { [key: string]: string } = {};
   isEditing: boolean = false;
+  currentPage: number = 1;
 
-  genres: string[] = ['HOMME', 'FEMME', 'ENFANT'];
+  genres: string[] = ['HOMME', 'FEMME', 'ENFANT','TOUT'];
 
   produit: Produit = {
     id: '',
