@@ -1,9 +1,23 @@
-<div style="width: 50%; max-width: 1200px; height: 40px;">
-  <ngx-slider [(value)]="value" [(highValue)]="highValue" [options]="sliderOptions"
-    (userChangeEnd)="onDateRangeChange()">
-  </ngx-slider>
-</div>
-<div class="chart-wrapper">
-  <canvas baseChart [data]="chartData" [type]="chartType" [options]="chartOptions">
-  </canvas>
+<div class="modal-backdrop">
+  <div class="modal-content">
+    <h2>📊 Statistiques du Match</h2>
+
+    <!-- Graphique Bar pour Cartons -->
+    <canvas #barCanvas></canvas>
+    <!-- Graphique Bar pour Fautes -->
+    <canvas #fautesCanvas></canvas>
+
+
+    <div class="score">
+      <p>
+        <!-- <strong>Score :</strong> -->
+        {{ getEquipesName(match?.idEquipe1) }} {{ match?.scoreEquipe1 }} - {{ match?.scoreEquipe2 }} {{
+        getEquipesName(match?.idEquipe2) }}
+      </p>
+
+    </div>
+
+
+    <button class="btn-close" (click)="onClose()">Fermer</button>
+  </div>
 </div>

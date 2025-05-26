@@ -152,8 +152,8 @@ export class Menu {
         },
         {
           icon: 'assets/icons/heroicons/outline/bell.svg',
-          label: 'statiqtique-equipe',
-          route: '/dashboard/statiqtique-equipe',
+          label: 'session',
+          route: '/dashboard/session',
         },
       ],
     },

@@ -1,0 +1,107 @@
+<div class="container">
+  <h2 class="title">🎯 Rechercher une Session de Jeu</h2>
+
+  <!-- Formulaire de recherche -->
+  <div class="search-form">
+    <div class="form-group">
+      <label for="dateDebut">📅 Date début :</label>
+      <input
+        type="datetime-local"
+        id="dateDebut"
+        [(ngModel)]="dateDebut"
+        name="dateDebut"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="dateFin">📅 Date fin :</label>
+      <input
+        type="datetime-local"
+        id="dateFin"
+        [(ngModel)]="dateFin"
+        name="dateFin"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="typeMatch">🏅 Type de match :</label>
+      <select id="typeMatch" [(ngModel)]="typeMatch" name="typeMatch">
+        <option value="">-- Choisir --</option>
+        <option value="Football">Football</option>
+        <option value="Handball">Handball</option>
+      </select>
+    </div>
+
+    <div class="button-group">
+      <button (click)="searchSessions()">🔍 Rechercher</button>
+      <button class="reset" (click)="loadAllSessions()">🔁 Réinitialiser</button>
+    </div>
+  </div>
+
+  <hr />
+
+<h3 *ngIf="resultatsDisponibles === true && sessions.length > 0">📋 Résultats disponibles :</h3>
+
+  <!-- Cartes de sessions -->
+ <div *ngIf="resultatsDisponibles === true">
+    <div *ngFor="let session of sessions" class="session-card">
+<p>
+  🗓️ {{ session.startDate | date:'fullDate' }} de {{ session.startDate | date:'shortTime' }} à {{ session.endDate | date:'shortTime' }}
+</p>
+      <p>🏟️ Terrain : {{ getNomTerrain(session.terrainId) }}</p>
+      <p>🏅 Type de match : {{ session.typeMatch }}</p>
+      <p>🏅 Équipe 1 : {{ getNomEquipe(session.idEquipe1) }}</p>
+      <p>🏅 Équipe 2 : {{ getNomEquipe(session.idEquipe2) }}</p>
+
+      <p>👥 {{ session.joueursInscrits }} joueurs inscrits / {{ session.maxJoueurs }}</p>
+      <p [ngClass]="{
+          'green': session.maxJoueurs - session.joueursInscrits > 10,
+          'orange': session.maxJoueurs - session.joueursInscrits <= 10 && session.maxJoueurs - session.joueursInscrits > 0,
+          'red': session.maxJoueurs - session.joueursInscrits === 0
+        }">
+        {{ session.maxJoueurs - session.joueursInscrits > 0 ? 'Places disponibles' : 'Complet' }}
+      </p>
+      <div class="buttons">
+       <button (click)="rejoindre(session)">✅ Rejoindre</button>
+        <button  (click)="openDetails(session)">👥 Équipe</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Aucun résultat -->
+ <!-- Aucun résultat -->
+<div *ngIf="resultatsDisponibles === false" class="no-session">
+  <p class="no-session-text">❗ Aucune session trouvée.</p>
+  <button (click)="creerSession()" class="btn-creer-session">
+    ➕ Créer une session
+  </button>
+</div>
+
+
+</div>
+
+
+<div *ngIf="openPopUp" id="popup-container" class="popup-overlay">
+  <div class="popup-content">
+    <p>Sélectionnez une équipe à rejoindre :</p>
+
+    <div class="checkbox-group">
+      <label class="checkbox-option">
+        <input type="checkbox" [(ngModel)]="choixEquipe1" (change)="choixEquipe2 = false" />
+        {{ getNomEquipe(sessionSelectionnee?.idEquipe1) || 'Équipe 1' }}
+      </label>
+      <label class="checkbox-option">
+        <input type="checkbox" [(ngModel)]="choixEquipe2" (change)="choixEquipe1 = false" />
+        {{ getNomEquipe(sessionSelectionnee?.idEquipe2) || 'Équipe 2' }}
+      </label>
+    </div>
+
+    <div class="popup-buttons">
+      <button class="btn-cancel" (click)="closePopup()">❌ Annuler</button>
+      <button class="btn-confirm" 
+              [disabled]="!choixEquipe1 && !choixEquipe2" 
+              (click)="confirmerRejoindre(); closePopup()">✅ Confirmer</button>
+    </div>
+  </div>
+</div>
+

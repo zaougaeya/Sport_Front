@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TerrainService {
-  private baseUrl = 'http://localhost:8081/api/terrains';
+  private baseUrl = 'http://localhost:7071/api/terrains';
   constructor(private http: HttpClient) { }
   getAllTerrains(): Observable<Terrain[]> {
     return this.http.get<Terrain[]>(this.baseUrl);

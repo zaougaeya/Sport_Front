@@ -6,7 +6,8 @@ import { catchError, Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class EquipeService {
-  private baseUrl = 'http://localhost:8081/api/equipes';
+  
+  private baseUrl = 'http://localhost:7071/api/equipes';
   constructor(private http: HttpClient) { }
   getAllEquipes(): Observable<Equipe[]> {
     return this.http.get<Equipe[]>(`${this.baseUrl}`);

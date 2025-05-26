@@ -1,12 +1,182 @@
-.chart-wrapper {
-  width: 50%;
-  max-width: 100%;
-  height: 70vh; // 60% de la hauteur visible de l'écran
-  padding: 1rem;
-  box-sizing: border-box;
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 500px;
+  text-align: center;
+  overflow: hidden; /* Empêche le débordement du contenu */
+}
+
+canvas {
+  max-width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Conteneur pour le PieChart */
+.pie-chart-container {
+  width: 100%;
+  height: 300px; /* Réduire la hauteur du conteneur pour le PieChart */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Modifications du PieChart */
+#pieCanvas {
+  max-width: 100%;
+  height: 100px; /* Réduire la hauteur du Pie Chart */
+  width: 90% !important; /* Forcer la largeur à 100% */
+  margin-bottom: 10px; /* Réduire la marge sous le Pie Chart pour plus d'espace */
+}
+
+/* Modifications supplémentaires pour les barres */
+.bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.bar {
+  display: flex;
+  flex: 1;
+  height: 12px;
+  margin: 0 10px;
+  background-color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar-left,
+.bar-right {
+  height: 100%;
+}
+
+.jaune {
+  background-color: #ffc107; /* jaune */
+}
+
+.rouge {
+  background-color: #dc3545; /* rouge */
+}
+
+.bar-label {
+  font-weight: bold;
+  margin-top: -8px;
+  margin-bottom: 12px;
+  color: #f1c40f;
+}
+
+.btn-close {
+  margin-top: 15px;
+  background: #007bff;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.score {
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.card-bar-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px 0;
+}
+
+.card-bar {
+  display: flex;
+  height: 30px;
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.yellow {
+  background-color: #f1c40f;
+  height: 100%;
+}
+
+.red {
+  background-color: #e74c3c;
+  height: 100%;
+}
+
+.bar-comparative {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.bar-wrapper {
+  flex-grow: 1;
+  margin: 0 10px;
+  position: relative;
+}
+
+.bar-title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.bar {
+  height: 25px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  position: relative;
+}
+
+.bar-part {
+  height: 100%;
+  border-radius: 12px;
+}
+
+.team1 {
+  background-color: #f1c40f;
+}
+
+.team2 {
+  background-color: #dc3545;
+}
+
+.score {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+.btn-close {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  background-color: #0056b3;
 }

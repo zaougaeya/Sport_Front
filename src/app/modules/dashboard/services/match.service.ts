@@ -8,7 +8,7 @@ import { Match } from '../models/match.model';
   providedIn: 'root'
 })
 export class MatchService {
-  private apiUrl = 'http://localhost:8081/api/matches'; // adapte selon ton endpoint backend
+  private apiUrl = 'http://localhost:7071/api/matches'; // adapte selon ton endpoint backend
 
   constructor(private http: HttpClient) { }
 

@@ -172,65 +172,87 @@
 
           <!-- Score -->
           <td>
+
             <div *ngIf="editMode[match.id]; else scoreView">
               <div class="d-flex justify-content-between mb-2">
                 <!-- Score équipe 1 et équipe 2 -->
                 <input type="number" [(ngModel)]="editedMatch[match.id].scoreEquipe1" name="score1-{{ match.id }}"
-                       class="form-control mb-1" placeholder="Score équipe 1" min="0" />
+                  class="form-control mb-1" placeholder="Score équipe 1" min="0" />
                 <span class="mx-2">-</span>
                 <input type="number" [(ngModel)]="editedMatch[match.id].scoreEquipe2" name="score2-{{ match.id }}"
-                       class="form-control mb-1" placeholder="Score équipe 2" min="0" />
+                  class="form-control mb-1" placeholder="Score équipe 2" min="0" />
               </div>
-          
+
               <!-- Cartons jaunes et rouges pour chaque équipe -->
-              <div class="mt-2">
+              <div class="cartons-container">
                 <!-- Cartons Équipe 1 -->
-                <div class="mb-2">
+                <div>
                   <label style="font-size: 0.8rem; font-weight: 500;">🟨 Équipe 1</label>
-                  <input type="number" [(ngModel)]="editedMatch[match.id].cartonsJaunesEquipe1"
-                         min="0" max="11" class="form-control form-control-sm mb-1"
-                         [ngClass]="{'is-invalid': editedMatch[match.id].cartonsJaunesEquipe1 > 11}" />
+                  <input type="number" [(ngModel)]="editedMatch[match.id].cartonsJaunesEquipe1" min="0" max="11"
+                    class="form-control form-control-sm mb-1"
+                    [ngClass]="{'is-invalid': editedMatch[match.id].cartonsJaunesEquipe1 > 11}" />
                   <div *ngIf="editedMatch[match.id].cartonsJaunesEquipe1 > 11" class="text-danger small">
                     Le nombre de cartons jaunes ne peut pas dépasser 11.
                   </div>
-          
+
                   <label style="font-size: 0.8rem; font-weight: 500;">🟥 Équipe 1</label>
-                  <input type="number" [(ngModel)]="editedMatch[match.id].cartonsRougesEquipe1"
-                         min="0" max="4" class="form-control form-control-sm mb-1"
-                         [ngClass]="{'is-invalid': editedMatch[match.id].cartonsRougesEquipe1 > 4}" />
+                  <input type="number" [(ngModel)]="editedMatch[match.id].cartonsRougesEquipe1" min="0" max="4"
+                    class="form-control form-control-sm mb-1"
+                    [ngClass]="{'is-invalid': editedMatch[match.id].cartonsRougesEquipe1 > 4}" />
                   <div *ngIf="editedMatch[match.id].cartonsRougesEquipe1 > 4" class="text-danger small">
                     Le nombre de cartons rouges ne peut pas dépasser 4.
                   </div>
                 </div>
-          
+
                 <!-- Cartons Équipe 2 -->
                 <div>
                   <label style="font-size: 0.8rem; font-weight: 500;">🟨 Équipe 2</label>
-                  <input type="number" [(ngModel)]="editedMatch[match.id].cartonsJaunesEquipe2"
-                         min="0" max="11" class="form-control form-control-sm mb-1"
-                         [ngClass]="{'is-invalid': editedMatch[match.id].cartonsJaunesEquipe2 > 11}" />
+                  <input type="number" [(ngModel)]="editedMatch[match.id].cartonsJaunesEquipe2" min="0" max="11"
+                    class="form-control form-control-sm mb-1"
+                    [ngClass]="{'is-invalid': editedMatch[match.id].cartonsJaunesEquipe2 > 11}" />
                   <div *ngIf="editedMatch[match.id].cartonsJaunesEquipe2 > 11" class="text-danger small">
                     Le nombre de cartons jaunes ne peut pas dépasser 11.
                   </div>
-          
+
                   <label style="font-size: 0.8rem; font-weight: 500;">🟥 Équipe 2</label>
-                  <input type="number" [(ngModel)]="editedMatch[match.id].cartonsRougesEquipe2"
-                         min="0" max="4" class="form-control form-control-sm mb-1"
-                         [ngClass]="{'is-invalid': editedMatch[match.id].cartonsRougesEquipe2 > 4}" />
+                  <input type="number" [(ngModel)]="editedMatch[match.id].cartonsRougesEquipe2" min="0" max="4"
+                    class="form-control form-control-sm mb-1"
+                    [ngClass]="{'is-invalid': editedMatch[match.id].cartonsRougesEquipe2 > 4}" />
                   <div *ngIf="editedMatch[match.id].cartonsRougesEquipe2 > 4" class="text-danger small">
                     Le nombre de cartons rouges ne peut pas dépasser 4.
+                  </div>
+
+
+                  <label style="font-size: 0.8rem; font-weight: 500;">🚫 Equipe1</label>
+                  <input type="number" [(ngModel)]="editedMatch[match.id].fautesEquipe1" min="0" max="30"
+                    class="form-control form-control-sm mb-1"
+                    [ngClass]="{'is-invalid': editedMatch[match.id].fautesEquipe1 > 30}" />
+                  <div *ngIf="editedMatch[match.id].fautesEquipe1 > 30" class="text-danger small">
+                    Le nombre de fautes ne peut pas dépasser 30.
+                  </div>
+
+                  <label style="font-size: 0.8rem; font-weight: 500;">🚫 Equipe2</label>
+
+                  <input type="number" [(ngModel)]="editedMatch[match.id].fautesEquipe2" min="0" max="30"
+                    class="form-control form-control-sm mb-1"
+                    [ngClass]="{'is-invalid': editedMatch[match.id].fautesEquipe2 > 30}" />
+
+                  <div *ngIf="editedMatch[match.id].fautesEquipe2 > 30 " class="text-danger small">
+                    Le nombre de fautes ne peut pas dépasser 30.
                   </div>
                 </div>
               </div>
             </div>
-          
+
+
+
             <!-- Affichage des scores en lecture seule -->
             <ng-template #scoreView>
               {{ match.scoreEquipe1 === null ? '0' : match.scoreEquipe1 }}
               - {{ match.scoreEquipe2 === null ? '0' : match.scoreEquipe2 }}
             </ng-template>
           </td>
-          
+
 
           <!-- Match joué -->
           <!--<td>
@@ -240,50 +262,48 @@
           </td>-->
 
           <!-- Actions -->
-          <td class="actions-col w-[240px] text-right pr-4">
+          <td class="actions-col w-[130px] text-right pr-4">
             <!-- Bouton Modifier (icône) -->
-            <button class="btn btn-icon mr-1"
-            *ngIf="!editMode[match.id]"
-            (click)="editMatch(match)"
-            [disabled]="match.matchJoue && match.scoreEquipe1 !== null && match.scoreEquipe2 !== null"
-            title="Modifier">
-      
-      <i class="fas fa-edit text-xl transition duration-200"
-         [ngClass]="{
+            <button class="btn btn-icon mr-1" *ngIf="!editMode[match.id]" (click)="editMatch(match)"
+              [disabled]="match.matchJoue && match.scoreEquipe1 !== null && match.scoreEquipe2 !== null"
+              title="Modifier">
+
+              <i class="fas fa-edit text-xl transition duration-200" [ngClass]="{
            'text-yellow-600 hover:text-yellow-800': !(match.matchJoue && match.scoreEquipe1 !== null && match.scoreEquipe2 !== null),
            'text-gray-400 cursor-not-allowed': match.matchJoue && match.scoreEquipe1 !== null && match.scoreEquipe2 !== null
          }">
-      </i>
-    
-    </button>    
-          
-              <!-- Bouton Enregistrer -->
-              <button *ngIf="editMode[match.id]"
+              </i>
+
+            </button>
+
+            <!-- Bouton Enregistrer -->
+            <button *ngIf="editMode[match.id]"
               class="btn p-1 text-xs flex justify-center items-center border rounded-full border-green-600"
-              (click)="saveMatch(match.id)"
-              title="Enregistrer">
+              (click)="saveMatch(match.id)" title="Enregistrer">
               <i class="fas fa-check text-green-600 text-sm p-1 border rounded-full border-green-600"></i>
             </button>
             <!-- Bouton Annuler -->
             <button *ngIf="editMode[match.id]"
-               class="btn p-1 text-xs flex justify-center items-center border rounded-full border-yellow-500"
-                (click)="cancelEdit(match.id)"
-                 title="Annuler">
+              class="btn p-1 text-xs flex justify-center items-center border rounded-full border-yellow-500"
+              (click)="cancelEdit(match.id)" title="Annuler">
               <i class="fas fa-arrow-left text-yellow-500 text-sm p-1 border rounded-full border-yellow-500"></i>
-              </button>
+            </button>
             <!-- Bouton Supprimer (icône poubelle rouge) -->
-               <button *ngIf="!editMode[match.id]" class="btn btn-icon ml-1"
-                (click)="deleteMatch(match.id)"
-                title="Supprimer">
-            <i class="fas fa-trash text-red-600 text-xl hover:text-red-800 transition duration-200"></i> <!-- Icône "poubelle" -->
-             </button>
+            <button *ngIf="!editMode[match.id]" class="btn btn-icon ml-1" (click)="deleteMatch(match.id)"
+              title="Supprimer">
+              <i class="fas fa-trash text-red-600 text-xl hover:text-red-800 transition duration-200"></i>
+              <!-- Icône "poubelle" -->
+            </button>
 
           </td>
-           <td>
-      <button ></button>
-      //(click)="openStatsDialog(match)" class="btn btn-outline-info">📊
-    </td>
-        </tr>
+          <td>
+            <button (click)="openStats(match)" class="btn btn-icon ml-1">📊 Voir Statistiques</button>
+          </td>
+
+          <!-- Popup de stats (hors du tableau) -->
+          <app-stat-equipes *ngIf="selectedMatch" [match]="selectedMatch" (close)="closeStats()">
+          </app-stat-equipes>
+
       </tbody>
 
     </table>

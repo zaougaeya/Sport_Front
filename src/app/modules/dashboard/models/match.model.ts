@@ -13,6 +13,8 @@ export interface Match {
   cartonsRougesEquipe1?: number;
   cartonsJaunesEquipe2?: number;
   cartonsRougesEquipe2?: number;
+  fautesEquipe1?: number;
+  fautesEquipe2?: number;
   equipe1?: any;
   equipe2?: any;
   terrain?: any;

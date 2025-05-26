@@ -1,8 +1,7 @@
 export interface Joueur {
-    id: string;
-    nom: string;
-    position: string;
-    numero: number;
-    // ajoute d'autres champs selon ton backend
-  }
-  
+  id: string;
+  nom: string;
+  email: string;
+  position: string;
+  numero: number;
+}

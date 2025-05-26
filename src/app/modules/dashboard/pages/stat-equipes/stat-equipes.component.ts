@@ -1,133 +1,226 @@
-import { Component, OnInit } from '@angular/core';
-import { MatchService } from '../../services/match.service';
+import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Chart, ChartConfiguration } from 'chart.js';
+import { Match } from '../../models/match.model';
+import { Equipe } from '../../models/equipe.model';
 import { EquipeService } from '../../services/equipe.service';
-import { ChartData, ChartType } from 'chart.js';
-import { NgChartsModule } from 'ng2-charts';
-import { ChartOptions } from 'chart.js';
-import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 
 @Component({
   selector: 'app-stat-equipes',
   standalone: true,
-  imports: [
-    NgChartsModule,
-    NgxSliderModule
-  ],
   templateUrl: './stat-equipes.component.html',
   styleUrls: ['./stat-equipes.component.scss']
 })
-export class StatEquipesComponent implements OnInit {
+export class StatEquipesComponent implements AfterViewInit {
+  @Input() match: any;
+  @Output() close = new EventEmitter<void>();
+  @Input() equipes: Equipe[] = [];
 
-  public chartData: ChartData<'bar', number[], string> = {
-    labels: [],
-    datasets: []
-  };
-
-public chartType: 'bar' = 'bar';
-
+  @ViewChild('barCanvas') barCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('pieCanvas') pieCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('fautesCanvas') fautesCanvas!: ElementRef<HTMLCanvasElement>;
   constructor(
-    private matchService: MatchService,
     private equipeService: EquipeService
-  ) {}
+    //private dialog: MatDialog // 💡 ajoute ça
+  ) { }
+  barChart!: Chart;  // Graphique pour la barre simple des cartons
+  pieChart!: Chart;  // Graphique pour le pie chart des scores
+  fautesChart!: Chart;
 
-  ngOnInit(): void {
-    this.loadStats();
+  ngAfterViewInit() {
+    if (this.match) {
+      this.loadEquipes(); // On commence par charger les équipes
+    }
   }
+  loadEquipes(): void {
+    this.equipeService.getAllEquipes().subscribe({
+      next: (data) => {
+        this.equipes = data;
+        console.log('Équipes chargées :', this.equipes);
 
-  loadStats(): void {
-    this.matchService.getStatistiquesParEquipe().subscribe(statsObject => {
-      const statsMap: Map<string, Map<string, number>> = new Map(
-        Object.entries(statsObject).map(([key, value]) => [key, new Map(Object.entries(value))])
-      );
-
-      this.equipeService.getAllEquipes().subscribe(equipes => {
-        const labels: string[] = [];
-        const scores: number[] = [];
-        const jaunes: number[] = [];
-        const rouges: number[] = [];
-
-        equipes.forEach(equipe => {
-          const stat = statsMap.get(equipe.id!);
-          if (stat) {
-            labels.push(equipe.nameEquipe);
-            scores.push(stat.get("score") ?? 0);
-            jaunes.push(stat.get("cartonsJaunes") ?? 0);
-            rouges.push(stat.get("cartonsRouges") ?? 0);
-          }
-        });
-
-        this.chartData = {
-          labels,
-          datasets: [
-            { label: 'Scores', data: scores, backgroundColor: 'rgba(75, 192, 192, 0.6)' },
-            { label: 'Cartons Jaunes', data: jaunes, backgroundColor: 'rgba(255, 205, 86, 0.6)' },
-            { label: 'Cartons Rouges', data: rouges, backgroundColor: 'rgba(255, 99, 132, 0.6)' }
-          ]
-        };
-      });
+        // ✅ Une fois que les équipes sont bien là, on peut créer les graphiques
+        this.createBarChart();
+        this.createFautesChart();
+      },
+      error: (err) => console.error('Erreur chargement équipes', err)
     });
   }
 
- public chartOptions: ChartOptions<'bar'> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      ticks: {
-        color: 'black',
-        font: {
-          size: 15,
+  getEquipesName(id: string): string {
+    const equipe = this.equipes.find(t => String(t.id) === String(id));
+    return equipe ? equipe.nameEquipe : 'Equipe Inexistante';
+  }
+
+
+  // Fonction pour créer un graphique à barres simples pour les cartons
+  createBarChart() {
+    const labelEquipe1 = this.getEquipesName(this.match.idEquipe1);
+    const labelEquipe2 = this.getEquipesName(this.match.idEquipe2);
+
+    console.log("label", this.match.idEquipe1);
+
+
+    const data = {
+      labels: ['Cartons jaunes', 'Cartons rouges'],
+      datasets: [
+        {
+          label: labelEquipe1,
+          data: [
+            this.match.cartonsJaunesEquipe1 ?? 0,
+            this.match.cartonsRougesEquipe1 ?? 0
+          ],
+          backgroundColor: 'black',
+          borderRadius: 5,
+          barThickness: 15,
         },
-        autoSkip: false,
-        maxRotation: 45,
-        minRotation: 45
-      }
-    },
-    y: {
-      ticks: {
-        color: 'black',
-        font: {
-          size: 15
+        {
+          label: labelEquipe2,
+          data: [
+            this.match.cartonsJaunesEquipe2 ?? 0,
+            this.match.cartonsRougesEquipe2 ?? 0
+          ],
+          backgroundColor: 'red',
+          borderRadius: 5,
+          barThickness: 15,
+        }
+      ]
+    };
+
+    const config: ChartConfiguration<'bar'> = {
+      type: 'bar',
+      data,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'Comparaison des Cartons'
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            max: 10 // Limiter la longueur de la barre si nécessaire
+          },
+          y: {
+            ticks: {
+              stepSize: 1, // Définit l'incrément à 1, donc seulement des entiers seront affichés
+              precision: 0 // Cela garantit que les valeurs sur l'axe Y sont des entiers
+            }
+          }
         }
       }
-    }
-  },
-  plugins: {
-    legend: {
-      labels: {
-        color: 'black',
-        font: {
-          size: 15 // ✅ Taille de la légende ici
+    };
+
+    // Création du graphique Bar Chart
+    this.barChart = new Chart(this.barCanvas.nativeElement, config);
+  }
+
+
+  // createPieChart() {
+  //   const data = {
+  //     labels: [this.match?.equipe1?.nameEquipe || 'Équipe 1', this.match?.equipe2?.nameEquipe || 'Équipe 2'],
+  //     datasets: [{
+  //       label: 'Scores',
+  //       data: [
+  //         this.match?.scoreEquipe1 ?? 0,
+  //         this.match?.scoreEquipe2 ?? 0
+  //       ],
+  //       backgroundColor: ['#007bff', '#dc3545']
+  //     }]
+  //   };
+
+  //   const config: ChartConfiguration<'pie'> = {
+  //     type: 'pie',
+  //     data,
+  //     options: {
+  //       responsive: true,
+  //       plugins: {
+  //         legend: { position: 'top' },
+  //         title: {
+  //           display: true,
+  //           text: 'Répartition des Scores'
+  //         }
+  //       }
+  //     }
+  //   };
+
+  //   // Création du graphique Pie Chart
+  //   this.pieChart = new Chart(this.pieCanvas.nativeElement, config);
+  // }
+
+  createFautesChart() {
+    const labelEquipe1 = this.getEquipesName(this.match?.idEquipe1);
+    const labelEquipe2 = this.getEquipesName(this.match?.idEquipe2);
+
+    const data = {
+      labels: ['Fautes'],
+      datasets: [
+        {
+          label: labelEquipe1,
+          data: [this.match?.fautesEquipe1 ?? 0],
+          backgroundColor: 'black',
+          borderRadius: 5,
+          barThickness: 15,
+        },
+        {
+          label: labelEquipe2,
+          data: [this.match?.fautesEquipe2 ?? 0],
+          backgroundColor: 'red',
+          borderRadius: 5,
+          barThickness: 15,
+        }
+      ]
+    };
+
+    const config: ChartConfiguration<'bar'> = {
+      type: 'bar',
+      data,
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'Comparaison des Fautes'
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true
+          },
+          y: {
+            ticks: {
+              precision: 0
+            }
+          }
         }
       }
+    };
+
+    this.fautesChart = new Chart(this.fautesCanvas.nativeElement, config);
+  }
+
+
+
+  onClose() {
+    // Vérification avant de détruire les graphiques
+    if (this.barChart) {
+      this.barChart.destroy();
     }
+    if (this.pieChart) {
+      this.pieChart.destroy();
+    }
+    if (this.fautesChart) {
+      this.fautesChart.destroy();
+    }
+    this.close.emit();
   }
-};
-
-
-minValue = Date.parse('2025-01-01'); // timestamp minimal
-maxValue = Date.now(); // timestamp maximal
-
-value = this.minValue;
-highValue = this.maxValue;
-
-sliderOptions: Options = {
-  floor: this.minValue,
-  ceil: this.maxValue,
-  translate: (val: number): string => {
-    return new Date(val).toLocaleDateString();
-  }
-};
-
-onDateRangeChange(): void {
-  const startDate = new Date(this.value).toISOString().split('T')[0];
-  const endDate = new Date(this.highValue).toISOString().split('T')[0];
-  this.loadStatsWithDates(startDate, endDate);
-}
-
-loadStatsWithDates(startDate : string, endDate : string){
-  this.matchService.getStatistiquesParEquipeEtDates(startDate, endDate)
-}
 
 
 }

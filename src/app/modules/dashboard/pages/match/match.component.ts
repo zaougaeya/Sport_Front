@@ -9,13 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { EquipeService } from '../../services/equipe.service';
 import { TerrainService } from '../../services/terrain.service';
 import { AlertComponent } from "../alert/alert.component";
+import { StatEquipesComponent } from "../stat-equipes/stat-equipes.component";
 //import { PopupAlertComponent } from '../../../popup-alert/popup-alert.component'; // adapte le chemin
 
 @Component({
   selector: 'app-match',
   standalone: true,
   imports: [CommonModule,
-    FormsModule, HttpClientModule, AlertComponent],
+    FormsModule, HttpClientModule, AlertComponent, StatEquipesComponent],
   templateUrl: './match.component.html',
   styleUrl: './match.component.scss'
 })
@@ -148,6 +149,17 @@ export class MatchComponent implements OnInit {
     this.editedMatch[match.id].endDate = formattedEndDate;
 
   }
+
+//partie statistique
+selectedMatch: any = null;
+
+openStats(match: any) {
+  this.selectedMatch = match;
+}
+
+closeStats() {
+  this.selectedMatch = null;
+}
 
 
 

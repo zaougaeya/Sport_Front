@@ -1,0 +1,251 @@
+.session-card {
+  border: 1px solid #ccc;
+  padding: 1em;
+  margin: 1em 0;
+  border-radius: 10px;
+  background: #f9f9f9;
+}
+
+.green {
+  color: green;
+}
+.orange {
+  color: orange;
+}
+.red {
+  color: red;
+}
+
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.search-form label {
+  display: flex;
+  flex-direction: column;
+}
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.25);
+  text-align: center;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* aligne à gauche */
+  margin: 0.5rem 0;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* espace entre la checkbox et le texte */
+  font-size: 1rem;
+  width: 100%;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.btn-cancel, .btn-confirm {
+  padding: 0.2rem 0.6rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-cancel {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #c0392b;
+}
+
+.btn-confirm {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.btn-confirm:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.btn-confirm:hover:enabled {
+  background-color: #27ae60;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+  font-size: 20px;
+  font-weight: bold;
+ border-bottom: 2px solid #3498db;
+  padding-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centre horizontalement */
+  justify-content: center; /* centre verticalement */
+  min-height: 70vh; /* hauteur visible de la page */
+  padding: 20px;
+}
+
+
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  background-color: #f4f6f8;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 30%;
+  min-width: 200px;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #34495e;
+}
+
+.form-group input,
+.form-group select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin-top: auto;
+}
+
+button {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button.reset {
+  background-color: #95a5a6;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+button.reset:hover {
+  background-color: #7f8c8d;
+}
+
+.buttons {
+  display: flex;
+  gap: 15px; /* espace entre les boutons */
+  margin-top: 15px;
+}
+
+.buttons button {
+  background-color: #2ecc71; /* vert doux */
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.buttons button:hover {
+  background-color: #27ae60; /* vert un peu plus foncé au survol */
+}
+
+/* Style spécifique au bouton équipe si tu veux le différencier légèrement */
+.buttons button:nth-child(2) {
+  background-color:  #95a5a6;; /* bleu doux */
+}
+
+.buttons button:nth-child(2):hover {
+  background-color: #95a5a6; /* bleu plus foncé au survol */
+}
+.no-session {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.no-session-text {
+  font-size: 18px;
+  color: #dc2626;
+  font-weight: 500;
+  justify-content: center; /* centre verticalement */
+
+}
+
+.btn-creer-session {
+  background-color: #70803f;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.btn-creer-session:hover {
+  background-color: #70803f;
+}

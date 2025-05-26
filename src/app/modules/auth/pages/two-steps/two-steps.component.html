@@ -1,23 +1,9 @@
-<form class="my-10 space-y-6">
-  <div class="text-center">
-    <h2 class="mb-1 text-3xl font-semibold text-foreground">Two Step Verification</h2>
-    <p class="text-sm text-muted-foreground">Enter the verification code we sent to</p>
-    <div class="mt-2 text-lg text-muted-foreground">******2289</div>
+<div class="page-container">
+  <div class="card">
+    <h2>Vous souhaitez participer ?</h2>
+    <p>Discutez avec nous sur WhatsApp</p>
+    <a [href]="whatsappLink" target="_blank" class="whatsapp-btn">
+      💬 Continuer vers la discussion WhatsApp
+    </a>
   </div>
-
-  <div class="grid grid-cols-6">
-    @for (item of inputs; track $index) {
-    <input
-      placeholder=""
-      maxlength="1"
-      class="h-10 w-10 rounded-md border border-border bg-background text-center text-muted-foreground outline-none focus:border-primary sm:h-14 sm:w-14" />
-    }
-  </div>
-
-  <!-- Submit Button -->
-  <div>
-    <app-button routerLink="/dashboard" full impact="bold" tone="primary" shape="rounded" size="medium">
-      Submit
-    </app-button>
-  </div>
-</form>
+</div>
