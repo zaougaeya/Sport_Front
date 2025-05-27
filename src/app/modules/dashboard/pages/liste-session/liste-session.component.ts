@@ -20,25 +20,37 @@ export class SessionListComponent implements OnInit {
   dateFin: string = '';
   typeMatch: string = '';
 
-  resultatsDisponibles: boolean | null = null; // null = pas encore recherché
+  resultatsDisponibles: boolean | null = null;
   selectedEquipeId: string = '';
   choixEquipe1 = false;
   choixEquipe2 = false;
-  sessionSelectionnee: any;
-  openPopUp = false
+  sessionSelectionnee: SessionDeJeu | null = null;
+  openPopUp = false;
 
+  afficherFormulaireCreation = false;
+
+  nouvelleSession = {
+    startDate: '',
+    endDate: '',
+    terrainId: '',
+    typeMatch: '',
+    maxJoueurs: 22,
+    idEquipe1: '',
+    idEquipe2: '',
+    joueursInscrits: 0,
+    statut: 'ouverte'
+  };
 
   constructor(
     private sessionService: ListeSessionService,
     private terrainService: TerrainService,
     private equipeService: EquipeService
-  ) { }
-
+  ) {}
 
   ngOnInit(): void {
-    // this.loadAllSessions();
     this.loadTerrains();
     this.loadEquipes();
+    this.loadAllSessions();
   }
 
   loadAllSessions(): void {
@@ -49,9 +61,9 @@ export class SessionListComponent implements OnInit {
         endDate: new Date(session.endDate),
       }));
       this.resultatsDisponibles = null;
-      console.log('Sessions converties avec Date:', this.sessions);
     });
   }
+
   loadTerrains(): void {
     this.terrainService.getAllTerrains().subscribe((data: Terrain[]) => {
       this.terrains = data;
@@ -65,80 +77,44 @@ export class SessionListComponent implements OnInit {
   }
 
   getNomTerrain(id: string): string {
-    if (!id) return 'Inconnu';
-    const terrain = this.terrains.find(t => t.id.toString().trim() === id.toString().trim());
+    const terrain = this.terrains.find(t => t.id.toString().trim() === id?.toString().trim());
     return terrain ? terrain.name : 'Inconnu';
   }
 
   getNomEquipe(id?: string): string {
-    if (!id) return 'Inconnue';
-    const equipe = this.equipes.find(e => e.id?.toString().trim() === id.toString().trim());
+    const equipe = this.equipes.find(e => e.id?.toString().trim() === id?.toString().trim());
     return equipe ? equipe.nameEquipe : 'Inconnue';
   }
 
-
   searchSessions(): void {
     if (this.dateDebut && this.dateFin && this.typeMatch) {
-      // Vider la liste avant de lancer la recherche
       this.sessions = [];
       this.resultatsDisponibles = null;
-      const dateDebutISO = new Date(this.dateDebut).toString(); // format ISO avec heure
-      const dateFinISO = new Date(this.dateFin).toString();
+      const dateDebutISO = this.toDatetimeLocalString(new Date(this.dateDebut));
+      const dateFinISO = this.toDatetimeLocalString(new Date(this.dateFin));
 
-      console.log('dateDebut ISO:', new Date(this.dateDebut).toISOString());
-      console.log('dateFin ISO:', new Date(this.dateFin).toISOString());
-      console.log("this.dateDebut:", this.dateDebut); // Devrait afficher 2025-05-29T14:30
-      console.log("this.dateFin:", this.dateFin);     // Devrait afficher 2025-05-29T16:30
-
-      console.log("Avant appel API:");
-      console.log("Date début envoyée:", this.dateDebut);
-      console.log("Date fin envoyée:", this.dateFin);
-
-      const dateTESTDebut = this.toDatetimeLocalString(new Date(this.dateDebut))
-      const dateTESTFin = this.toDatetimeLocalString(new Date(this.dateFin))
-
-
-      console.log(`Recherche sessions entre ${dateTESTDebut} et ${dateTESTFin} pour typeMatch=${this.typeMatch}`);
-
-      this.sessionService
-        .searchSessions(dateTESTDebut, dateTESTFin, this.typeMatch)
-        .subscribe({
-          next: (data) => {
-            console.log("Résultat reçu du backend:", data);
-            this.sessions = data.map(session => ({
-              ...session,
-              startDate: new Date(session.startDate),
-              endDate: new Date(session.endDate),
-            }));
-            this.resultatsDisponibles = this.sessions.length > 0;
-          },
-          error: (err) => {
-            console.error("Erreur lors de la recherche:", err);
-            alert("Une erreur est survenue lors de la recherche. Détail : " + (err?.message || err));
-
-          }
-        });
+      this.sessionService.searchSessions(dateDebutISO, dateFinISO, this.typeMatch).subscribe({
+        next: (data) => {
+          this.sessions = data.map(session => ({
+            ...session,
+            startDate: new Date(session.startDate),
+            endDate: new Date(session.endDate),
+          }));
+          this.resultatsDisponibles = this.sessions.length > 0;
+        },
+        error: (err) => {
+          alert("Erreur lors de la recherche : " + (err?.message || err));
+        }
+      });
     } else {
       alert('Veuillez remplir tous les champs.');
     }
-
   }
 
   toDatetimeLocalString(date: Date): string {
     const pad = (n: number) => n.toString().padStart(2, '0');
-
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-    
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
-
-
-
 
   resetSearch(): void {
     this.dateDebut = '';
@@ -149,11 +125,52 @@ export class SessionListComponent implements OnInit {
   }
 
   creerSession(): void {
-    // Redirection à adapter selon le routeur (Angular Router)
-    console.log('Redirection vers page création session');
-    // ex: this.router.navigate(['/creer-session']);
+    this.afficherFormulaireCreation = true;
   }
 
+  annulerCreation(): void {
+    this.afficherFormulaireCreation = false;
+    this.nouvelleSession = {
+      startDate: '',
+      endDate: '',
+      terrainId: '',
+      typeMatch: '',
+      maxJoueurs: 22,
+      idEquipe1: '',
+      idEquipe2: '',
+      joueursInscrits: 0,
+      statut: 'ouverte'
+    };
+  }
+
+  confirmerCreation(): void {
+    const nouvelleSessionObj: SessionDeJeu = {
+      nom: '', // à compléter si nécessaire
+      equipe1Joueurs: [],
+      id: '',
+      startDate: new Date(this.nouvelleSession.startDate),
+      endDate: new Date(this.nouvelleSession.endDate),
+      typeMatch: this.nouvelleSession.typeMatch,
+      terrainId: this.nouvelleSession.terrainId,
+      idEquipe1: this.nouvelleSession.idEquipe1,
+      idEquipe2: this.nouvelleSession.idEquipe2,
+      maxJoueurs: this.nouvelleSession.maxJoueurs,
+      joueursInscrits: this.nouvelleSession.joueursInscrits || 0,
+      joueurs: [],
+      statut: this.nouvelleSession.statut || 'ouverte'
+    };
+
+    this.sessionService.createSession(nouvelleSessionObj).subscribe({
+      next: () => {
+        alert('Session créée avec succès !');
+        this.afficherFormulaireCreation = false;
+        this.loadAllSessions();
+      },
+      error: (err) => {
+        alert("Erreur lors de la création de la session : " + (err?.message || err));
+      }
+    });
+  }
 
   openDetails(session: SessionDeJeu): void {
     this.sessionSelectionnee = session;
@@ -162,40 +179,30 @@ export class SessionListComponent implements OnInit {
     this.choixEquipe2 = false;
   }
 
-  rejoindre(session: SessionDeJeu) {
-    console.log("SESSION ", session);
-
+  rejoindre(session: SessionDeJeu): void {
+    // À implémenter selon logique métier
   }
-
 
   closePopup(): void {
     this.openPopUp = false;
   }
 
   confirmerRejoindre(): void {
-    //rEJOINDRE EQUIPE 
-    var idSelected = null
-    if (this.choixEquipe1) {
-      idSelected = this.sessionSelectionnee?.idEquipe1
-    } else if (this.choixEquipe2) {
-      idSelected = this.sessionSelectionnee?.idEquipe2
-    } 
+    let idSelected: string | null = null;
+    if (this.choixEquipe1) idSelected = this.sessionSelectionnee?.idEquipe1 ?? null;
+    if (this.choixEquipe2) idSelected = this.sessionSelectionnee?.idEquipe2 ?? null;
 
-
-    this.sessionService
-      .rejoindreSession(this.sessionSelectionnee?.id, idSelected)
-      .subscribe({
-        next: (data) => {
-          console.error("succes:");
-
+    if (this.sessionSelectionnee?.id && idSelected) {
+      this.sessionService.rejoindreSession(this.sessionSelectionnee.id, idSelected).subscribe({
+        next: () => {
+          alert("Inscription réussie !");
         },
         error: (err) => {
-          console.error("Erreur lors de la recherche:", err);
-          alert("Une erreur est survenue lors de la recherche. Détail : " + (err?.message || err));
-
+          alert("Erreur lors de l'inscription : " + (err?.message || err));
         }
       });
+    } else {
+      alert("Veuillez sélectionner une équipe.");
+    }
   }
-
-
 }

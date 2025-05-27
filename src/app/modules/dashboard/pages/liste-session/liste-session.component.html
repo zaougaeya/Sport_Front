@@ -75,7 +75,97 @@
   <button (click)="creerSession()" class="btn-creer-session">
     ➕ Créer une session
   </button>
+  <div *ngIf="afficherFormulaireCreation" class="creation-form">
+  <h3 class="form-title">➕ Créer une Nouvelle Session</h3>
+
+  <!-- Bloc Dates -->
+  <div class="form-section">
+    <div class="form-group">
+      <label for="startDate">📅 Date de début :</label>
+      <input type="datetime-local" id="startDate" [(ngModel)]="nouvelleSession.startDate" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="endDate">📅 Date de fin :</label>
+      <input type="datetime-local" id="endDate" [(ngModel)]="nouvelleSession.endDate" class="form-control">
+    </div>
+  </div>
+
+  <!-- Bloc Terrain & Type de match -->
+  <div class="form-section">
+    <div class="form-group">
+      <label for="terrain">🏟️ Terrain :</label>
+      <select id="terrain" [(ngModel)]="nouvelleSession.terrainId" class="form-control">
+        <option *ngFor="let terrain of terrains" [value]="terrain.id">{{ terrain.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="typeMatch">🏅 Type de match :</label>
+      <select id="typeMatch" [(ngModel)]="nouvelleSession.typeMatch" class="form-control">
+        <option value="Football">Football</option>
+        <option value="Handball">Handball</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Bloc Equipes -->
+  <div class="form-section">
+    <div class="form-group">
+      <label for="equipe1">👥 Équipe 1 :</label>
+      <select id="equipe1" [(ngModel)]="nouvelleSession.idEquipe1" class="form-control">
+        <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="equipe2">👥 Équipe 2 :</label>
+      <select id="equipe2" [(ngModel)]="nouvelleSession.idEquipe2" class="form-control">
+        <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Bloc Joueurs -->
+  <div class="form-section">
+    <div class="form-group">
+      <label>👤 Nombre maximal de joueurs :</label>
+      <input
+        type="number"
+        [(ngModel)]="nouvelleSession.maxJoueurs"
+        [readonly]="true"
+        class="form-control"
+      >
+    </div>
+
+    <div class="form-group">
+      <label>👥 Joueurs inscrits :</label>
+      <input
+        type="number"
+        [(ngModel)]="nouvelleSession.joueursInscrits"
+        [readonly]="true"
+        class="form-control"
+      >
+    </div>
+
+    <div class="form-group">
+      <label>📌 Statut :</label>
+      <input
+        type="text"
+        [(ngModel)]="nouvelleSession.statut"
+        readonly
+        class="form-control"
+      >
+    </div>
+  </div>
+
+  <!-- Boutons -->
+  <div class="button-group">
+    <button class="btn-confirm" (click)="confirmerCreation()">✅ Confirmer</button>
+    <button class="btn-cancel" (click)="annulerCreation()">❌ Annuler</button>
+  </div>
 </div>
+
 
 
 </div>

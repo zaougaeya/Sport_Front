@@ -51,5 +51,5 @@ export class ListeSessionService {
   rejoindreSession(id: string, equipeId: string): Observable<void> {
   return this.http.post<void>(`${this.apiUrl}/rejoindreSession/${equipeId}/${id}`, {});
   }
-
+ 
 }
