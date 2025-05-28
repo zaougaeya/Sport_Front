@@ -16,6 +16,8 @@ export class ProduitsComponent implements OnInit {
   categorieMap: { [key: string]: string } = {};
   isEditing: boolean = false;
   currentPage: number = 1;
+  ruptureProduits: string[] = [];
+showAlert: boolean = false;
 
   genres: string[] = ['HOMME', 'FEMME', 'ENFANT','TOUT'];
 
@@ -79,11 +81,28 @@ export class ProduitsComponent implements OnInit {
     });
   }
 
-  chargerProduits(): void {
-    this.produitService.getAllProduits().subscribe((data) => {
-      this.produits = data;
-    });
+ 
+chargerProduits(): void {
+  this.produitService.getAllProduits().subscribe((data) => {
+    this.produits = data;
+    this.checkRuptureStock();
+  });
+}
+
+checkRuptureStock(): void {
+  this.ruptureProduits = this.produits
+    .filter(p => p.quantiteEnStock === 0)
+    .map(p => p.nom);
+
+  if (this.ruptureProduits.length > 0) {
+    this.showAlert = true;
+
+    // Disparaît après 5 secondes (5000 ms)
+    setTimeout(() => {
+      this.showAlert = false;
+    }, 5000);
   }
+}
 
   chargerCategories(): void {
     this.categorieService.getAllCategories().subscribe((cats) => {
@@ -171,5 +190,10 @@ export class ProduitsComponent implements OnInit {
       dateAjout: new Date()
     };
   }
+ 
+
+
+
+
 
 }

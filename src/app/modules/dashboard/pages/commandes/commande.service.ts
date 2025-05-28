@@ -44,11 +44,11 @@ export class CommandeService {
     headers: { 'Content-Type': 'application/json' }
   });
 }  
-  /**
-   * ✅ Supprimer une commande (si non affectée)
-   * @param commandeId L'identifiant de la commande
-   */
-  supprimerCommande(commandeId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/supprimer/${commandeId}`);
-  }
+supprimerCommande(idCommande: string): Observable<any> {
+  return this.http.delete(`${this.baseUrl}/supprimer-commande/${idCommande}`);
+}
+
+
+
+
 }

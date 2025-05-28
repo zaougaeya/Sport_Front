@@ -72,30 +72,65 @@ export class CommandesComponent implements OnInit {
     });
   }
 
-  // 🔄 Supprimer une commande
-  supprimerCommande(idCommande: string) {
-    Swal.fire({
-      title: 'Êtes-vous sûr ?',
-      text: 'Cette action est irréversible !',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Oui, supprimer',
-      cancelButtonText: 'Annuler'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.commandeService.supprimerCommande(idCommande).subscribe({
-          next: () => {
-            Swal.fire('Supprimé !', 'La commande a été supprimée.', 'success');
-            this.getAllCommandes();
-          },
-          error: (err) => {
-            console.error("Erreur lors de la suppression de la commande :", err);
-            Swal.fire('Erreur', 'Une erreur est survenue lors de la suppression', 'error');
-          }
-        });
-      }
-    });
+supprimerCommande(idCommande: string) {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: 'Cette commande sera supprimée définitivement !',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.commandeService.supprimerCommande(idCommande).subscribe({
+        next: () => {
+          Swal.fire('Supprimée !', 'La commande a été supprimée.', 'success');
+          this.getAllCommandes();
+        },
+        error: (err) => {
+          console.error("Erreur lors de la suppression de la commande :", err);
+          Swal.fire('Erreur', err.error?.error || 'Une erreur est survenue', 'error');
+        }
+      });
+    }
+  });
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+searchText: string = '';
+
+get commandesFiltrees() {
+  if (!this.searchText || this.searchText.trim() === '') {
+    return this.commandes;
   }
+
+  const search = this.searchText.toLowerCase().trim();
+
+  return this.commandes.filter(commande =>
+    commande.nomClient.toLowerCase().includes(search) ||
+    commande.montantTotal.toString().includes(search) ||
+    new Date(commande.dateCommande).toLocaleDateString('fr-FR').includes(search)
+  );
+}
+
+
+
+
+
+
+
 }

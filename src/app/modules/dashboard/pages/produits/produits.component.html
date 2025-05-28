@@ -1,4 +1,15 @@
 <div class="container mx-auto p-6">
+  <!-- Alerte rupture stock -->
+<div *ngIf="showAlert" 
+     class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 max-w-7xl mx-auto transition-opacity duration-500"
+     role="alert">
+  <strong class="font-bold">Attention !</strong>
+  <span class="block">Les produits suivants sont en rupture de stock :</span>
+  <ul class="list-disc list-inside mt-2">
+    <li *ngFor="let nom of ruptureProduits">{{ nom }} est en rupture</li>
+  </ul>
+</div>
+
   <h2 class="text-3xl font-semibold text-center mb-8 text-gray-800">Gestion des Produits</h2>
 
   <div class="bg-white shadow-md rounded-lg p-6 max-w-5xl mx-auto">
@@ -99,6 +110,7 @@
     </form>
   </div>
   <div class="search-bar-container">
+     <label for="search" class="text-gray-500 font-medium">Rechercher : </label>
     <input 
       type="text" 
       placeholder="Rechercher un produit par nom..." 
@@ -106,65 +118,68 @@
       name="search" 
     />
   </div>
-  
+ 
 
-  <!-- Liste des produits -->
-  <div class="mt-12 max-w-6xl mx-auto">
+<!-- Liste des produits -->
+<div class="mt-12 max-w-7xl mx-auto">
+  <h3 class="text-2xl font-semibold text-gray-800 mb-6">Liste des Produits</h3>
 
-    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Liste des Produits</h3>
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-white rounded-lg shadow-md">
-        <thead class="bg-gray-100">
-          <tr>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Nom</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Description</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Prix</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Quantité</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Statut</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Image</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Promo</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Genre</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Catégorie</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Date</th>
-            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let produit of filteredProduits | paginate: { itemsPerPage: 2, currentPage: currentPage }">
-            <td class="px-4 py-2">{{ produit.nom }}</td>
-            <td class="px-4 py-2">{{ produit.description }}</td>
-            <td class="px-4 py-2">{{ produit.prix }} Dt</td>
-            <td class="px-4 py-2">{{ produit.quantiteEnStock }}</td>
-            <td class="px-4 py-2">
-              <span class="px-2 py-1 rounded-full text-white text-xs font-medium" [ngClass]="produit.quantiteEnStock > 0 ? 'bg-green-500' : 'bg-red-500'">
-                {{ produit.quantiteEnStock > 0 ? 'EN STOCK' : 'RUPTURE DE STOCK' }}
-              </span>
-            </td>
-            <td class="px-4 py-2"><img [src]="produit.imageUrl" alt="Image" class="h-12 w-12 rounded-full object-cover" /></td>
-            <td class="px-4 py-2">{{ produit.pourcentagePromotion }}%</td>
-            <td class="px-4 py-2">{{ produit.genreProduit }}</td>
-            <td class="px-4 py-2">{{ getNomCategorie(produit.categorie.id) }}</td>
-            <td class="px-4 py-2">{{ produit.dateAjout | date: 'dd/MM/yyyy' }}</td>
-            <td class="px-4 py-2 space-x-2">
-              <button
-          (click)="modifier(produit)"
-          class="bg-white-100 hover:bg-white-100 text-black px-2 py-1 rounded text-sm">
-          ✏️
-        </button>
-              <button 
-              class="bg-white-200 hover:bg-white-100 text-black px-2 py-1 rounded text-sm"
-              (click)="supprimer(produit.id)">
-              🗑️
-            </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <pagination-controls
-      (pageChange)="currentPage = $event"
-      class="mt-4 flex justify-center">
-    </pagination-controls>    
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white rounded-lg shadow-md">
+      <thead class="bg-gray-100 text-gray-700 text-sm whitespace-nowrap">
+        <tr>
+          <th class="px-6 py-4 text-left font-semibold">Nom</th>
+          <th class="px-6 py-4 text-left font-semibold">Description</th>
+          <th class="px-6 py-4 text-left font-semibold">Prix</th>
+          <th class="px-6 py-4 text-left font-semibold">Quantité</th>
+          <th class="px-6 py-4 text-left font-semibold">Statut</th>
+          <th class="px-6 py-4 text-center font-semibold">Image</th>
+          <th class="px-6 py-4 text-left font-semibold">Promo</th>
+          <th class="px-6 py-4 text-left font-semibold">Genre</th>
+          <th class="px-6 py-4 text-left font-semibold">Catégorie</th>
+          <th class="px-6 py-4 text-left font-semibold">Date</th>
+          <th class="px-6 py-4 text-center font-semibold">Actions</th>
+        </tr>
+      </thead>
 
-    </div>
+      <tbody>
+        <tr *ngFor="let produit of filteredProduits | paginate: { itemsPerPage: 2, currentPage: currentPage }"
+            class="hover:bg-gray-50 border-t">
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.nom }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.description }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.prix }} Dt</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.quantiteEnStock }} pièces</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="px-3 py-1 rounded-full text-white text-sm font-medium whitespace-nowrap"
+                  [ngClass]="produit.quantiteEnStock > 0 ? 'bg-green-500' : 'bg-red-500'">
+              {{ produit.quantiteEnStock > 0 ? 'EN STOCK' : 'RUPTURE' }}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-center">
+            <img [src]="produit.imageUrl" alt="Image"
+                 class="h-16 w-16 rounded-lg object-cover mx-auto" />
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.pourcentagePromotion }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.genreProduit }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ getNomCategorie(produit.categorie.id) }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.dateAjout | date: 'dd/MM/yyyy' }}</td>
+          <td class="px-6 py-4 text-center flex whitespace-nowrap justify-center">
+  <button (click)="modifier(produit)"
+          class="bg-white hover:bg-gray-100 text-black px-3 py-1 rounded text-sm transition border border-gray-300">
+    ✏️
+  </button>
+  <button (click)="supprimer(produit.id)"
+          class="bg-white hover:bg-gray-100 text-black px-3 py-1 rounded text-sm transition border border-gray-300">
+    🗑️
+  </button>
+</td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <pagination-controls (pageChange)="currentPage = $event"
+                         class="mt-6 flex justify-center"></pagination-controls>
   </div>
 </div>

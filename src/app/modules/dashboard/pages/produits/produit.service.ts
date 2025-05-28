@@ -16,6 +16,7 @@ export interface Produit {
   statutProduit: 'EN_STOCK' | 'RUPTURE_DE_STOCK';
   categorie: Categorie;
   dateAjout: Date;
+   nbCommandes?: number;
 }
 
 @Injectable({
