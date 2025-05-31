@@ -1,0 +1,103 @@
+<mat-card class="imc-card">
+  <mat-card-title>Calcul de l'IMC</mat-card-title>
+  <mat-card-content>
+    <form (ngSubmit)="calculerIMC()" class="form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Patient ID</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput [(ngModel)]="imcData.patientId" name="patientId" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Taille (cm)</mat-label>
+        <mat-icon matPrefix>straighten</mat-icon>
+        <input matInput type="number" [(ngModel)]="imcData.tailleCm" name="tailleCm" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Poids (kg)</mat-label>
+        <mat-icon matPrefix>monitor_weight</mat-icon>
+        <input matInput type="number" [(ngModel)]="imcData.poidsKg" name="poidsKg" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" class="full-width">
+        Calculer
+      </button>
+    </form>
+
+    <!-- PDF download button: appears only if IMC result exists -->
+    <div *ngIf="result">
+      <button mat-raised-button color="primary" class="full-width" (click)="downloadPdf()">
+        Télécharger le rapport PDF
+      </button>
+    </div>
+
+    <!-- IMC Result Display -->
+    <div *ngIf="result" class="result">
+      <p><strong>IMC :</strong> {{ result.imc | number: '1.1-2' }}</p>
+
+     <div id="gaugeContainer">
+  <circle-progress
+    *ngIf="result?.imc !== undefined"
+    [percent]="normalizeIMC(result.imc!)"
+    [radius]="70"
+    [outerStrokeWidth]="12"
+    [innerStrokeWidth]="8"
+    [outerStrokeColor]="getGaugeColor(result.imcCategory)"
+    [innerStrokeColor]="'#e7e8ea'"
+    [animation]="true"
+    [animationDuration]="300"
+    [title]="'IMC'"
+    [units]="'/40'"
+    [showUnits]="true"
+    [showSubtitle]="false"
+    [showTitle]="true"
+    [showInnerStroke]="true"
+    [startFromZero]="false"
+    [responsive]="true"
+  ></circle-progress>
+</div>
+
+      <p><strong>Catégorie :</strong> {{ result.imcCategory }}</p>
+      <p class="recommendation">
+        <strong>Conseil :</strong> {{ getRecommendation(result.imcCategory) }}
+      </p>
+    </div>
+
+    <!-- Redirection Button -->
+    <div *ngIf="shouldRecommendConsultation(result?.imcCategory)" class="redirect-button">
+      <button mat-raised-button color="warn" (click)="goToReservation()">Réserver une consultation</button>
+    </div>
+
+    <!-- BMI Classification Table -->
+    <div class="bmi-legend" *ngIf="result">
+      <h3>Classification IMC</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Catégorie</th>
+            <th>IMC (kg/m²)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr [class.highlight]="isCategory('Insuffisance pondérale')">
+            <td>Insuffisance pondérale</td>
+            <td>moins de 18.5</td>
+          </tr>
+          <tr [class.highlight]="isCategory('Poids normal')">
+            <td>Poids normal</td>
+            <td>18.5 - 24.9</td>
+          </tr>
+          <tr [class.highlight]="isCategory('Surpoids')">
+            <td>Surpoids</td>
+            <td>25 - 29.9</td>
+          </tr>
+          <tr [class.highlight]="isCategory('Obésité')">
+            <td>Obésité</td>
+            <td>30 et plus</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

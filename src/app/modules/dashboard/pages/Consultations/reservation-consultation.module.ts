@@ -18,7 +18,8 @@ import { ReservationConsultationComponent } from './components/reservation-consu
 import { BrowserModule } from '@angular/platform-browser';
 import { ListReservationsConsultationsComponent } from './components/list-reservations-consultations/list-reservations-consultations.component';
 import { UpdateReservationConsultationComponent } from './components/update-reservation-consultation/update-reservation-consultation.component';
-
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 @NgModule({
   declarations: [
     ReservationConsultationComponent,
@@ -41,7 +42,11 @@ import { UpdateReservationConsultationComponent } from './components/update-rese
     MatInputModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ]
 })
 export class ReservationConsultationModule { }

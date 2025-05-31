@@ -12,8 +12,20 @@ export class ConsultationsService {
 
   constructor(private http: HttpClient) {}
 
-  createConsultation(consultation: Consultation): Observable<Consultation> {
-    return this.http.post<Consultation>(`${this.apiUrl}/ajouterConsultation`, consultation);
+createConsultation(consultation: Consultation): Observable<Consultation> {
+  return this.http.post<Consultation>(this.apiUrl, consultation);
+}
+getConsultations(): Observable<Consultation[]> {
+    return this.http.get<Consultation[]>(this.apiUrl);
   }
+
+  deleteConsultation(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getConsultationById(id: string): Observable<Consultation> {
+    return this.http.get<Consultation>(`${this.apiUrl}/${id}`);
+  }
+
 
 }

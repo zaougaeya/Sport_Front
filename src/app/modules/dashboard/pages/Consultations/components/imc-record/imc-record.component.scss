@@ -1,0 +1,101 @@
+.imc-card {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.result {
+  margin-top: 24px;
+  font-size: 16px;
+}
+
+/* Icon animation */
+::ng-deep .mat-form-field .mat-icon {
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: #666; /* default color */
+}
+
+::ng-deep .mat-form-field:hover .mat-icon {
+  transform: scale(1.2);
+  color: #1976d2; /* Angular Material primary color */
+}
+
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-icon {
+  animation: pulse 0.6s ease-in-out;
+  color: #1976d2;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.recommendation {
+  margin-top: 12px;
+  font-style: italic;
+  color: #555;
+}
+
+.bmi-legend {
+  margin-top: 30px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 14px;
+  color: #444;
+
+  h3 {
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  th {
+    background-color: #1976d2;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f7f7f7;
+  }
+}
+
+.highlight {
+  background-color: #c8e6c9 !important; /* Light green highlight */
+  font-weight: bold;
+}
+
+.redirect-button {
+  margin-top: 20px;
+  text-align: center;
+
+  button {
+    font-weight: bold;
+  }
+}
+

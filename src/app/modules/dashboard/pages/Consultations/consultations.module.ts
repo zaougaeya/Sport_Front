@@ -15,15 +15,30 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ListConsultationsComponent } from './components/list-consultations/list-consultations.component';
+import { CalendrierMedecinComponent } from './components/calendrier-medecin/calendrier-medecin.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { ImcRecordComponent } from './components/imc-record/imc-record.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { NgChartsModule } from 'ng2-charts';
+import { ImcAnalyticsComponent } from './components/imc-analytics/imc-analytics.component';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
-    AjoutConsultationComponent
+    AjoutConsultationComponent,
+    ListConsultationsComponent,
+    CalendrierMedecinComponent,
+    ImcRecordComponent,
+    ImcAnalyticsComponent
     
     
   ],
   imports: [
     CommonModule,
+    
     ConsultationsRoutingModule,
     ReactiveFormsModule,
     FormsModule,
@@ -31,11 +46,32 @@ import { BrowserModule } from '@angular/platform-browser';
     MatSnackBarModule,
     MatDialogModule,
     MatIconModule,
+   NgChartsModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
-    MatPaginatorModule
-  ]
+    MatPaginatorModule,
+    FullCalendarModule,
+    
+    FormsModule,
+    MatInputModule,
+   MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+MatProgressBarModule,
+MatSelectModule,
+MatFormFieldModule,
+NgCircleProgressModule.forRoot({
+      // Default config (you can override in the component)
+      radius: 60,
+      outerStrokeWidth: 10,
+      innerStrokeWidth: 5,
+      outerStrokeColor: "#78C000",
+      innerStrokeColor: "#C7E596",
+      animationDuration: 300
+    }),  ],
+    
 })
+
 export class ConsultationsModule { }

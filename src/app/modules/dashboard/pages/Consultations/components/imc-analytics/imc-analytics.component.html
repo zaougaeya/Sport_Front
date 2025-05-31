@@ -1,0 +1,67 @@
+<mat-card>
+  <mat-card-title>Analyse IMC des patients</mat-card-title>
+  <mat-card-content>
+
+    <!-- Dropdown to filter by patient -->
+    <mat-form-field appearance="fill" style="width: 300px; margin-bottom: 20px;">
+      <mat-label>Filtrer par patient</mat-label>
+      <mat-select [(value)]="selectedPatientId" (selectionChange)="onPatientChange()">
+        <mat-option value="all">Tous les patients</mat-option>
+        <mat-option *ngFor="let id of patientIds" [value]="id">
+          {{ id }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Bar Chart Section -->
+    <h3>Taille, Poids et IMC par patient</h3>
+    <div style="display: block; margin-bottom: 40px;">
+      <canvas baseChart
+        [data]="barChartData"
+        [type]="'bar'"
+        [options]="{
+          responsive: true,
+          scales: { y: { beginAtZero: true } }
+        }">
+      </canvas>
+    </div>
+
+    <!-- Pie Chart Section -->
+    <h3>Répartition des patients par catégorie IMC</h3>
+    <div style="display: block; margin-bottom: 40px;">
+      <canvas baseChart
+        [data]="pieChartData"
+        [type]="'pie'"
+        [options]="{
+          responsive: true,
+          plugins: { legend: { position: 'bottom' } }
+        }">
+      </canvas>
+    </div>
+
+    <!-- Line Chart Section -->
+    <h3>Évolution de l'IMC au fil du temps</h3>
+    <div style="display: block;">
+      <canvas baseChart
+        [data]="lineChartData"
+        [type]="'line'"
+        [options]="{
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'IMC' }
+            },
+            x: {
+              title: { display: true, text: 'Date de mesure' }
+            }
+          },
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }">
+      </canvas>
+    </div>
+
+  </mat-card-content>
+</mat-card>

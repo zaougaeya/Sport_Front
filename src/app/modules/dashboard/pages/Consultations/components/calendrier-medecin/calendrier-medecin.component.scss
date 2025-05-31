@@ -1,0 +1,124 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #34495e;
+}
+
+.form-select {
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+}
+
+/* FullCalendar theming */
+::ng-deep .fc {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+::ng-deep .fc-toolbar-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+::ng-deep .fc-button {
+  background-color: #007bff;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+::ng-deep .fc-event {
+  border-radius: 8px;
+  font-size: 0.85rem;
+  padding: 0.2rem 0.4rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+::ng-deep .fc-daygrid-event-dot {
+  display: none;
+}
+
+::ng-deep .fc-event-title {
+  white-space: pre-line; // Allow \n line breaks in event titles
+}
+
+/* Loader */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+
+  .spinner-border {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+::ng-deep .fc-timegrid-event {
+  white-space: pre-line !important; // Allow line breaks from `\n`
+  overflow: visible !important;
+  font-size: 0.8rem;
+  padding: 0.2rem;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+::ng-deep .fc-timegrid-event .fc-event-title {
+  white-space: pre-line !important; // Ensure \n works
+  display: block;
+  padding: 0 2px;
+}
+
+::ng-deep .fc-timegrid-event .fc-event-time {
+  display: none; // Optional: hide default time if you already display it in title
+}
+
+.weekend-highlight {
+  background-color: #fbeff2 !important;
+  color: #b30059 !important;
+  border: 1px solid #f8d7da;
+}
+
+/* Weekend styling in timeGridWeek */
+::ng-deep .fc-timegrid-col[data-day="0"],
+::ng-deep .fc-timegrid-col[data-day="6"] {
+  background-color: #fbeff2 !important;
+}
+
+::ng-deep .fc-timegrid-col[data-day="0"] .fc-timegrid-day-top,
+::ng-deep .fc-timegrid-col[data-day="6"] .fc-timegrid-day-top {
+  background-color: #fad4e2 !important;
+  color: #b30059 !important;
+  font-weight: bold;
+}

@@ -1,1 +1,47 @@
-<p>list-consultations works!</p>
+<div class="container mx-auto p-6">
+  <h2 class="text-3xl font-semibold text-center mb-8 text-gray-800">
+    Liste des Consultations
+  </h2>
+
+  <div class="overflow-x-auto bg-white shadow-md rounded-lg p-4">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Médecin</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Équipe Médicale</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Date</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Statut</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Motif</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Communication</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Urgent</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Durée</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Rapport</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let c of consultations">
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.medecinName }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.equipeName }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.dateConsultation | date: 'mediumDate' }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.reservation?.statutConsultation }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.reservation?.motifConsultation }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.reservation?.moyenCommunication }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.reservation?.isUrgent }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.dureeEnMinutes }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800">{{ c.rapport || 'Aucun rapport' }}</td>
+          <td class="px-4 py-2 text-sm text-gray-800 flex gap-2">
+            <button mat-raised-button color="warn" (click)="deleteConsultation(c.id)">
+              <mat-icon>delete</mat-icon>
+              Supprimer
+            </button>
+            <button mat-raised-button color="primary" [routerLink]="['/dashboard/consultations/update', c.id]">
+              <mat-icon>edit</mat-icon>
+              Modifier
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

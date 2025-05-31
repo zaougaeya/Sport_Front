@@ -18,7 +18,8 @@
       <!-- Médecin -->
       <div *ngIf="filteredMembres.length > 0">
         <label class="block text-sm font-medium text-gray-700">Médecin</label>
-        <select formControlName="medecinId"
+      <select formControlName="medecinId"
+        (change)="onMedecinChange($event)"
                 class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2 bg-white text-gray-800">
           <option value="" disabled selected>Choisir un médecin</option>
           <option *ngFor="let membre of filteredMembres" [value]="membre.id">
@@ -27,13 +28,32 @@
         </select>
       </div>
 
-      <!-- Date de consultation -->
       <div>
-        <label class="block text-sm font-medium text-gray-700">Date de consultation</label>
-        <input type="date" formControlName="dateConsultation"
-               class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2"
-               [min]="minDate" />
-      </div>
+  <label class="block text-sm font-medium text-gray-700 mb-1">Date de consultation</label>
+  <mat-form-field appearance="outline" class="w-full">
+    <input matInput [matDatepicker]="picker"
+           formControlName="dateConsultation"
+           [min]="minDate"
+           [matDatepickerFilter]="dateFilter"
+           placeholder="Choisir une date" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+ 
+</div>
+
+
+<div>
+  <label class="block text-sm font-medium text-gray-700">Heure de consultation</label>
+  <select formControlName="heureConsultation"
+          class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2 bg-white text-gray-800">
+    <option value="" disabled selected>Choisir une heure</option>
+    <option *ngFor="let hour of availableTimeSlots" [value]="hour">{{ hour }}</option>
+  </select>
+  <div *ngIf="availableTimeSlots.length === 0" class="text-red-600 text-sm mt-1">
+    Aucune plage horaire disponible pour cette date et médecin.
+  </div>
+</div>
 
       <!-- Motif -->
       <div>

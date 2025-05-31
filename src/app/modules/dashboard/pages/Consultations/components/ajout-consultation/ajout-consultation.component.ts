@@ -70,7 +70,7 @@ export class AjoutConsultationComponent implements OnInit{
       feedbacks: []
     };
 
-    this.consultationService.createConsultation(payload).subscribe({
+    /*this.consultationService.createConsultation(payload).subscribe({
       next: response => {
         console.log('Consultation ajoutée avec succès:', response);
         this.snackBar.open('Consultation ajoutée avec succès', 'Fermer', {
@@ -88,7 +88,7 @@ export class AjoutConsultationComponent implements OnInit{
           panelClass: ['error-snackbar']
         });
       }
-    });
+    });*/
   }
 }
 

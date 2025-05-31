@@ -197,6 +197,31 @@ export class Menu {
           route: '/dashboard/listReservationsConsultations',
         },
 
+           {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Liste des consultations',
+          route: '/dashboard/listConsultations',
+        },
+
+     {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Calendrier des médecins',
+          route: '/dashboard/calendrier-medecin',
+        },
+         {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Calculer votre IMC',
+          route: '/dashboard/imcRecord',
+        },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'Analyse des IMCs des patients',
+          route: '/dashboard/imcAnalytics',
+        },
+        
+
+
+        
         
 
         

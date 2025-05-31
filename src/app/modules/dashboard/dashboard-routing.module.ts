@@ -10,6 +10,10 @@ import { AjoutConsultationComponent } from './pages/Consultations/components/ajo
 import { ReservationConsultationComponent } from './pages/Consultations/components/reservation-consultation/reservation-consultation.component';
 import { ListReservationsConsultationsComponent } from './pages/Consultations/components/list-reservations-consultations/list-reservations-consultations.component';
 import { UpdateReservationConsultationComponent } from './pages/Consultations/components/update-reservation-consultation/update-reservation-consultation.component';
+import { ListConsultationsComponent } from './pages/Consultations/components/list-consultations/list-consultations.component';
+import { CalendrierMedecinComponent } from './pages/Consultations/components/calendrier-medecin/calendrier-medecin.component';
+import { ImcRecordComponent } from './pages/Consultations/components/imc-record/imc-record.component';
+import { ImcAnalyticsComponent } from './pages/Consultations/components/imc-analytics/imc-analytics.component';
 
 const routes: Routes = [
   {
@@ -26,6 +30,13 @@ const routes: Routes = [
       { path: 'reserverConsultation', component: ReservationConsultationComponent },
       { path: 'listReservationsConsultations', component: ListReservationsConsultationsComponent },
       { path: 'reservations/update/:id', component: UpdateReservationConsultationComponent },
+      { path: 'listConsultations', component: ListConsultationsComponent },
+      { path: 'calendrier-medecin', component: CalendrierMedecinComponent },
+      { path: 'imcRecord', component: ImcRecordComponent },
+      { path: 'imcAnalytics', component: ImcAnalyticsComponent },
+
+
+      
 
  
       { path: '**', redirectTo: 'errors/404' },

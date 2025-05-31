@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ReservationConsultationService } from '../../services/reservation-consultation.service';
 import { UserService } from '../../../users/services/user.service';
 import { EquipesMedicalesService } from '../../../EquipesMedicales/services/equipes-medicales.service';
+import { ConsultationsService } from '../../services/consultations.service';
 
 @Component({
   selector: 'app-update-reservation-consultation',
@@ -19,17 +20,18 @@ export class UpdateReservationConsultationComponent implements OnInit {
   filteredUsers: any[] = [];
   specialites: string[] = [];
 
- constructor(
+  constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private reservationService: ReservationConsultationService,
     private userService: UserService,
-    private equipeService: EquipesMedicalesService
+    private equipeService: EquipesMedicalesService,
+    private consultationService: ConsultationsService
   ) {}
+
   ngOnInit(): void {
     this.reservationId = this.route.snapshot.paramMap.get('id') || '';
-
     this.reservationForm = this.fb.group({
       medecinId: ['', Validators.required],
       equipeMedicaleId: ['', Validators.required],
@@ -46,16 +48,10 @@ export class UpdateReservationConsultationComponent implements OnInit {
   }
 
   private isoDurationToMinutes(duration: string): number {
-    const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
-    const match = duration.match(regex);
-
+    const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
     if (!match) return 0;
-
-    const hours = parseInt(match[1] || '0', 10);
-    const minutes = parseInt(match[2] || '0', 10);
-    const seconds = parseInt(match[3] || '0', 10);
-
-    return hours * 60 + minutes + Math.ceil(seconds / 60);
+    const [_, h, m, s] = match;
+    return (parseInt(h || '0') * 60) + parseInt(m || '0') + (parseInt(s || '0') > 0 ? 1 : 0);
   }
 
   private minutesToIsoDuration(minutes: number): string {
@@ -67,16 +63,12 @@ export class UpdateReservationConsultationComponent implements OnInit {
   loadInitialData(): void {
     this.userService.getAllUsers().subscribe(users => {
       this.users = users;
-
       this.equipeService.getAllEquipes().subscribe(equipes => {
         this.equipes = equipes;
 
         this.reservationService.getReservationById(this.reservationId).subscribe(res => {
           const date = new Date(res.dateConsultation);
-          const yyyy = date.getFullYear();
-          const mm = ('0' + (date.getMonth() + 1)).slice(-2);
-          const dd = ('0' + date.getDate()).slice(-2);
-          const formattedDate = `${yyyy}-${mm}-${dd}`;
+          const formattedDate = `${date.getFullYear()}-${('0' + (date.getMonth() + 1)).slice(-2)}-${('0' + date.getDate()).slice(-2)}`;
           const dureeMinutes = this.isoDurationToMinutes(res.dureeConsultation);
 
           this.reservationForm.patchValue({
@@ -101,20 +93,18 @@ export class UpdateReservationConsultationComponent implements OnInit {
   updateSpecialites(equipeId: string): void {
     const equipe = this.equipes.find(e => e.id === equipeId);
     const selectedSpecialite = this.reservationForm.get('specialite')?.value;
+    const specSet = new Set<string>();
 
     if (equipe) {
-      const specialiteSet = new Set<string>(
-        equipe.membres.map((m: any) => m.specialite as string)
-      );
-
-      if (selectedSpecialite && !specialiteSet.has(selectedSpecialite)) {
-        specialiteSet.add(selectedSpecialite);
+      equipe.membres.forEach((m: any) => specSet.add(m.specialite));
+      if (selectedSpecialite && !specSet.has(selectedSpecialite)) {
+        specSet.add(selectedSpecialite);
       }
-
-      this.specialites = Array.from(specialiteSet);
-    } else {
-      this.specialites = selectedSpecialite ? [selectedSpecialite] : [];
+    } else if (selectedSpecialite) {
+      specSet.add(selectedSpecialite);
     }
+
+    this.specialites = Array.from(specSet);
   }
 
   updateFilteredUsers(equipeId: string): void {
@@ -131,7 +121,6 @@ export class UpdateReservationConsultationComponent implements OnInit {
     const selectedEquipeId = this.reservationForm.get('equipeMedicaleId')?.value;
     this.updateSpecialites(selectedEquipeId);
     this.updateFilteredUsers(selectedEquipeId);
-
     this.reservationForm.patchValue({
       medecinId: '',
       specialite: ''
@@ -139,22 +128,44 @@ export class UpdateReservationConsultationComponent implements OnInit {
   }
 
   updateReservation(): void {
-    if (this.reservationForm.valid) {
-      const formValue = this.reservationForm.value;
+   if (this.reservationForm.invalid) { return; }
 
-      const dureeIso = this.minutesToIsoDuration(formValue.dureeConsultation);
-      const dateIso = new Date(formValue.dateConsultation).toISOString();
+  const formValue     = this.reservationForm.value;
+  const dateIso       = new Date(formValue.dateConsultation).toISOString();
+  const dureeIso      = this.minutesToIsoDuration(formValue.dureeConsultation);
 
-      const updatedReservation = {
-        ...formValue,
-        dureeConsultation: dureeIso,
-        dateConsultation: dateIso
-      };
+  const payload = {
+    ...formValue,
+    dateConsultation : dateIso,
+    dureeConsultation: dureeIso
+  };
 
-      this.reservationService.updateReservation(this.reservationId, updatedReservation).subscribe({
-        next: () => this.router.navigate(['/reservations']),
-        error: err => console.error('Error updating reservation:', err)
-      });
-    }
-  }
-}
+  this.reservationService.updateReservation(this.reservationId, payload).subscribe({
+    next: (updatedRes) => {          // <-- receive what backend saved
+      /** 1️⃣ If the backend already created & returned a consultationId
+       *     we do *not* create another one.
+       */
+      if (
+        formValue.statutConsultation === 'VALIDEE' &&
+        !updatedRes.consultationId      // backend did **not** create one
+      ) {
+        const consultation = {
+          reservationId    : updatedRes.id,
+          userId           : updatedRes.medecinId,
+          equipeMedicaleId : updatedRes.equipeMedicaleId,
+          dateConsultation : updatedRes.dateConsultation,
+          rapport          : ''
+        };
+
+        this.consultationService.createConsultation(consultation).subscribe({
+          next : () => this.router.navigate(['/reservations']),
+          error: err => console.error('Erreur création consultation', err)
+        });
+      } else {
+        // Backend already linked a consultation or status ≠ VALIDEE
+        this.router.navigate(['/reservations']);
+      }
+    },
+    error: err => console.error('Erreur update reservation', err)
+  });
+}}

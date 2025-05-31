@@ -9,6 +9,7 @@ import { EquipesMedicalesComponent } from './pages/EquipesMedicales/components/e
 import { EquipesMedicalesModule } from './pages/EquipesMedicales/equipes-medicales.module';
 import { ConsultationsModule } from './pages/Consultations/consultations.module';
 import { ReservationConsultationModule } from './pages/Consultations/reservation-consultation.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -26,6 +27,7 @@ import { ReservationConsultationModule } from './pages/Consultations/reservation
     EquipesMedicalesModule,
     ConsultationsModule,
     ReservationConsultationModule,
+    
     
     
   ],
