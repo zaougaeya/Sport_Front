@@ -10,6 +10,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DashboardModule,
     NgxPaginationModule,
     BrowserModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]
