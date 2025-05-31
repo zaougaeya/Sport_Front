@@ -12,7 +12,7 @@ export class PanierService {
 
  
   private readonly userId = '683622ef0170a3176cd30a59'; 
-  private readonly token = 'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODM2MjJlZjAxNzBhMzE3NmNkMzBhNTkiLCJyb2xlIjoiVVNFUiIsImpvYiI6IkpPVUVVUiIsImlhdCI6MTc0ODY0NzAwMCwiZXhwIjoxNzQ4NzMzNDAwfQ.EUqw5fH-kvS2Y8QytMns1ce9bL1Vd_8voP6_2rLfxkvOym5MZ1nECZd8pzrt0OYt'; 
+  private readonly token = 'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODM2MjJlZjAxNzBhMzE3NmNkMzBhNTkiLCJyb2xlIjoiVVNFUiIsImpvYiI6IkpPVUVVUiIsImlhdCI6MTc0ODY4NjU4NywiZXhwIjoxNzQ4NzcyOTg3fQ.MWBJu2P5642a-uC7v9WsVlAmg9ywGpMhCgpqHKicBZ2kXQO1OeQReIe9OF7afm2Q'; 
 
   constructor(private http: HttpClient) {}
 

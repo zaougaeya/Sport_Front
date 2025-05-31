@@ -72,13 +72,12 @@
               Affecter
             </button>
 
-            <button
-              *ngIf="commande.client?.id"
-              class="bg-gray-600 hover:bg-gray-700 text-white text-xs font-medium py-1 px-3 rounded shadow transition"
-              (click)="supprimerCommande(commande.idCommande)"
-            >
-              Supprimer
-            </button>
+           <button
+  class="bg-yellow-400 hover:bg-yellow-500 text-white text-xs font-medium py-1 px-3 rounded shadow transition"
+  (click)="supprimerCommande(commande.idCommande)"
+>
+  Annuler Commande
+</button>
           </td>
         </tr>
       </tbody>

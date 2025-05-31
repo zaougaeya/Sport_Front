@@ -1,0 +1,29 @@
+<!-- Conteneur plein écran centré avec fond flou -->
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm z-50 px-4">
+  <!-- Boîte de dialogue blanche arrondie avec ombre, animation d'apparition -->
+  <div
+    class="bg-gradient-to-br from-pink-300 to-pink-500 p-8 rounded-3xl max-w-sm w-full shadow-2xl text-center
+           animate-fadeIn scale-100 transform transition duration-300"
+  >
+    <h2 class="text-2xl font-extrabold text-white mb-4 drop-shadow-lg">
+      🎉 Merci pour votre commande !
+    </h2>
+
+    <p class="text-white font-semibold mb-6 leading-relaxed">
+      {{ data.messageBase }}
+    </p>
+
+    <p *ngIf="data.messagePromo" class="text-yellow-200 font-bold mb-6 text-lg">
+      🎁 Félicitations, vous avez gagné un cadeau : <br />
+      <span class="italic">"{{ data.messagePromo }}"</span>
+    </p>
+
+    <button
+      (click)="fermer()"
+      class="bg-white text-pink-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-pink-100 transition"
+      aria-label="Fermer la boîte de dialogue"
+    >
+      Fermer
+    </button>
+  </div>
+</div>
