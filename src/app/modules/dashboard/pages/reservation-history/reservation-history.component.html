@@ -1,0 +1,20 @@
+<div class="history-wrapper">
+  <h2>Historique de vos réservations</h2>
+
+  <div *ngIf="reservations.length === 0">
+    <p>Vous n'avez encore effectué aucune réservation.</p>
+  </div>
+
+  <ul *ngIf="reservations.length > 0">
+    <li *ngFor="let res of reservations">
+      <strong>Matériel:</strong> {{ res.materiel.name }} <br />
+      <strong>Période:</strong> {{ res.startDate | date: 'shortDate' }} → {{ res.endDate | date: 'shortDate' }} <br />
+      <strong>Statut:</strong> {{ res.status }}
+      <hr />
+    </li>
+  </ul>
+
+  <div *ngIf="freeReservationEarned" class="reward">
+    🎉 Félicitations ! Vous avez gagné une réservation gratuite.
+  </div>
+</div>

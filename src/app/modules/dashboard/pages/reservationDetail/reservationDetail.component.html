@@ -1,0 +1,55 @@
+<div class="reservation-detail-container" *ngIf="materiel">
+  <h2>Réserver: {{ materiel.name }}</h2>
+
+  <div class="materiel-detail-card">
+    <img [src]="materiel.imageUrl" alt="{{ materiel.name }}" />
+    <div class="info">
+      <p><strong>État:</strong> {{ materiel.state }}</p>
+      <p><strong>Quantité:</strong> {{ materiel.quantity }}</p>
+      <p><strong>Sport:</strong> {{ materiel.sportType || '-' }}</p>
+    </div>
+  </div>
+
+  <!-- Formulaire de sélection de dates -->
+  <form [formGroup]="reservationForm">
+    <div class="date-picker-group">
+      <mat-form-field appearance="fill">
+        <mat-label>Date de début</mat-label>
+        <input
+          matInput
+          [matDatepicker]="startPicker"
+          formControlName="startDate"
+          [matDatepickerFilter]="isDateAvailable"
+          (dateChange)="onDateSelection()"
+        />
+        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+        <mat-datepicker #startPicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Date de fin</mat-label>
+        <input
+          matInput
+          [matDatepicker]="endPicker"
+          formControlName="endDate"
+          [matDatepickerFilter]="isDateAvailable"
+          (dateChange)="onDateSelection()"
+        />
+        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+        <mat-datepicker #endPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <!-- Formulaire après sélection valide -->
+    <div *ngIf="showForm" class="reservation-form">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Note</mat-label>
+        <textarea matInput formControlName="note" placeholder="Note facultative..."></textarea>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="submitReservation()" [disabled]="reservationForm.invalid">
+        Confirmer la réservation
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,27 @@
+<div class="container-materiel">
+  <h2 class="text-2xl font-semibold text-center mb-6">Réserver un Matériel</h2>
+
+  <div class="search-bar-container">
+    <input type="text" [(ngModel)]="searchTerm" (input)="applyFilter()" placeholder="🔍 Rechercher un matériel..." />
+    <select [(ngModel)]="sportFilter" (change)="applyFilter()" class="ml-4">
+      <option value="">-- Tous les sports --</option>
+      <option *ngFor="let sport of ['football', 'basketball', 'volleyball']">{{ sport }}</option>
+    </select>
+  </div>
+
+  <div class="materiel-grid">
+    <div *ngFor="let m of pagedMateriels" class="materiel-card">
+      <img [src]="m.imageUrl" alt="{{ m.name }}" />
+      <h4>{{ m.name }}</h4>
+      <p><strong>Sport:</strong> {{ m.sportType }}</p>
+      <p><strong>État:</strong> {{ m.state }}</p>
+      <p><strong>Quantité:</strong> {{ m.quantity }}</p>
+      <a [routerLink]="['/dashboard/reservationDetails', m.id]" class="btn btn-primary mt-2">
+        Réserver
+      </a>    </div>
+  </div>
+
+  <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+
+
+</div>

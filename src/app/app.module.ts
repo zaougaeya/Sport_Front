@@ -1,12 +1,23 @@
 // app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module'; // Importez AppRoutingModule au lieu de routes directement
+import { AppComponent } from './app.component';
+import { RouterModule } from '@angular/router';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from "./app.component";
-import {QRCodeModule} from "angularx-qrcode";
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+
+// Angular Material Modules
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {routes} from "./app-routing.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
+// FullCalendar
+
 
 @NgModule({
   declarations: [
@@ -14,10 +25,24 @@ import {QRCodeModule} from "angularx-qrcode";
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule, // Utilisez AppRoutingModule qui importe déjà RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
     FormsModule,
-    QRCodeModule,
+    ReactiveFormsModule,
+
+    // Modules Angular Material
+    MatPaginatorModule,
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+
+    // Modules personnalisés
+    DashboardModule,
+
+
+
+    // FullCalendar
   ],
   providers: [],
   bootstrap: [AppComponent]
