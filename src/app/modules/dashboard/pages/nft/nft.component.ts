@@ -4,26 +4,39 @@ import { FormsModule } from '@angular/forms';
 import { ProduitService, Produit } from 'src/app/modules/dashboard/pages/produits/produit.service';
 import { CategoryService, Categorie } from 'src/app/modules/dashboard/pages/categories/category.service';
 import { NftSingleCardComponent } from 'src/app/modules/dashboard/components/nft/nft-single-card/nft-single-card.component';
-import { LucideIconsModule } from 'src/app/shared/lucide-icons.module'
-// IMPORTANT : import MatIconModule pour <mat-icon>
+import { LucideIconsModule } from 'src/app/shared/lucide-icons.module';
 import { MatIconModule } from '@angular/material/icon';
 import { PanierDialogComponent } from '../../components/panier-dialog-component/panier-dialog-component.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { RecommendationService } from 'src/app/core/services/RecommendationService';
+import { PanierService } from 'src/app/core/services/panierService';
+import { RecommendationDialogComponent } from '../../components/app-recommendation-dialog/app-recommendation-dialog.component';
 
 @Component({
   selector: 'app-nft',
   standalone: true,
-  imports: [CommonModule,FormsModule,MatDialogModule, NftSingleCardComponent, MatIconModule,LucideIconsModule],
+  imports: [CommonModule, FormsModule, MatDialogModule, NftSingleCardComponent, MatIconModule, LucideIconsModule],
   template: `
+    <style>
+      /* Effet zoom doux + éclaircissement sur les images */
+      .produit-image {
+        transition: transform 0.3s ease, filter 0.3s ease;
+        will-change: transform, filter;
+      }
+      .produit-image:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+        cursor: pointer;
+      }
+    </style>
+
     <div class="p-6">
 
-      <!-- Barre de filtres -->
       <div class="flex gap-4 items-center mb-6">
 
-        <!-- Bouton Nos catégories -->
         <div class="relative">
           <button (click)="toggleDropdown()" class="flex items-center px-4 py-2 rounded-md bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 border border-gray-300">
-            Nos catégories ☰  
+            Nos catégories ☰
           </button>
           <div *ngIf="dropdownOpen" class="absolute mt-2 w-56 rounded-md shadow-md bg-gray-50 border border-gray-300 z-50">
             <div class="py-1 text-sm">
@@ -37,24 +50,22 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
           </div>
         </div>
 
-        <!-- Boutons de filtre -->
         <button (click)="filtrerParNouveautes()" class="inline-flex items-center px-2.5 py-1 rounded-md bg-gray-100 text-sm font-medium text-gray-700
-               hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
+                         hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
         style="width: auto; min-width: auto;">✨ Nouveautés</button>
         <button (click)="filtrerParPromo()" class="inline-flex items-center px-2.5 py-1 rounded-md bg-gray-100 text-sm font-medium text-gray-700
-               hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
+                         hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
         style="width: auto; min-width: auto;">🎉 Promo</button>
         <button (click)="filtrerParMeilleuresVentes()" class="inline-flex items-center px-2.5 py-1 rounded-md bg-gray-100 text-sm font-medium text-gray-700
-               hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
+                         hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
         style="width: auto; min-width: auto;">🔥 Meilleures Ventes</button>
 
-        <!-- Filtre par prix -->
         <div class="relative">
           <button (click)="toggleSliderPrix()"
-                   class="inline-flex items-center px-2.5 py-1 rounded-md bg-gray-100 text-sm font-medium text-gray-700
-               hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
+                           class="inline-flex items-center px-2.5 py-1 rounded-md bg-gray-100 text-sm font-medium text-gray-700
+                         hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
         style="width: auto; min-width: auto;">
-             Filtrer par prix
+              Filtrer par prix
           </button>
 
           <div *ngIf="sliderPrixOpen" class="absolute mt-2 w-80 p-4 bg-white shadow-lg border border-gray-300 rounded-xl z-50">
@@ -65,16 +76,16 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
             </div>
             <div class="relative h-6">
               <input type="range" min="0" [max]="prixMaxGlobal" [(ngModel)]="prixMin"
-                     class="absolute w-full z-20 h-1 bg-transparent accent-blue-500">
+                                 class="absolute w-full z-20 h-1 bg-transparent accent-blue-500">
               <input type="range" min="0" [max]="prixMaxGlobal" [(ngModel)]="prixMax"
-                     class="absolute w-full z-10 h-1 bg-transparent accent-pink-500">
+                                 class="absolute w-full z-10 h-1 bg-transparent accent-pink-500">
             </div>
             <div class="text-center text-sm mt-2">
               Affichage des produits entre <strong>{{ prixMin }}TND</strong> et <strong>{{ prixMax }}TND</strong>
             </div>
             <div class="mt-3 text-center">
               <button (click)="filtrerParPlagePrix()" class="inline-flex items-center px-2.5 py-1 rounded-md bg-gray-100 text-sm font-medium text-gray-700
-               hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
+                         hover:bg-gray-200 border border-gray-300 cursor-pointer transition-colors duration-200"
         style="width: auto; min-width: auto;">
                 Appliquer
               </button>
@@ -82,24 +93,17 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
           </div>
         </div>
 
-        <!-- Bouton panier tout à droite -->
         <div class="ml-auto relative">
           <button  (click)="ouvrirPanier()"
             class="rounded-md bg-primary p-2 text-white hover:bg-primary/90 flex items-center justify-center"
-            (click)="ouvrirPanier()"
             aria-label="Voir le panier"
           >
             <lucide-icon name="shopping-cart" class="h-5 w-5"></lucide-icon>
           </button>
-         
         </div>
-
       </div>
 
-      <!-- Barre de filtres principale -->
       <div class="flex flex-wrap items-center gap-4 mb-6">
-
-        <!-- Barre de recherche centrale -->
         <div class="flex-grow flex justify-center">
           <div class="relative w-full max-w-2xl">
             <input
@@ -115,22 +119,21 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
           </div>
         </div>
 
-        <!-- Filtrer par genre - pills -->
         <div class="flex gap-2 items-center">
           <button *ngFor="let genre of ['TOUT', 'HOMME', 'FEMME', 'ENFANT']"
-                  (click)="genreSelectionne = genre; appliquerFiltreRecherche()"
-                  [ngClass]="{
-                    'bg-pink-500 text-white': genreSelectionne === genre,
-                    'bg-gray-100 text-gray-700 hover:bg-gray-200': genreSelectionne !== genre
-                  }"
-                  class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 transition duration-200">
+                          (click)="genreSelectionne = genre; appliquerFiltreRecherche()"
+                          [ngClass]="{
+                            'bg-pink-500 text-white': genreSelectionne === genre,
+                            'bg-gray-100 text-gray-700 hover:bg-gray-200': genreSelectionne !== genre
+                          }"
+                          class="px-3 py-1 rounded-full text-sm font-medium border border-gray-300 transition duration-200">
             {{ genre }}
           </button>
         </div>
 
-        <!-- Grille des produits -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           <ng-container *ngFor="let produit of produitsFiltres">
+            <!-- J'ajoute la classe 'produit-image' à l'image dans le composant interne -->
             <nft-single-card [produit]="produit"></nft-single-card>
           </ng-container>
         </div>
@@ -154,7 +157,9 @@ export class NftComponent implements OnInit {
   constructor(
     private produitService: ProduitService,
     private categoryService: CategoryService,
-      private dialog: MatDialog
+    private dialog: MatDialog,
+    private recommendationService: RecommendationService,
+    private panierService: PanierService,
   ) {}
 
   ngOnInit(): void {
@@ -171,6 +176,37 @@ export class NftComponent implements OnInit {
       this.prixMax = this.prixMaxGlobal;
       this.prixMin = 0;
     });
+
+    this.panierService.getProduitsDuPanier().subscribe(
+      produitsPanier => {
+        if (!produitsPanier || produitsPanier.length === 0) {
+          setTimeout(() => {
+            this.getAndShowHistoricalRecommendations();
+          }, 3000);
+        }
+      },
+      error => {
+        this.getAndShowHistoricalRecommendations();
+      }
+    );
+  }
+
+  private getAndShowHistoricalRecommendations(): void {
+    this.recommendationService.getRecommandationsHistoriques().subscribe(
+      recommandations => {
+        if (recommandations && recommandations.length > 0) {
+          this.dialog.open(RecommendationDialogComponent, {
+   width: '80%',
+            data: recommandations,
+  maxWidth: '900px',
+  panelClass: 'custom-dialog-container'
+});
+        }
+      },
+      error => {
+        // Gestion d'erreur possible ici
+      }
+    );
   }
 
   toggleDropdown(): void {
@@ -215,7 +251,7 @@ export class NftComponent implements OnInit {
     this.produitsFiltres = this.nft.filter(p =>
       p.prix >= this.prixMin && p.prix <= this.prixMax
     );
-    this.sliderPrixOpen = false; // Ferme automatiquement le filtre prix après clic
+    this.sliderPrixOpen = false;
   }
 
   appliquerFiltreRecherche(): void {
@@ -226,15 +262,13 @@ export class NftComponent implements OnInit {
       const correspondNom = p.nom?.toLowerCase().includes(recherche);
       const correspondCategorie = p.categorie?.nom?.toLowerCase().includes(recherche);
       const correspondGenre = genre === 'tout' || p.genreProduit?.toLowerCase() === genre;
-
       return (correspondNom || correspondCategorie) && correspondGenre;
     });
   }
 
-  ouvrirPanier() {
+  ouvrirPanier(): void {
     this.dialog.open(PanierDialogComponent, {
-      width: '400px',
-      // data: si tu veux envoyer des données ici
+      width: '700px',
     });
   }
 }

@@ -11,8 +11,8 @@ export class PanierService {
   private readonly baseUrl = 'http://localhost:8087/api/panier';
 
  
-  private readonly userId = '683622ef0170a3176cd30a59'; 
-  private readonly token = 'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODM2MjJlZjAxNzBhMzE3NmNkMzBhNTkiLCJyb2xlIjoiVVNFUiIsImpvYiI6IkpPVUVVUiIsImlhdCI6MTc0ODY4NjU4NywiZXhwIjoxNzQ4NzcyOTg3fQ.MWBJu2P5642a-uC7v9WsVlAmg9ywGpMhCgpqHKicBZ2kXQO1OeQReIe9OF7afm2Q'; 
+    private readonly userId = '683cd30c75078b686d4e44b5'; // statique pour l'instant
+  private readonly token = 'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODNjZDMwYzc1MDc4YjY4NmQ0ZTQ0YjUiLCJyb2xlIjoiVVNFUiIsImpvYiI6IkpPVUVVUiIsImlhdCI6MTc0ODgxNjY4NCwiZXhwIjoxNzQ4OTAzMDg0fQ.65eIQwo1CbuA1ovDUEV3F5t0Vf7ISKbqtQYffVGFFEjEoFg5IXjl0fBcZKxoLwWH';
 
   constructor(private http: HttpClient) {}
 

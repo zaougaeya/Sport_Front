@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Produit } from 'src/app/modules/dashboard/pages/produits/produit.service'; // Assure-toi que Produit est importé correctement
+import { Produit } from 'src/app/modules/dashboard/pages/produits/produit.service'; // Vérifie le chemin d'import
 import { LucideIconsModule } from 'src/app/shared/lucide-icons.module'; // Si tu utilises Lucide Icons
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AjoutPanierDialogComponent } from 'src/app/modules/dashboard/components/ajout-panier-dialog/ajout-panier-dialog.component';
@@ -10,26 +10,24 @@ import { AjoutPanierDialogComponent } from 'src/app/modules/dashboard/components
   standalone: true,
   imports: [
     CommonModule,
-    LucideIconsModule, // Garde ou retire si tu utilises MatIconModule partout
+    LucideIconsModule,
     MatDialogModule
   ],
   template: `
     <div class="relative w-full max-w-sm flex flex-col overflow-hidden rounded-xl border bg-card shadow hover:shadow-lg transition duration-150 ease-in-out h-96">
-
       <div class="absolute top-2 right-2 flex items-center gap-1 z-20">
         <div *ngIf="produit.pourcentagePromotion > 0"
-              class="inline-flex items-center gap-1 bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md hover:bg-pink-600 cursor-pointer transition-colors duration-200">
+             class="inline-flex items-center gap-1 bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md hover:bg-pink-600 cursor-pointer transition-colors duration-200">
           🎉 Promo
         </div>
-
         <div *ngIf="isNew"
-              class="inline-flex bg-yellow-400 text-yellow-900 text-xs font-semibold px-2 py-0.5 rounded-full shadow-md hover:bg-yellow-500 cursor-pointer transition-colors duration-200">
+             class="inline-flex bg-yellow-400 text-yellow-900 text-xs font-semibold px-2 py-0.5 rounded-full shadow-md hover:bg-yellow-500 cursor-pointer transition-colors duration-200">
           Nouveau
         </div>
       </div>
 
       <div [ngStyle]="{ 'background-image': 'url(' + produit.imageUrl + ')' }"
-            class="h-48 w-full bg-cover bg-center rounded-t-xl">
+           class="produit-image h-48 w-full bg-cover bg-center rounded-t-xl">
       </div>
 
       <div class="p-4 flex flex-col justify-between flex-1 space-y-2 overflow-hidden">
@@ -72,7 +70,18 @@ import { AjoutPanierDialogComponent } from 'src/app/modules/dashboard/components
         <p class="text-xs text-muted-foreground mt-1">{{ produit.description }}</p>
       </div>
     </div>
-  `
+  `,
+  styles: [`
+    .produit-image {
+      transition: transform 0.3s ease, filter 0.3s ease;
+      will-change: transform, filter;
+      cursor: pointer;
+    }
+    .produit-image:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+  `]
 })
 export class NftSingleCardComponent implements OnChanges {
   @Input() produit!: Produit;
@@ -111,10 +120,10 @@ export class NftSingleCardComponent implements OnChanges {
   ouvrirDialoguePanier(produit: Produit): void {
     this.dialog.open(AjoutPanierDialogComponent, {
       data: { produit },
-      width: '700px', // Correspond à la largeur définie dans le SCSS du dialogue
+      width: '700px',
       height: 'auto',
-      panelClass: 'custom-dialog-container', // ESSENTIEL pour le centrage et les styles personnalisés
-      disableClose: true // Empêche la fermeture en cliquant à l'extérieur ou avec Échap
+      panelClass: 'custom-dialog-container',
+      disableClose: true
     });
   }
 }

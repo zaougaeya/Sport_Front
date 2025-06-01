@@ -33,7 +33,9 @@ export class AjoutPanierDialogComponent {
   quantite: number = 1;
   ajoutReussi = false;
   messageAjout: string = '';
-  private userId: string = '683622ef0170a3176cd30a59'; // Valeur par défaut
+  private userId: string = '683cd30c75078b686d4e44b5'; // Valeur par défaut
+   
+ 
     commandeEnCours: boolean = false;
 
   constructor(

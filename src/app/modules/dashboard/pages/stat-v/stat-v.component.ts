@@ -185,9 +185,6 @@ export class StatVComponent implements OnInit {
     this.generateRevenueChart();
   }
 
-  /**
-   * Générer le graphique chiffre d'affaires
-   */
   generateRevenueChart() {
     const entries = Object.entries(this.revenusParDate).sort(([a], [b]) => a.localeCompare(b));
     const labels = entries.map(e => e[0]);
@@ -205,7 +202,7 @@ export class StatVComponent implements OnInit {
       data: {
         labels: labels,
         datasets: [{
-          label: 'Chiffre d’affaires (€)',
+          label: 'Chiffre d’affaires (TND)',
           data: data,
           backgroundColor,
           borderColor,
@@ -218,14 +215,14 @@ export class StatVComponent implements OnInit {
           legend: { display: true },
           tooltip: {
             callbacks: {
-              label: ctx => `€${ctx.raw}`
+              label: ctx => `TND${ctx.raw}`
             }
           }
         },
         scales: {
           y: {
             beginAtZero: true,
-            title: { display: true, text: 'Montant (€)' }
+            title: { display: true, text: 'Montant (TND)' }
           }
         }
       }
