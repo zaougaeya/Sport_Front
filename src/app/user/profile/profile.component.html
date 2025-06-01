@@ -1,0 +1,10 @@
+<div class="profile-container" *ngIf="user">
+  <h2 class="title">My Profile</h2>
+  <div class="info">
+    <p><strong>Name:</strong> {{ user.nomuser }} {{ user.prenomuser }}</p>
+    <p><strong>Email:</strong> {{ user.mailuser }}</p>
+    <p><strong>Sexe:</strong> {{ user.sexe }}</p>
+    <p><strong>Job:</strong> {{ user.job }}</p>
+    <p><strong>Age:</strong> {{ user.age }}</p>
+  </div>
+</div>
