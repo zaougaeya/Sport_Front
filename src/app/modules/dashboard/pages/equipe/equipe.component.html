@@ -115,7 +115,7 @@
                         <td colspan="3">
                             <ul *ngIf="usersParEquipe[equipe.id]; else loading">
                                 <li *ngFor="let user of usersParEquipe[equipe.id]">
-                                    {{ user.prenom }} {{ user.nom }} - {{ user.age }} 
+                                    {{ user.prenom }} {{ user.nom }} <!-- - {{ user.age }} -->
                                 </li>
                             </ul>
                             <ng-template #loading>

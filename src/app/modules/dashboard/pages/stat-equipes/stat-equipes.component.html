@@ -2,22 +2,32 @@
   <div class="modal-content">
     <h2>📊 Statistiques du Match</h2>
 
-    <!-- Graphique Bar pour Cartons -->
-    <canvas #barCanvas></canvas>
-    <!-- Graphique Bar pour Fautes -->
-    <canvas #fautesCanvas></canvas>
+    <!-- Section Statistiques détaillées -->
+    <!-- <div class="stat-list">
+      <div *ngFor="let stat of statistiques" class="stat-item">
+        <strong>{{ stat.nomStat }} :</strong>
+        {{ stat.valeurEquipe1 }} - {{ stat.valeurEquipe2 }}
+      </div>
+    </div> -->
 
+    <!-- Graphique Cartons -->
+    <h3>📉 Cartons jaunes et rouges</h3>
+    <canvas #barCanvas width="650" height="200"></canvas>
 
+    <!-- Graphique Fautes -->
+    <h3>❌ Fautes commises</h3>
+    <canvas #fautesCanvas width="700" height="130"></canvas>
+
+    <!-- Score global -->
     <div class="score">
       <p>
-        <!-- <strong>Score :</strong> -->
-        {{ getEquipesName(match?.idEquipe1) }} {{ match?.scoreEquipe1 }} - {{ match?.scoreEquipe2 }} {{
-        getEquipesName(match?.idEquipe2) }}
+        <strong>{{ getEquipesName(match?.idEquipe1) }}</strong>
+        {{ match?.scoreEquipe1 }} - {{ match?.scoreEquipe2 }}
+        <strong>{{ getEquipesName(match?.idEquipe2) }}</strong>
       </p>
-
     </div>
 
-
+    <!-- Bouton Fermer -->
     <button class="btn-close" (click)="onClose()">Fermer</button>
   </div>
 </div>

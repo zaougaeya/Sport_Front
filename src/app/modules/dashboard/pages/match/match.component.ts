@@ -21,6 +21,7 @@ import { StatEquipesComponent } from "../stat-equipes/stat-equipes.component";
   styleUrl: './match.component.scss'
 })
 export class MatchComponent implements OnInit {
+matchsJoues: any;
   constructor(private matchService: MatchService,
     private equipeService: EquipeService,
     private terrainService: TerrainService,
@@ -30,6 +31,7 @@ export class MatchComponent implements OnInit {
   matches: any[] = [];  // Tableau pour stocker les matchs
   newMatch: Match = {} as Match
   showAddMatch: boolean = false
+  today: string = ''
 
   equipes: Equipe[] = [];
   terrains: Terrain[] = [];
@@ -45,6 +47,7 @@ export class MatchComponent implements OnInit {
   itemsPerPage: number = 5;
 
   ngOnInit(): void {
+    this.today = new Date().toISOString()
     this.loadMatches();
     this.loadEquipes();
     this.loadTerrains();
@@ -96,7 +99,7 @@ export class MatchComponent implements OnInit {
         if (createdMatch) {
           this.matches.push(createdMatch);  // Si l'objet est bien retourné
           console.log('save succées ', createdMatch);
-          this.message = '✅ Terrain ajouté avec succès !';
+          this.message = '✅ Match ajouté avec succès !';
           this.alertType = 'success';
           setTimeout(() => {
             this.message = '';
@@ -120,6 +123,7 @@ export class MatchComponent implements OnInit {
       }
     });
   }
+
 
 
   closeAddMatch() {
@@ -150,16 +154,16 @@ export class MatchComponent implements OnInit {
 
   }
 
-//partie statistique
-selectedMatch: any = null;
+  //partie statistique
+  selectedMatch: any = null;
 
-openStats(match: any) {
-  this.selectedMatch = match;
-}
+  openStats(match: any) {
+    this.selectedMatch = match;
+  }
 
-closeStats() {
-  this.selectedMatch = null;
-}
+  closeStats() {
+    this.selectedMatch = null;
+  }
 
 
 
@@ -219,9 +223,9 @@ closeStats() {
       match.cartonsRougesEquipe1 != null && match.cartonsRougesEquipe1 < 0 ||
       match.cartonsJaunesEquipe2 != null && match.cartonsJaunesEquipe2 < 0 ||
       match.cartonsRougesEquipe2 != null && match.cartonsRougesEquipe2 < 0) {
-    alert("❌ Les cartons (jaunes ou rouges) ne peuvent pas être négatifs !");
-    return;
-  }
+      alert("❌ Les cartons (jaunes ou rouges) ne peuvent pas être négatifs !");
+      return;
+    }
 
     // Si un score est renseigné (différent de -1), on force matchJoue = true
     if (match.scoreEquipe1 !== null && match.scoreEquipe2 !== null) {

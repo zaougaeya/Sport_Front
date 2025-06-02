@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SessionDeJeu } from '../models/SessionDejeu';
@@ -11,7 +11,7 @@ export class ListeSessionService {
 
   constructor(private http: HttpClient) { }
 
-   getAllSessions(): Observable<SessionDeJeu[]> {
+  getAllSessions(): Observable<SessionDeJeu[]> {
     return this.http.get<SessionDeJeu[]>(`${this.apiUrl}`);
   }
 
@@ -44,12 +44,8 @@ export class ListeSessionService {
   }
 
   searchSessions(dateDebut: string, dateFin: string, typeMatch: string): Observable<SessionDeJeu[]> {
-  const url = `http://localhost:7071/api/sessions/search?dateDebut=${dateDebut}&dateFin=${dateFin}&typeMatch=${typeMatch}`;
-  return this.http.get<SessionDeJeu[]>(url);
-}
-
-  rejoindreSession(id: string, equipeId: string): Observable<void> {
-  return this.http.post<void>(`${this.apiUrl}/rejoindreSession/${equipeId}/${id}`, {});
+    const url = `http://localhost:7071/api/sessions/search?dateDebut=${dateDebut}&dateFin=${dateFin}&typeMatch=${typeMatch}`;
+    return this.http.get<SessionDeJeu[]>(url);
   }
- 
+
 }

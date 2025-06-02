@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Match } from '../models/match.model';
 //import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,9 @@ import { Match } from '../models/match.model';
   providedIn: 'root'
 })
 export class MatchService {
+  rejoindreMatch(id: string, idSelected: string) {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'http://localhost:7071/api/matches'; // adapte selon ton endpoint backend
 
   constructor(private http: HttpClient) { }
@@ -73,7 +76,31 @@ getStatistiquesParEquipeEtDates(dateD: string, dateF: string): Observable<Map<st
   
   return this.http.get<Map<string, Map<string, number>>>(`${this.apiUrl}/statistiques/${dateD}/${dateF}`);
 }
+searchMatchs(dateDebut: string, dateFin: string, type: string): Observable<Match[]> {
+    const url = `http://localhost:7071/api/matches/search?dateDebut=${dateDebut}&dateFin=${dateFin}&type=${type}`;
+    
+    return this.http.get<Match[]>(url);
+  }
+  // ✅ Récupérer les matchs joués
+  getMatchsJoues(): Observable<Match[]> {
+    return this.http.get<Match[]>(`${this.apiUrl}/joues`);
+  }
 
+  rejoindreSession(id: string, equipeId: string): Observable<void> {
 
+    console.log("HEADERS ", this.getHeaders());
+    console.log("EQUIPEID ", equipeId);
+    console.log("ID ", id);
+    
+    return this.http.post<void>(`${this.apiUrl}/rejoindreMatch/${equipeId}/${id}`, null, {headers: this.getHeaders()});
+  }
+
+  private getHeaders(): HttpHeaders {
+    const token = window.sessionStorage.getItem('auth-token'); // Assuming you saved the token using localStorage
+    console.log(token);
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }
 
 }

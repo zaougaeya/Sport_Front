@@ -17,10 +17,14 @@ import { NgChartsModule } from 'ng2-charts';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { StatEquipesComponent } from './pages/stat-equipes/stat-equipes.component';
 import { SessionListComponent } from './pages/liste-session/liste-session.component';
+import { SessionJeuComponent } from './pages/session-jeu/session-jeu.component';
 
 @NgModule({
   declarations :[
         SessionListComponent,
+        SessionJeuComponent,
+            
+
   ],
   
   imports: [

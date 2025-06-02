@@ -1,197 +1,190 @@
-<div class="container">
-  <h2 class="title">🎯 Rechercher une Session de Jeu</h2>
+<div class="max-w-4xl mx-auto bg-white/40 backdrop-blur-md border border-gray-300 rounded-3xl shadow-xl p-8 mt-8">
 
-  <!-- Formulaire de recherche -->
-  <div class="search-form">
-    <div class="form-group">
-      <label for="dateDebut">📅 Date début :</label>
-      <input
-        type="datetime-local"
-        id="dateDebut"
-        [(ngModel)]="dateDebut"
-        name="dateDebut"
-      />
-    </div>
+  <!-- Titre -->
+  <h2 class="text-xl font-bold text-gray-800 mb-6 text-center tracking-wide uppercase">
+    🎯 Rechercher une Session de Jeu
+  </h2>
 
-    <div class="form-group">
-      <label for="dateFin">📅 Date fin :</label>
-      <input
-        type="datetime-local"
-        id="dateFin"
-        [(ngModel)]="dateFin"
-        name="dateFin"
-      />
-    </div>
+  <!-- Formulaire -->
+<div class="creation-form max-w-2xl mx-auto space-y-6">
 
-    <div class="form-group">
-      <label for="typeMatch">🏅 Type de match :</label>
-      <select id="typeMatch" [(ngModel)]="typeMatch" name="typeMatch">
-        <option value="">-- Choisir --</option>
-        <option value="Football">Football</option>
-        <option value="Handball">Handball</option>
-      </select>
-    </div>
+    <!-- Date début -->
+  <!-- Formulaire vertical -->
+<!-- Formulaire vertical stylisé -->
+<div class="max-w-xl mx-auto p-6 bg-white/80 backdrop-blur rounded-2xl shadow-lg space-y-6">
 
-    <div class="button-group">
-      <button (click)="searchSessions()">🔍 Rechercher</button>
-      <button class="reset" (click)="loadAllSessions()">🔁 Réinitialiser</button>
-    </div>
+  <!-- Date début -->
+  <div>
+    <label for="dateDebut" class="block text-sm font-medium text-gray-700 mb-1">📅 Date début</label>
+    <input
+      type="date"
+      id="dateDebut"
+      [(ngModel)]="dateDebut"
+      name="dateDebut"
+      [min]="today"
+      class="w-full rounded-lg border border-gray-300 px-4 py-3 bg-white shadow-sm focus:ring-2 focus:ring-gray-500 focus:outline-none transition"
+    />
   </div>
 
-  <hr />
-
-<h3 *ngIf="resultatsDisponibles === true && sessions.length > 0">📋 Résultats disponibles :</h3>
-
-  <!-- Cartes de sessions -->
- <div *ngIf="resultatsDisponibles === true">
-    <div *ngFor="let session of sessions" class="session-card">
-<p>
-  🗓️ {{ session.startDate | date:'fullDate' }} de {{ session.startDate | date:'shortTime' }} à {{ session.endDate | date:'shortTime' }}
-</p>
-      <p>🏟️ Terrain : {{ getNomTerrain(session.terrainId) }}</p>
-      <p>🏅 Type de match : {{ session.typeMatch }}</p>
-      <p>🏅 Équipe 1 : {{ getNomEquipe(session.idEquipe1) }}</p>
-      <p>🏅 Équipe 2 : {{ getNomEquipe(session.idEquipe2) }}</p>
-
-      <p>👥 {{ session.joueursInscrits }} joueurs inscrits / {{ session.maxJoueurs }}</p>
-      <p [ngClass]="{
-          'green': session.maxJoueurs - session.joueursInscrits > 10,
-          'orange': session.maxJoueurs - session.joueursInscrits <= 10 && session.maxJoueurs - session.joueursInscrits > 0,
-          'red': session.maxJoueurs - session.joueursInscrits === 0
-        }">
-        {{ session.maxJoueurs - session.joueursInscrits > 0 ? 'Places disponibles' : 'Complet' }}
-      </p>
-      <div class="buttons">
-       <button (click)="rejoindre(session)">✅ Rejoindre</button>
-        <button  (click)="openDetails(session)">👥 Équipe</button>
-      </div>
-    </div>
+  <!-- Date fin -->
+  <div>
+    <label for="dateFin" class="block text-sm font-medium text-gray-700 mb-1">📅 Date fin</label>
+    <input
+      type="date"
+      id="dateFin"
+      [(ngModel)]="dateFin"
+      name="dateFin"
+      [min]="today"
+      class="w-full rounded-lg border border-gray-300 px-4 py-3 bg-white shadow-sm focus:ring-2 focus:ring-gray-500 focus:outline-none transition"
+    />
   </div>
 
-  <!-- Aucun résultat -->
- <!-- Aucun résultat -->
-<div *ngIf="resultatsDisponibles === false" class="no-session">
-  <p class="no-session-text">❗ Aucune session trouvée.</p>
-  <button (click)="creerSession()" class="btn-creer-session">
-    ➕ Créer une session
-  </button>
-  <div *ngIf="afficherFormulaireCreation" class="creation-form">
-  <h3 class="form-title">➕ Créer une Nouvelle Session</h3>
-
-  <!-- Bloc Dates -->
-  <div class="form-section">
-    <div class="form-group">
-      <label for="startDate">📅 Date de début :</label>
-      <input type="datetime-local" id="startDate" [(ngModel)]="nouvelleSession.startDate" class="form-control">
-    </div>
-
-    <div class="form-group">
-      <label for="endDate">📅 Date de fin :</label>
-      <input type="datetime-local" id="endDate" [(ngModel)]="nouvelleSession.endDate" class="form-control">
-    </div>
-  </div>
-
-  <!-- Bloc Terrain & Type de match -->
-  <div class="form-section">
-    <div class="form-group">
-      <label for="terrain">🏟️ Terrain :</label>
-      <select id="terrain" [(ngModel)]="nouvelleSession.terrainId" class="form-control">
-        <option *ngFor="let terrain of terrains" [value]="terrain.id">{{ terrain.name }}</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="typeMatch">🏅 Type de match :</label>
-      <select id="typeMatch" [(ngModel)]="nouvelleSession.typeMatch" class="form-control">
-        <option value="Football">Football</option>
-        <option value="Handball">Handball</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- Bloc Equipes -->
-  <div class="form-section">
-    <div class="form-group">
-      <label for="equipe1">👥 Équipe 1 :</label>
-      <select id="equipe1" [(ngModel)]="nouvelleSession.idEquipe1" class="form-control">
-        <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="equipe2">👥 Équipe 2 :</label>
-      <select id="equipe2" [(ngModel)]="nouvelleSession.idEquipe2" class="form-control">
-        <option *ngFor="let equipe of equipes" [value]="equipe.id">{{ equipe.nameEquipe }}</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- Bloc Joueurs -->
-  <div class="form-section">
-    <div class="form-group">
-      <label>👤 Nombre maximal de joueurs :</label>
-      <input
-        type="number"
-        [(ngModel)]="nouvelleSession.maxJoueurs"
-        [readonly]="true"
-        class="form-control"
-      >
-    </div>
-
-    <div class="form-group">
-      <label>👥 Joueurs inscrits :</label>
-      <input
-        type="number"
-        [(ngModel)]="nouvelleSession.joueursInscrits"
-        [readonly]="true"
-        class="form-control"
-      >
-    </div>
-
-    <div class="form-group">
-      <label>📌 Statut :</label>
-      <input
-        type="text"
-        [(ngModel)]="nouvelleSession.statut"
-        readonly
-        class="form-control"
-      >
-    </div>
+  <!-- Type de match -->
+  <div>
+    <label for="type" class="block text-sm font-medium text-gray-700 mb-1">🏅 Type de match</label>
+    <select
+      id="type"
+      [(ngModel)]="type"
+      name="typeMatch"
+      class="w-full rounded-lg border border-gray-300 px-4 py-3 bg-white shadow-sm focus:ring-2 focus:ring-gray-500 focus:outline-none transition"
+    >
+      <option value="">-- Choisir --</option>
+      <option value="foot">Football</option>
+      <option value="hand">Handball</option>
+    </select>
   </div>
 
   <!-- Boutons -->
-  <div class="button-group">
-    <button class="btn-confirm" (click)="confirmerCreation()">✅ Confirmer</button>
-    <button class="btn-cancel" (click)="annulerCreation()">❌ Annuler</button>
+  <div class="flex justify-end gap-4 pt-4">
+    <button
+      (click)="searchMatchs()"
+      class="bg-gray-800 text-white px-6 py-3 rounded-lg font-semibold tracking-wide hover:bg-black transition shadow-md"
+    >
+      🔍 Rechercher
+    </button>
+    <button
+      (click)="loadAllMatches()"
+      class="bg-white text-gray-700 border border-gray-400 px-6 py-3 rounded-lg font-semibold tracking-wide hover:bg-gray-100 transition shadow"
+    >
+      🔁 Réinitialiser
+    </button>
   </div>
 </div>
 
 
+  <hr />
+
+<!-- Résultats disponibles -->
+<div *ngIf="resultatsDisponibles === true && match.length > 0" 
+     class="max-w-4xl mx-auto bg-gray-100/20 backdrop-blur-md border border-gray-300 rounded-3xl shadow-xl p-8 mt-8">
+  
+  <h3 class="text-lg font-semibold text-gray-800 mb-6 text-center tracking-wide uppercase">
+    📋 Résultats disponibles
+  </h3>
+
+  <div *ngFor="let session of match" class="session-card space-y-2 p-4 border border-gray-300 rounded-xl bg-gray-50/10 shadow-sm">
+    <p>🗓️ {{ session.startDate | date:'fullDate' }} de {{ session.startDate | date:'shortTime' }} à {{ session.endDate | date:'shortTime' }}</p>
+    <p>🏟️ Terrain : {{ getNomTerrain(session.idTerrain!) }}</p>
+
+<!-- Affichage du type de match avec emoji -->
+  <label for="type" class="">
+    {{ type === 'foot' ? '⚽' : type === 'hand' ? '🤾' : '' }} Type Match : {{ type || '' }}
+  </label>
+
+<div class="flex items-center space-x-2 w-full max-w-sm">
+  <img
+    *ngIf="session.equipe1?.logo"
+    [src]="session.equipe1.logo"
+    alt="Logo équipe 1"
+    class="w-8 h-8 rounded-full object-cover"
+  />
+  <span>
+    Équipe 1 : {{ getNomEquipe(session.idEquipe1) }}
+    &nbsp;&nbsp;
+    <strong>{{ session.joueurInscrit1 }}</strong> / {{ session.joueurMax }}
+  </span>
+</div>
+
+<div class="flex items-center space-x-2 w-full max-w-sm">
+  <img
+    *ngIf="session.equipe2?.logo"
+    [src]="session.equipe2.logo"
+    alt="Logo équipe 2"
+    class="w-8 h-8 rounded-full object-cover"
+  />
+  <span>
+    Équipe 2 : {{ getNomEquipe(session.idEquipe2) }}
+    &nbsp;&nbsp;
+    <strong>{{ session.joueurInscrit2 }}</strong> / {{ session.joueurMax }}
+  </span>
+</div>
+
+    <p>🏅 Score {{ getNomEquipe(session.idEquipe1) }} : {{ session.scoreEquipe1 ?? 0 }}</p>
+    <p>🏅 Score {{ getNomEquipe(session.idEquipe2) }} : {{ session.scoreEquipe2 ?? 0 }}</p>
+
+    <div class="buttons flex gap-4 mt-4">
+      <button class="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-black transition" (click)="rejoindre(session)">
+        ✅ Rejoindre immédiatement
+      </button>
+
+  <button
+  class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition"
+  [ngClass]="{
+    'cursor-not-allowed opacity-60': session.joueurInscrit1 >= 11 || session.joueurInscrit2 >= 11
+  }"
+  [title]="(session.joueurInscrit1 >= 11 || session.joueurInscrit2 >= 11) ? 'Équipe complète' : ''"
+  (click)="(session.joueurInscrit1 >= 11 || session.joueurInscrit2 >= 11) ? null : openDetails(session)"
+>
+  👥 Choix équipe
+</button>
+    </div>
+  </div>
 
 </div>
 
 
-<div *ngIf="openPopUp" id="popup-container" class="popup-overlay">
-  <div class="popup-content">
-    <p>Sélectionnez une équipe à rejoindre :</p>
+<!-- Aucun résultat trouvé -->
+<div *ngIf="resultatsDisponibles === false" class="max-w-2xl mx-auto text-center mt-8 text-red-600 font-medium">
+  ❗ Aucune session trouvée.
+</div>
 
-    <div class="checkbox-group">
-      <label class="checkbox-option">
-        <input type="checkbox" [(ngModel)]="choixEquipe1" (change)="choixEquipe2 = false" />
-        {{ getNomEquipe(sessionSelectionnee?.idEquipe1) || 'Équipe 1' }}
-      </label>
-      <label class="checkbox-option">
-        <input type="checkbox" [(ngModel)]="choixEquipe2" (change)="choixEquipe1 = false" />
-        {{ getNomEquipe(sessionSelectionnee?.idEquipe2) || 'Équipe 2' }}
-      </label>
-    </div>
 
-    <div class="popup-buttons">
-      <button class="btn-cancel" (click)="closePopup()">❌ Annuler</button>
-      <button class="btn-confirm" 
-              [disabled]="!choixEquipe1 && !choixEquipe2" 
-              (click)="confirmerRejoindre(); closePopup()">✅ Confirmer</button>
-    </div>
+<!-- POPUP CHOIX ÉQUIPE CENTRÉ -->
+<div *ngIf="openPopUp"
+     id="popup-container"
+     class="fixed inset-0 z-50 flex items-center justify-center">
+
+  <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md space-y-6 border border-gray-300">
+
+    <h3 class="text-lg font-semibold text-gray-800 text-center">👥 Choix d'une équipe</h3>
+
+    <p class="text-sm text-gray-600 text-center">Sélectionnez une équipe à rejoindre :</p>
+
+    <!-- Options d'équipe -->
+    <!-- POPUP CHOIX ÉQUIPE sans arrière-plan gris -->
+<!-- Popup simple sans arrière-plan gris -->
+<div *ngIf="openPopUp" class="popup-content bg-white rounded-2xl border border-gray-300 shadow-xl p-6 max-w-md mx-auto mt-8">
+
+
+  <div class="">
+    <label class="flex items-center gap-3 cursor-pointer">
+      <input type="checkbox" [(ngModel)]="choixEquipe1" (change)="choixEquipe2 = false" class="w-5 h-5 accent-gray-800" />
+      {{ getNomEquipe(sessionSelectionnee.idEquipe1) || 'Équipe 1' }}
+    </label>
+
+    <label class="flex items-center gap-3 cursor-pointer">
+      <input type="checkbox" [(ngModel)]="choixEquipe2" (change)="choixEquipe1 = false" class="w-5 h-5 accent-gray-800" />
+      {{ getNomEquipe(sessionSelectionnee.idEquipe2) || 'Équipe 2' }}
+    </label>
+  </div>
+
+  <div class="flex justify-end gap-4 mt-6">
+    <button (click)="closePopup()" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition">❌ Annuler</button>
+    <button (click)="confirmerRejoindre(); closePopup()" 
+            [disabled]="!choixEquipe1 && !choixEquipe2" 
+            class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition">
+      ✅ Confirmer
+    </button>
   </div>
 </div>
 

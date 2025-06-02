@@ -155,6 +155,11 @@ export class Menu {
           label: 'session',
           route: '/dashboard/session',
         },
+        {
+          icon: 'assets/icons/heroicons/outline/bell.svg',
+          label: 'sessionJeu',
+          route: '/dashboard/sessionJeu',
+        },
       ],
     },
 

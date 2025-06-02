@@ -1,0 +1,54 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+  <div *ngFor="let match of matchsJoues" class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 hover:shadow-xl transition duration-300">
+
+    <!-- Date du match -->
+    <div class="text-xs text-gray-500 text-center mb-2">
+      {{ match.startDate | date: 'dd/MM/yyyy HH:mm' }}
+    </div>
+
+    <!-- Bloc Haut : Équipes et Score -->
+    <div class="flex items-center justify-between mb-4">
+      <!-- Équipe 1 -->
+      <div class="flex flex-col items-center w-1/3">
+        <img *ngIf="match.equipe1?.logo" [src]="match.equipe1.logo" alt="Logo équipe 1"
+             class="w-14 h-14 rounded-full border shadow mb-1 object-cover" />
+        <span class="text-sm font-semibold text-gray-700 text-center">{{ match.equipe1?.nameEquipe }}</span>
+      </div>
+
+      <!-- Score -->
+      <div class="text-center w-1/3">
+        <div class="text-4xl font-extrabold text-gray-800">
+          {{ match.scoreEquipe1 ?? '-' }} <span class="text-gray-500">-</span> {{ match.scoreEquipe2 ?? '-' }}
+        </div>
+        <div class="text-xs text-gray-500 mt-1 uppercase tracking-wide">Score final</div>
+      </div>
+
+      <!-- Équipe 2 -->
+      <div class="flex flex-col items-center w-1/3">
+        <img *ngIf="match.equipe2?.logo" [src]="match.equipe2.logo" alt="Logo équipe 2"
+             class="w-14 h-14 rounded-full border shadow mb-1 object-cover" />
+        <span class="text-sm font-semibold text-gray-700 text-center">{{ match.equipe2?.nameEquipe }}</span>
+      </div>
+    </div>
+
+    <!-- Bloc Bas : Statistiques -->
+    <div class="max-w-lg mx-auto mt-6 space-y-5 p-4">
+
+      <!-- Cartons rouges -->
+      <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+        <span class="w-8 text-right text-black font-bold text-lg">{{ match.cartonsRougesEquipe1 ?? 0 }}</span>
+        <span class="flex-1 text-center text-black uppercase tracking-wide font-semibold">Cartons rouges</span>
+        <span class="w-8 text-left text-black font-bold text-lg">{{ match.cartonsRougesEquipe2 ?? 0 }}</span>
+      </div>
+
+      <!-- Cartons jaunes -->
+      <div class="flex items-center justify-between border-b pb-3 border-gray-200">
+        <span class="w-8 text-right text-black font-bold text-lg">{{ match.cartonsJaunesEquipe1 ?? 0 }}</span>
+        <span class="flex-1 text-center text-black uppercase tracking-wide font-semibold">Cartons jaunes</span>
+        <span class="w-8 text-left text-black font-bold text-lg">{{ match.cartonsJaunesEquipe2 ?? 0 }}</span>
+      </div>
+
+      
+    </div>
+  </div>
+</div>

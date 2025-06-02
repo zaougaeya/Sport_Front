@@ -1,7 +1,10 @@
 export interface Match {
+  joueurMax?: any;
+  joueurInscrit1?: any;
+  joueurInscrit2?: any;
   id?: string;
-  idEquipe1?: string;
-  idEquipe2?: string;
+  idEquipe1: string;
+  idEquipe2: string;
   idTerrain?: string;
   date?: Date;
   startDate: Date;
@@ -19,4 +22,5 @@ export interface Match {
   equipe2?: any;
   terrain?: any;
   matchJoue: boolean;
+
 }

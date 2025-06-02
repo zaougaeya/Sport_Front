@@ -9,6 +9,7 @@ import { TerrainComponent } from './pages/terrain/terrain.component';
 import { PlanningMatchComponent } from './pages/planning-match/planning-match.component';
 import { StatEquipesComponent } from './pages/stat-equipes/stat-equipes.component';
 import { SessionListComponent } from './pages/liste-session/liste-session.component';
+import { SessionJeuComponent } from './pages/session-jeu/session-jeu.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
       { path: 'terrain', component: TerrainComponent },
       { path: 'planning', component: PlanningMatchComponent },
       { path: 'session', component: SessionListComponent },
+      { path: 'sessionJeu', component: SessionJeuComponent },
      // { path: 'statiqtique-equipe', component: StatEquipesComponent },
       { path: 'podcast', component: PodcastComponent },
       { path: '**', redirectTo: 'errors/404' },
