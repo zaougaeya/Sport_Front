@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppRecommendationDialogComponent } from './app-recommendation-dialog.component';
+import { RecommendationDialogComponent } from './app-recommendation-dialog.component';
 
 describe('AppRecommendationDialogComponent', () => {
-  let component: AppRecommendationDialogComponent;
-  let fixture: ComponentFixture<AppRecommendationDialogComponent>;
+  let component: RecommendationDialogComponent;
+  let fixture: ComponentFixture<RecommendationDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppRecommendationDialogComponent]
+      imports: [RecommendationDialogComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AppRecommendationDialogComponent);
+    fixture = TestBed.createComponent(RecommendationDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
