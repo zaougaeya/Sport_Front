@@ -172,7 +172,7 @@ export class Menu {
         {
           icon: 'assets/icons/heroicons/outline/clock.svg',
           label: 'Historique des réservations',
-          route: '/dashboard/reservations/history'
+          route: '/dashboard/historique'
         }
       ]
     },

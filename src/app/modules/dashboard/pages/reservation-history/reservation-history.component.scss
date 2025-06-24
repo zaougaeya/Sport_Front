@@ -1,21 +1,6 @@
-.history-wrapper {
-  padding: 1rem;
-
-  h2 {
-    margin-bottom: 1rem;
-  }
-
-  li {
-    margin-bottom: 0.5rem;
-  }
-
-  .reward {
-    margin-top: 2rem;
-    padding: 1rem;
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
-    border-radius: 5px;
-    font-weight: bold;
-  }
+.status {
+  font-weight: 600;
+  &.PAID { color: #16a34a; }       // vert
+  &.PENDING { color: #ca8a04; }    // jaune
+  &.CANCELLED { color: #dc2626; }  // rouge
 }

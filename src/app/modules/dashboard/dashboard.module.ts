@@ -13,22 +13,27 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 //import {FullCalendarModule} from "@fullcalendar/angular";
 import {MaterielsComponent} from "./pages/materiels/materiels.component";
 import { ReservationRoutingModule } from './pages/reservation/reservation-routing.module';
-import { GestionreservationRoutingModule } from './pages/gestionreservation/gestionreservation-routing.module';
 import {ReservationComponent} from "./pages/reservation/reservation.component";
 import {ReservationModule} from "./pages/reservation/reservation.module";
 import {ReservationHistoryComponent} from "./pages/reservation-history/reservation-history.component";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {NgxPaginationModule} from "ngx-pagination";
 import {MatCardModule} from "@angular/material/card";
 import {ReservationDetailComponent} from "./pages/reservationDetail/reservationDetail.component";
+import {GestionreservationComponent} from "./pages/gestionreservation/gestionreservation.component";
+import {MatSelectModule} from "@angular/material/select";
+import {GoogleMapsModule} from "@angular/google-maps";
+import {QRCodeModule} from "angularx-qrcode";
+import {ReservationvalidationComponent} from "./pages/reservationvalidation/reservationvalidation.component";
+import {FullCalendarModule} from "@fullcalendar/angular";
 // ... other imports
 
 @NgModule({
   declarations: [
-MaterielsComponent, ReservationComponent, ReservationHistoryComponent,ReservationDetailComponent
+MaterielsComponent, ReservationComponent, ReservationHistoryComponent,ReservationDetailComponent, GestionreservationComponent, GestionreservationComponent, ReservationvalidationComponent
   ],
   imports: [
     DashboardRoutingModule,
@@ -40,11 +45,13 @@ MaterielsComponent, ReservationComponent, ReservationHistoryComponent,Reservatio
     MatTableModule,
     MatIconModule,
     MatButtonModule,
+    QRCodeModule,
+    FullCalendarModule,
+
 
     // ReservationModule,
     MatProgressSpinnerModule,
       ReservationRoutingModule,
-      GestionreservationRoutingModule,
 
     MatFormFieldModule,
     MatInputModule,
@@ -52,6 +59,12 @@ MaterielsComponent, ReservationComponent, ReservationHistoryComponent,Reservatio
     MatNativeDateModule,
     NgxPaginationModule,
     MatCardModule,
+    MatSelectModule,
+    MatOptionModule,
+    GoogleMapsModule,
+
+
+
 
 
     //FullCalendarModule

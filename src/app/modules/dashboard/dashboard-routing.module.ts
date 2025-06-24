@@ -7,6 +7,7 @@ import {MaterielsComponent} from "./pages/materiels/materiels.component";
 import {ReservationComponent} from "./pages/reservation/reservation.component";
 import {ReservationHistoryComponent} from "./pages/reservation-history/reservation-history.component";
 import {ReservationDetailComponent} from "./pages/reservationDetail/reservationDetail.component";
+import {GestionreservationComponent} from "./pages/gestionreservation/gestionreservation.component";
 
 const routes: Routes = [
   {
@@ -17,8 +18,10 @@ const routes: Routes = [
       { path: 'nfts', component: NftComponent },
       { path: 'podcast', component: PodcastComponent },
       { path: 'materiels', component: MaterielsComponent},
+      { path: 'materiels', component: MaterielsComponent},
+      { path: 'gestion_reservation', component:GestionreservationComponent},
       {path: 'reservations', component: ReservationComponent},
-      { path: 'history', component: ReservationHistoryComponent },
+      { path: 'historique', component: ReservationHistoryComponent },
       { path: 'reservationDetails/:materielId', component: ReservationDetailComponent},
       { path: '**', redirectTo: 'errors/404' },
     ],

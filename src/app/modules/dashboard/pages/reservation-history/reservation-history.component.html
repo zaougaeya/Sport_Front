@@ -1,20 +1,78 @@
-<div class="history-wrapper">
-  <h2>Historique de vos réservations</h2>
+<div class="container mx-auto mt-6 p-4 bg-white rounded shadow">
+  <h2 class="text-2xl font-bold text-center text-indigo-600 mb-4">
+    🕘 Historique de vos Réservations
+  </h2>
 
-  <div *ngIf="reservations.length === 0">
-    <p>Vous n'avez encore effectué aucune réservation.</p>
+  <!-- 📅 Calendrier -->
+  <full-calendar
+    *ngIf="!loading && reservations.length > 0"
+    [options]="calendarOptions"
+    class="mb-6">
+  </full-calendar>
+
+  <!-- 🎛️ Filtres -->
+  <div class="flex flex-wrap gap-4 mb-6 items-center justify-center">
+    <select [(ngModel)]="selectedStatus" class="border px-4 py-2 rounded">
+      <option value="">Tous les statuts</option>
+      <option value="PAID">Payé</option>
+      <option value="PENDING">En attente</option>
+      <option value="CANCELLED">Annulé</option>
+    </select>
+
+    <input type="date" [(ngModel)]="filterStart" class="border px-4 py-2 rounded" placeholder="Date début" />
+    <input type="date" [(ngModel)]="filterEnd" class="border px-4 py-2 rounded" placeholder="Date fin" />
   </div>
 
-  <ul *ngIf="reservations.length > 0">
-    <li *ngFor="let res of reservations">
-      <strong>Matériel:</strong> {{ res.materiel.name }} <br />
-      <strong>Période:</strong> {{ res.startDate | date: 'shortDate' }} → {{ res.endDate | date: 'shortDate' }} <br />
-      <strong>Statut:</strong> {{ res.status }}
-      <hr />
-    </li>
-  </ul>
+  <div *ngIf="loading" class="text-center text-gray-500">Chargement...</div>
 
-  <div *ngIf="freeReservationEarned" class="reward">
-    🎉 Félicitations ! Vous avez gagné une réservation gratuite.
+  <div *ngIf="!loading && filteredReservations.length === 0" class="text-center text-gray-500">
+    Aucune réservation trouvée.
+  </div>
+
+  <table *ngIf="!loading && filteredReservations.length > 0"
+         class="min-w-full table-auto border-collapse border border-gray-200 text-sm text-center">
+    <thead class="bg-gray-100">
+    <tr>
+      <th class="border px-4 py-2">Matériel</th>
+      <th class="border px-4 py-2">Du</th>
+      <th class="border px-4 py-2">Au</th>
+      <th class="border px-4 py-2">Statut</th>
+      <th class="border px-4 py-2">Terrain</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let r of filteredReservations">
+      <td class="border px-4 py-2">
+        <div class="flex items-center justify-center gap-2">
+          <img [src]="r.materielImageUrl || 'assets/img/placeholder.png'"
+               (error)="onImgError($event)"
+               (click)="openImageModal(r.materielImageUrl || 'assets/img/placeholder.png')"
+               class="w-10 h-10 object-cover rounded border cursor-pointer hover:scale-105 transition"
+               alt="img">
+          <span>{{ r.materielName || '---' }}</span>
+        </div>
+      </td>
+      <td class="border px-4 py-2">{{ r.startDate | date: 'shortDate' }}</td>
+      <td class="border px-4 py-2">{{ r.endDate | date: 'shortDate' }}</td>
+      <td class="border px-4 py-2">
+        <span [ngClass]="{
+          'text-green-600 font-semibold': r.status === 'PAID',
+          'text-yellow-600': r.status === 'PENDING',
+          'text-red-600': r.status === 'CANCELLED'
+        }">
+          {{ r.status }}
+        </span>
+      </td>
+      <td class="border px-4 py-2">{{ r.terrainId || 'N/A' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 🔍 Modale zoom image -->
+<div *ngIf="selectedImage" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-4 rounded shadow-lg relative">
+    <button (click)="closeImageModal()" class="absolute top-2 right-2 text-gray-500 hover:text-black text-xl">&times;</button>
+    <img [src]="selectedImage" alt="Zoom Image" class="max-w-lg max-h-[80vh] rounded" />
   </div>
 </div>

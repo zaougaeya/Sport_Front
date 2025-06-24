@@ -116,6 +116,7 @@
         <th class="border border-gray-300 p-2">Nom</th>
         <th class="border border-gray-300 p-2">Type de sport</th>
         <th class="border border-gray-300 p-2">Quantité</th>
+        <th class="border border-gray-300 p-2">Prix (TND)</th>
         <th class="border border-gray-300 p-2">Couleur</th>
         <th class="border border-gray-300 p-2">État</th>
         <th class="border border-gray-300 p-2">Image</th>
@@ -128,6 +129,7 @@
         <td class="border border-gray-300 p-2">{{ materiel.name }}</td>
         <td class="border border-gray-300 p-2">{{ materiel.sportType }}</td>
         <td class="border border-gray-300 p-2 text-center">{{ materiel.quantity }}</td>
+        <td class="border border-gray-300 p-2 text-center">{{ materiel.price | currency:'TND' }}</td>
         <td class="border border-gray-300 p-2">{{ materiel.color }}</td>
         <td class="border border-gray-300 p-2">{{ materiel.state }}</td>
         <td class="border border-gray-300 p-2 text-center">

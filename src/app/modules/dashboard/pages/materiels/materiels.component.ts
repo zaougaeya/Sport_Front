@@ -32,8 +32,9 @@ export class MaterielsComponent implements OnInit {
   // Champs dynamiques pour le formulaire
   fields = [
     { label: 'Nom du matériel', control: 'name', type: 'text', placeholder: 'Ex: Ballon' },
-    { label: 'Type de sport', control: 'sportType', type: 'select', options: ['football', 'basketball', 'tennis'] },
+    { label: 'Type de sport', control: 'sportType', type: 'select', options: ['football', 'basketball', 'tennis','Padel'] },
     { label: 'Quantité', control: 'quantity', type: 'number', placeholder: 'Ex: 10' },
+    { label: 'Prix (TND)', control: 'price', type: 'number', placeholder: 'Ex: 5.99' }, // ✅ AJOUT
     { label: 'Couleur', control: 'color', type: 'text', placeholder: 'Ex: Rouge' },
     { label: 'État', control: 'state', type: 'select', options: ['neuf', 'usagé', 'endommagé'] },
     { label: 'Note interne', control: 'description', type: 'textarea', placeholder: 'Remarques...' }
@@ -49,6 +50,7 @@ export class MaterielsComponent implements OnInit {
       name: ['', Validators.required],
       sportType: ['', Validators.required],
       quantity: [0, [Validators.required, Validators.min(1)]],
+      price: [0, Validators.required] ,// ✅ AJOUT
       color: ['', Validators.required],
       state: ['', Validators.required],
       description: ['']
@@ -111,10 +113,13 @@ export class MaterielsComponent implements OnInit {
       formData.append('name', this.materielForm.get('name')?.value);
       formData.append('sportType', this.materielForm.get('sportType')?.value);
       formData.append('quantity', this.materielForm.get('quantity')?.value);
+      formData.append('price', this.materielForm.get('price')?.value);
       formData.append('color', this.materielForm.get('color')?.value);
       formData.append('state', this.materielForm.get('state')?.value);
-      formData.append('description', this.materielForm.get('description')?.value || '');
+      formData.append('noteInterne', this.materielForm.get('description')?.value || '');
       formData.append('image', this.selectedFile);
+
+      //const token = 'eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2ODMzMmQ1MTRkYWUyYzE5ZWUwNjJjMjUiLCJyb2xlIjoiQURNSU4iLCJqb2IiOiJFTlRSQUlORVVSIiwiaWF0IjoxNzQ4NzgwMDU0LCJleHAiOjE3NDg4NjY0NTR9._weo242BoJDPp_qEI9z2l2npf12j9NZ6pAVDHPzfxq7lzr5OvfKpAxAdOAeX_4xQ';
 
       this.materielService.createMaterielWithImage(formData).subscribe({
         next: () => {

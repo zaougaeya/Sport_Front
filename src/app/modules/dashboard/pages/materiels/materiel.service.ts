@@ -27,8 +27,19 @@ export class MaterielService {
 
   // ✅ Cas avec image (upload via FormData)
   createMaterielWithImage(formData: FormData): Observable<Materiel> {
-    return this.http.post<Materiel>(`${this.baseUrl}/upload`, formData)
-      .pipe(catchError(this.handleError));
+    const token = localStorage.getItem('access_token'); // ou autre méthode pour récupérer le token
+
+    // @ts-ignore
+    return this.http.post(
+      'http://localhost:8084/api/materiels/upload',
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+
+    );
   }
 
   // ✅ Liste complète

@@ -14,12 +14,21 @@ export class ReservationService {
     return this.http.get<Materiel[]>('http://localhost:8084/api/reservations/materiels');
   }
 
-  getReservations(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/reservations/calendar`);
+  getReservations(): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(`${this.apiUrl}/calendar`);
+  }
+  confirmPaiement(id: string): Observable<Reservation> {
+    return this.http.post<Reservation>(`${this.apiUrl}/${id}/confirm`, {});
   }
 
+
+
   createReservation(payload: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, payload); // ✅ PAS `/reservations` deux fois
+    return this.http.post(`${this.apiUrl}`, {
+      ...payload,
+      startDate: new Date(payload.startDate).toISOString(),
+      endDate: new Date(payload.endDate).toISOString()
+    });
   }
   getUserReservations(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.apiUrl}/user`);

@@ -1,55 +1,79 @@
-<div class="reservation-detail-container" *ngIf="materiel">
-  <h2>Réserver: {{ materiel.name }}</h2>
+<div class="bg-white p-6 rounded-lg shadow max-w-4xl mx-auto mt-8">
 
-  <div class="materiel-detail-card">
-    <img [src]="materiel.imageUrl" alt="{{ materiel.name }}" />
-    <div class="info">
-      <p><strong>État:</strong> {{ materiel.state }}</p>
-      <p><strong>Quantité:</strong> {{ materiel.quantity }}</p>
-      <p><strong>Sport:</strong> {{ materiel.sportType || '-' }}</p>
+  <h3 class="text-2xl font-semibold text-red-600 mb-4 text-center">
+    Réserver : {{ materiel?.name }}
+  </h3>
+
+  <!-- Détails du matériel -->
+  <div class="flex items-center space-x-6 mb-6">
+    <img *ngIf="materiel?.imageUrl" [src]="materiel.imageUrl" alt="Image du matériel" class="w-32 h-32 rounded shadow" />
+    <div class="text-gray-700 space-y-1">
+      <p><strong>Prix:</strong> {{ materiel?.price }} TND</p>
+      <p><strong>Couleur:</strong> {{ materiel?.color }}</p>
+      <p><strong>État:</strong> {{ materiel?.state }}</p>
+      <p><strong>Disponible:</strong> {{ materiel?.quantity }}</p>
     </div>
   </div>
 
-  <!-- Formulaire de sélection de dates -->
-  <form [formGroup]="reservationForm">
-    <div class="date-picker-group">
-      <mat-form-field appearance="fill">
-        <mat-label>Date de début</mat-label>
-        <input
-          matInput
-          [matDatepicker]="startPicker"
-          formControlName="startDate"
-          [matDatepickerFilter]="isDateAvailable"
-          (dateChange)="onDateSelection()"
-        />
-        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-        <mat-datepicker #startPicker></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Date de fin</mat-label>
-        <input
-          matInput
-          [matDatepicker]="endPicker"
-          formControlName="endDate"
-          [matDatepickerFilter]="isDateAvailable"
-          (dateChange)="onDateSelection()"
-        />
-        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-        <mat-datepicker #endPicker></mat-datepicker>
-      </mat-form-field>
+  <form [formGroup]="reservationForm" (ngSubmit)="submitReservation()" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Terrain -->
+    <div>
+      <label class="block font-medium text-gray-700 mb-1">Terrain</label>
+      <select formControlName="terrainId" class="w-full px-4 py-2 rounded-md border border-gray-300 text-gray-900 bg-white focus:ring-2 focus:ring-red-500">
+        <option value="">Sélectionner un terrain</option>
+        <option *ngFor="let t of terrains" [value]="t">{{ t }}</option>
+      </select>
     </div>
 
-    <!-- Formulaire après sélection valide -->
-    <div *ngIf="showForm" class="reservation-form">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Note</mat-label>
-        <textarea matInput formControlName="note" placeholder="Note facultative..."></textarea>
-      </mat-form-field>
+    <!-- Quantité -->
+    <div>
+      <label class="block font-medium text-gray-700 mb-1">Quantité</label>
+      <input type="number" formControlName="quantity" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-red-500" />
+      <p *ngIf="!isQuantityValid()" class="text-sm text-red-600 mt-1">Quantité demandée supérieure au stock disponible !</p>
+    </div>
 
-      <button mat-raised-button color="primary" (click)="submitReservation()" [disabled]="reservationForm.invalid">
-        Confirmer la réservation
+    <!-- Date de début -->
+    <div>
+      <label class="block font-medium text-gray-700 mb-1">📅 Date de début</label>
+      <input type="date" formControlName="startDate" [min]="today" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-red-500" />
+    </div>
+
+    <!-- Date de fin -->
+    <div>
+      <label class="block font-medium text-gray-700 mb-1">📅 Date de fin</label>
+      <input type="date" formControlName="endDate" [min]="reservationForm.value.startDate || today" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-red-500" />
+    </div>
+
+    <!-- Note -->
+    <div class="col-span-2">
+      <label class="block font-medium text-gray-700 mb-1">Note</label>
+      <textarea formControlName="note" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-red-500"></textarea>
+    </div>
+
+    <!-- Total -->
+    <div class="col-span-2 text-right text-gray-700 font-semibold">
+      💰 Prix total : {{ totalPrice }} TND
+    </div>
+
+    <!-- Boutons -->
+    <div class="col-span-2 flex justify-end mt-4 space-x-4">
+      <button type="submit" [disabled]="reservationForm.invalid || !isQuantityValid()" class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 disabled:opacity-50 cursor-not-allowed">
+        Réserver
       </button>
+
+      <button type="button" (click)="cancel()" class="bg-gray-200 text-gray-800 px-6 py-2 rounded hover:bg-gray-300">
+        Annuler
+      </button>
+      <div *ngIf="qrData" class="mt-6 text-center">
+        <h4 class="text-lg font-semibold mb-2">🎟️ QR Code de votre réservation</h4>
+
+        <qrcode #qrRef [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+
+        <button (click)="downloadQr()" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+          ⬇️ Télécharger le QR Code
+        </button>
+      </div>
+
     </div>
   </form>
 </div>

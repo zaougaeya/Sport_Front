@@ -19,6 +19,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialogModule} from "@angular/material/dialog";
 import {NgxPaginationModule} from "ngx-pagination";
 import {MatCardModule} from "@angular/material/card";
+import {QRCodeModule} from "angularx-qrcode";
 
 @NgModule({
   declarations: [],
@@ -39,6 +40,8 @@ import {MatCardModule} from "@angular/material/card";
     MatProgressSpinnerModule,
     MatDialogModule,
     MatCardModule,
+    QRCodeModule,
+
 
     NgxPaginationModule,
 

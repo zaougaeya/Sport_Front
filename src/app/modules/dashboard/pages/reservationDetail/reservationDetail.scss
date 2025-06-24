@@ -1,87 +1,16 @@
-.reservation-detail-container {
-  max-width: 900px;
+::ng-deep .mat-calendar-body-cell-content {
+  font-size: 0.75rem !important;
+  padding: 0.25rem !important;
+}
+
+::ng-deep .mat-calendar {
+  width: 100% !important;
+  max-width: 320px;
   margin: auto;
-  padding: 2rem;
+  font-size: 13px;
+}
 
-  h2 {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 600;
-    color: #1f2937; // text-gray-800
-    margin-bottom: 2rem;
-  }
-
-  .materiel-detail-card {
-    display: flex;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-    align-items: center;
-    padding: 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 1rem;
-    background-color: #ffffff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-
-    img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 0.75rem;
-      border: 1px solid #e5e7eb;
-    }
-
-    .info {
-      p {
-        font-size: 0.95rem;
-        margin-bottom: 0.25rem;
-        strong {
-          font-weight: 600;
-          color: #374151; // text-gray-700
-        }
-      }
-    }
-  }
-
-  mat-form-field {
-    width: 100%;
-    margin-bottom: 1rem;
-  }
-
-  .reservation-form {
-    margin-top: 1.5rem;
-
-    mat-form-field {
-      margin-bottom: 1rem;
-    }
-
-    button {
-      font-size: 1rem;
-      font-weight: 600;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
-      background-color: #3b82f6; // blue-500
-      color: #fff;
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: #2563eb; // blue-600
-      }
-
-      &:disabled {
-        background-color: #9ca3af; // gray-400
-      }
-      .date-picker-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
-
-        mat-form-field {
-          flex: 1 1 300px;
-        }
-      }
-
-
-    }
-  }
+::ng-deep .mat-datepicker-content {
+  transform: scale(0.95);
+  transform-origin: top center;
 }
