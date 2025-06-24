@@ -1,0 +1,16 @@
+<div class="text-center p-6 bg-white rounded shadow max-w-xl mx-auto">
+  <h2 class="text-xl font-bold mb-4">📸 Scanner un QR Code</h2>
+  <div id="reader" class="mx-auto"></div>
+
+  <div *ngIf="qrResult" class="mt-6 p-4 border rounded bg-gray-50 text-left">
+    <h3 class="font-semibold text-lg mb-2">Détails de la réservation</h3>
+    <pre class="text-sm text-gray-700">{{ qrResult | json }}</pre>
+
+    <button
+      class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+      (click)="confirmPaiement()"
+    >
+      ✅ Confirmer Paiement
+    </button>
+  </div>
+</div>

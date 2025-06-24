@@ -1,0 +1,6 @@
+<div class="qr-wrapper text-center p-6">
+  <h2 class="text-xl font-semibold text-gray-800 mb-4">Votre réservation est confirmée</h2>
+  <p class="mb-2">Présentez ce QR code sur place pour finaliser le paiement :</p>
+  <qrcode [qrdata]="qrData" [width]="256" errorCorrectionLevel="M"></qrcode>
+  <p class="text-sm text-gray-500 mt-4">Réservation ID : {{ reservationId }}</p>
+</div>

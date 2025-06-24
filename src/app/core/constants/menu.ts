@@ -145,23 +145,37 @@ export class Menu {
     },
 
     {
-      group: 'Gestion des Matériels', // Nouveau groupe pour la gestion des matériels
+      group: 'Gestion des Matériels',
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/archive.svg', // Choisissez une icône appropriée
-          label: 'Matériels',
-          route: '/admin/materiels', // Utilisez la route que vous avez définie
+          icon: 'assets/icons/heroicons/outline/archive-box.svg',
+          label: 'Gestion des matériels',
+          route: '/dashboard/materiels',
         },
         {
-          icon: 'assets/icons/heroicons/outline/calendar.svg', // Choisissez une icône appropriée
-          label: 'Réservations',
-          route: '/admin/reservations', // Utilisez la route que vous avez définie
+          icon: 'assets/icons/heroicons/outline/calendar.svg',
+          label: 'Gestion des réservations',
+          route: '/dashboard/gestion_reservation',
         },
       ],
     },
-
-
+    {
+      group: 'Réservation de Matériel',
+      separator: true,
+      items: [
+        {
+          icon: 'assets/icons/heroicons/outline/calendar.svg',
+          label: 'Réserver un matériel',
+          route: '/dashboard/reservations'
+        },
+        {
+          icon: 'assets/icons/heroicons/outline/clock.svg',
+          label: 'Historique des réservations',
+          route: '/dashboard/historique'
+        }
+      ]
+    },
 
 
 

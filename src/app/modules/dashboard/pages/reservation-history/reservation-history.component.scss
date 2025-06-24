@@ -1,0 +1,6 @@
+.status {
+  font-weight: 600;
+  &.PAID { color: #16a34a; }       // vert
+  &.PENDING { color: #ca8a04; }    // jaune
+  &.CANCELLED { color: #dc2626; }  // rouge
+}

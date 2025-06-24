@@ -1,0 +1,16 @@
+::ng-deep .mat-calendar-body-cell-content {
+  font-size: 0.75rem !important;
+  padding: 0.25rem !important;
+}
+
+::ng-deep .mat-calendar {
+  width: 100% !important;
+  max-width: 320px;
+  margin: auto;
+  font-size: 13px;
+}
+
+::ng-deep .mat-datepicker-content {
+  transform: scale(0.95);
+  transform-origin: top center;
+}

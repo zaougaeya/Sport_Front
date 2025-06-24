@@ -1,0 +1,61 @@
+<div class="container mx-auto mt-8 p-4 bg-white rounded shadow">
+  <h2 class="text-2xl font-bold mb-4 text-center text-red-600">🧾 Gestion des Réservations</h2>
+
+  <div *ngIf="loading" class="text-center text-gray-600">Chargement des réservations...</div>
+
+  <table *ngIf="!loading && reservations.length > 0"
+         class="min-w-full table-auto border-collapse border border-gray-200 text-sm text-center">
+    <thead class="bg-gray-100 text-gray-700">
+    <tr>
+      <th class="border px-4 py-2">Matériel</th>
+      <th class="border px-4 py-2">Utilisateur</th>
+      <th class="border px-4 py-2">Quantité</th>
+      <th class="border px-4 py-2">Dates</th>
+      <th class="border px-4 py-2">Total</th>
+      <th class="border px-4 py-2">Paiement</th>
+      <th class="border px-4 py-2">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let r of reservations">
+      <!-- 📦 Matériel avec image -->
+      <td class="border px-4 py-2">
+        <div class="flex items-center justify-center gap-2">
+          <img [src]="r.materielImageUrl || 'assets/img/placeholder.png'"
+               alt="matériel"
+               class="w-10 h-10 object-cover rounded border" />
+          <span>{{ r.materielName || '---' }}</span>
+        </div>
+      </td>
+
+      <td class="border px-4 py-2">{{ r.reservedBy || '---' }}</td>
+      <td class="border px-4 py-2">{{ r.quanity || '-' }}</td>
+      <td class="border px-4 py-2">
+        {{ r.startDate | date:'shortDate' }} → {{ r.endDate | date:'shortDate' }}
+      </td>
+      <td class="border px-4 py-2">{{ r.totalPrice || 0 }} TND</td>
+
+      <!-- ✅ Paiement -->
+      <td class="border px-4 py-2">
+          <span [class.text-green-600]="r.paid" [class.text-red-600]="!r.paid">
+            {{ r.paid ? '✅ Payé' : '❌ Non payé' }}
+          </span>
+      </td>
+
+      <!-- 🔘 Action -->
+      <td class="border px-4 py-2">
+        <button *ngIf="!r.paid"
+                (click)="confirmPaiement(r)"
+                class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition">
+          Confirmer Paiement
+        </button>
+        <span *ngIf="r.paid" class="text-gray-500">✔️</span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && reservations.length === 0" class="text-center text-gray-600 py-4">
+    Aucune réservation trouvée.
+  </div>
+</div>
