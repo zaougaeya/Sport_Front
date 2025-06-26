@@ -4,9 +4,11 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - main
       - prodFront
   pull_request:
     branches:
+      - main
       - prodFront
 
 jobs:
@@ -86,4 +88,5 @@ jobs:
       - name: Run SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: sonar-scanner -Dsonar.branch.name=prodFront
+        run: |
+          sonar-scanner -Dsonar.branch.name=${{ github.ref_name }}
