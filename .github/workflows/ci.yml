@@ -10,9 +10,9 @@ on:
       - prodFront
 
 jobs:
-  build-and-analyze:
+  install:
+    name: Install dependencies
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,9 +25,40 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Run tests and generate coverage
-        run: |
-          npm run test -- --watch=false --code-coverage
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    needs: install
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run tests with coverage
+        run: npm run test -- --watch=false --code-coverage
+
+  sonar:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
 
       - name: Install SonarCloud scanner
         run: npm install -g sonar-scanner
