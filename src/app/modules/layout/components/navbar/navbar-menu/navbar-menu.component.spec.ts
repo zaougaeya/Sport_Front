@@ -17,14 +17,8 @@ describe('NavbarMenuComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: {
-              paramMap: {
-                get: (key: string) => null
-              }
-            },
-            params: {
-              subscribe: () => {}
-            }
+            snapshot: { paramMap: { get: () => null } },
+            params: { subscribe: () => {} }
           }
         }
       ]

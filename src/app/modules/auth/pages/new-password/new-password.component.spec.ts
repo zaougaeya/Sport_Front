@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NewPasswordComponent } from './new-password.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing'; // ✅ Fournit ActivatedRoute
+import { RouterTestingModule } from '@angular/router/testing'; // Fournit ActivatedRoute
 
 describe('NewPasswordComponent', () => {
   let component: NewPasswordComponent;
@@ -11,11 +11,11 @@ describe('NewPasswordComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NewPasswordComponent,         // ✅ Composant standalone
-        ReactiveFormsModule,          // ✅ Pour les formulaires réactifs
-        FormsModule,                  // ✅ Pour ngModel si utilisé
-        HttpClientTestingModule,      // ✅ Pour simuler les appels HTTP
-        RouterTestingModule           // ✅ Fournit ActivatedRoute & Router
+        NewPasswordComponent,
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule
       ]
     }).compileComponents();
 

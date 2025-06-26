@@ -17,7 +17,12 @@ describe('AjoutPanierDialogComponent', () => {
       ],
       providers: [
         { provide: MatDialogRef, useValue: { close: () => {} } },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: {
+            produit: { nom: 'Produit Test', pourcentagePromotion: 10 } // Mock données attendues
+          }
+        }
       ]
     }).compileComponents();
   });
