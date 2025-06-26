@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { LivreursComponent } from './pages/livreurs/livreurs.component';
-import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProduitsComponent } from './pages/produits/produits.component';
+
+// ✅ Import des composants standalone
+import { CategoriesComponent } from './pages/categories/categories.component';
 import { CommandesComponent } from './pages/commandes/commandes.component';
 import { StatVComponent } from './pages/stat-v/stat-v.component';
 
@@ -20,14 +22,12 @@ import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [
     LivreursComponent,
-    CategoriesComponent,
     ProduitsComponent,
-    CommandesComponent,
-    StatVComponent
+    // ❌ Ne PAS déclarer les standalone components ici
   ],
   imports: [
-    DashboardRoutingModule,
     CommonModule,
+    DashboardRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -35,6 +35,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-  ],
+
+    // ✅ Ajouter les composants standalone ici
+    CategoriesComponent,
+    CommandesComponent,
+    StatVComponent
+  ]
 })
 export class DashboardModule {}
