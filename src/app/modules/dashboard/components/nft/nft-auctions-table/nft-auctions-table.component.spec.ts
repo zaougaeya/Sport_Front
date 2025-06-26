@@ -11,12 +11,12 @@ describe('NftAuctionsTableComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NftAuctionsTableComponent,    // Composant standalone
-        HttpClientTestingModule,      // Pour HttpClient utilisé par SvgIconRegistryService
-        BrowserAnimationsModule       // Pour animations si utilisées
+        NftAuctionsTableComponent,
+        HttpClientTestingModule,
+        BrowserAnimationsModule
       ],
       providers: [
-        SvgIconRegistryService        // Fournir le service SvgIconRegistryService
+        SvgIconRegistryService
       ]
     }).compileComponents();
 
