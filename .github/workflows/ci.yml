@@ -89,4 +89,4 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner -Dsonar.branch.name=${{ github.ref_name }}
+          sonar-scanner -Dsonar.branch.name=prodFront
