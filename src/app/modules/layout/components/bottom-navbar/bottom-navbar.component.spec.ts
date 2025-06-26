@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BottomNavbarComponent } from './bottom-navbar.component';
-import { SvgIconRegistryService } from 'angular-svg-icon';
+import { SvgIconRegistryService, SvgLoader } from 'angular-svg-icon';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -11,12 +11,13 @@ describe('BottomNavbarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        BottomNavbarComponent, // car composant standalone
+        BottomNavbarComponent, // standalone component
         HttpClientTestingModule,
-        BrowserAnimationsModule // nécessaire pour l'animation @openClose
+        BrowserAnimationsModule // pour animations éventuelles
       ],
       providers: [
-        SvgIconRegistryService
+        SvgIconRegistryService,
+        SvgLoader // Ajouter SvgLoader, dépendance de SvgIconRegistryService
       ]
     }).compileComponents();
   });

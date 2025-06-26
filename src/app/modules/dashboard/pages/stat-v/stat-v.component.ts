@@ -8,6 +8,7 @@ Chart.register(
 );
 
 @Component({
+   standalone: true,
   selector: 'app-stat-v',
   templateUrl: './stat-v.component.html',
   styleUrls: ['./stat-v.component.scss']

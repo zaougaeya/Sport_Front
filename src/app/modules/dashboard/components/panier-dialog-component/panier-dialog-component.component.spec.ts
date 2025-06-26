@@ -5,6 +5,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PanierService } from 'src/app/core/services/panierService';
 import { CommandeService } from 'src/app/core/services/commande.service';
 import { of } from 'rxjs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PanierDialogComponent', () => {
   let component: PanierDialogComponent;
@@ -13,9 +14,10 @@ describe('PanierDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        PanierDialogComponent, // Comme il est standalone
+        PanierDialogComponent, // Composant standalone
         MatDialogModule,
         HttpClientTestingModule,
+        BrowserAnimationsModule // nécessaire pour animations/dialogs Angular Material
       ],
       providers: [
         {

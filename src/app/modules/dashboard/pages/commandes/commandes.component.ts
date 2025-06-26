@@ -5,6 +5,7 @@ import { Livreur } from '../livreurs/livreur.model';
 import Swal from 'sweetalert2';
 
 @Component({
+   standalone: true,
   selector: 'app-commandes',
   templateUrl: './commandes.component.html',
   styleUrls: ['./commandes.component.scss']
