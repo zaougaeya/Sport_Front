@@ -1,19 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LivreurService } from './livreur.service';
-import { Livreur } from './livreur.model'; // ✅ séparé proprement
+import { Livreur } from './livreur.model';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   standalone: true,
   selector: 'app-livreur',
   templateUrl: './livreurs.component.html',
   styleUrls: ['./livreurs.component.scss'],
+  imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule],
 })
 export class LivreursComponent implements OnInit {
   livreurForm: FormGroup;
   livreurs: Livreur[] = [];
   p: number = 1;
+
   constructor(
     private fb: FormBuilder,
     private livreurService: LivreurService,
@@ -25,11 +30,7 @@ export class LivreursComponent implements OnInit {
       numeroTelephone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       statutLivreur: ['DISPONIBLE', Validators.required],
-   
-
     });
-   
-
   }
 
   ngOnInit(): void {

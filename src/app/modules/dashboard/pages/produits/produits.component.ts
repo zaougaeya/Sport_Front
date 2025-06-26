@@ -2,15 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProduitService, Produit } from './produit.service';
 import { CategoryService, Categorie } from '../categories/category.service';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   standalone: true,
   selector: 'app-produit',
   templateUrl: './produits.component.html',
   styleUrls: ['./produits.component.scss'],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NgxPaginationModule],
 })
 export class ProduitsComponent implements OnInit {
-
   produitForm!: FormGroup;
   produits: Produit[] = [];
   categories: Categorie[] = [];
@@ -18,9 +21,8 @@ export class ProduitsComponent implements OnInit {
   isEditing: boolean = false;
   currentPage: number = 1;
   ruptureProduits: string[] = [];
-showAlert: boolean = false;
-
-  genres: string[] = ['HOMME', 'FEMME', 'ENFANT','TOUT'];
+  showAlert: boolean = false;
+  genres: string[] = ['HOMME', 'FEMME', 'ENFANT', 'TOUT'];
 
   produit: Produit = {
     id: '',
@@ -51,6 +53,7 @@ showAlert: boolean = false;
     this.chargerProduits();
     this.chargerCategories();
   }
+
   searchTerm: string = '';
 
   get filteredProduits() {
@@ -63,8 +66,6 @@ showAlert: boolean = false;
       p.categorie?.nom?.toLowerCase().includes(term)
     );
   }
-  
-
 
   initForm(): void {
     const currentDateISO = new Date().toISOString();
@@ -82,35 +83,33 @@ showAlert: boolean = false;
     });
   }
 
- 
-chargerProduits(): void {
-  this.produitService.getAllProduits().subscribe((data) => {
-    this.produits = data;
-    this.checkRuptureStock();
-  });
-}
-
-checkRuptureStock(): void {
-  this.ruptureProduits = this.produits
-    .filter(p => p.quantiteEnStock === 0)
-    .map(p => p.nom);
-
-  if (this.ruptureProduits.length > 0) {
-    this.showAlert = true;
-
-    // Disparaît après 5 secondes (5000 ms)
-    setTimeout(() => {
-      this.showAlert = false;
-    }, 5000);
+  chargerProduits(): void {
+    this.produitService.getAllProduits().subscribe((data) => {
+      this.produits = data;
+      this.checkRuptureStock();
+    });
   }
-}
+
+  checkRuptureStock(): void {
+    this.ruptureProduits = this.produits
+      .filter(p => p.quantiteEnStock === 0)
+      .map(p => p.nom);
+
+    if (this.ruptureProduits.length > 0) {
+      this.showAlert = true;
+
+      setTimeout(() => {
+        this.showAlert = false;
+      }, 5000);
+    }
+  }
 
   chargerCategories(): void {
     this.categorieService.getAllCategories().subscribe((cats) => {
       this.categories = cats;
       this.categorieMap = {};
       cats.forEach(cat => {
-        if (cat.id !== undefined) { 
+        if (cat.id !== undefined) {
           this.categorieMap[cat.id] = cat.nom;
         }
       });
@@ -153,7 +152,7 @@ checkRuptureStock(): void {
     if (!id) return;
 
     const confirmation = window.confirm('Voulez-vous vraiment supprimer ce produit ?');
-    
+
     if (confirmation) {
       this.produitService.supprimerProduit(id).subscribe(() => {
         this.chargerProduits();
@@ -191,10 +190,4 @@ checkRuptureStock(): void {
       dateAjout: new Date()
     };
   }
- 
-
-
-
-
-
 }

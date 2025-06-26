@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService, Categorie } from './category.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
-   standalone: true,
+  standalone: true,
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.scss'],
+  imports: [CommonModule, FormsModule, NgxPaginationModule],
 })
 export class CategoriesComponent implements OnInit {
   categorie: Categorie = {
@@ -38,7 +42,6 @@ export class CategoriesComponent implements OnInit {
 
   ajouterCategorie() {
     if (this.isEditMode && this.currentCategoryId) {
-      // Mode édition → mettre à jour
       const updatedCat = {
         ...this.categorie,
         id: this.currentCategoryId,
@@ -54,7 +57,6 @@ export class CategoriesComponent implements OnInit {
         },
       });
     } else {
-      // Mode ajout
       this.categoryService.ajouterCategorie(this.categorie).subscribe({
         next: () => {
           this.successMessage = 'Catégorie ajoutée avec succès !';
@@ -67,19 +69,17 @@ export class CategoriesComponent implements OnInit {
       });
     }
 
-    // Masquer le message après 3s
     setTimeout(() => {
       this.successMessage = '';
     }, 3000);
   }
 
   supprimerCategorie(id: string) {
-    console.log('Suppression demandée pour ID:', id, typeof id);
     if (confirm('Voulez-vous vraiment supprimer cette catégorie ?')) {
       this.categoryService.supprimerCategorie(id).subscribe({
         next: () => {
           this.successMessage = 'Catégorie supprimée avec succès !';
-          this.getCategories(); // Actualiser la liste
+          this.getCategories();
           setTimeout(() => {
             this.successMessage = '';
           }, 3000);
@@ -90,23 +90,20 @@ export class CategoriesComponent implements OnInit {
       });
     }
   }
+
   modifierCategorie(cat: Categorie) {
-    this.categorie = { ...cat }; // Remplir le formulaire avec les données de la catégorie
+    this.categorie = { ...cat };
     this.currentCategoryId = cat.id;
     this.isEditMode = true;
 
-    // Défilement vers le haut uniquement
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' }); // Faire défiler la page vers le haut
-    }, 100); // Petit délai pour s'assurer que la page se positionne bien
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   }
 
-
-
   resetForm() {
-    this.categorie = {  nom: '', description: '' };
+    this.categorie = { nom: '', description: '' };
     this.isEditMode = false;
     this.currentCategoryId = undefined;
   }
-  
 }

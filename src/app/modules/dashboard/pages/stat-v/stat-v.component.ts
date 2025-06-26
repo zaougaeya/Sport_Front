@@ -2,16 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { CommandeService } from '../commandes/commande.service';
 import { Commande } from '../commandes/commande.model';
 import { Chart, BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
+import { CommonModule } from '@angular/common';
 
 Chart.register(
   BarController, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend
 );
 
 @Component({
-   standalone: true,
+  standalone: true,
   selector: 'app-stat-v',
   templateUrl: './stat-v.component.html',
-  styleUrls: ['./stat-v.component.scss']
+  styleUrls: ['./stat-v.component.scss'],
+  imports: [CommonModule],
 })
 export class StatVComponent implements OnInit {
   commandes: Commande[] = [];
@@ -19,7 +21,7 @@ export class StatVComponent implements OnInit {
   produitsTrie: { nom: string; occurrences: number; quantiteTotale: number }[] = [];
   chart: any;
 
-  triPar: 'occurrences' | 'quantiteTotale' = 'quantiteTotale'; // Critère de tri par défaut
+  triPar: 'occurrences' | 'quantiteTotale' = 'quantiteTotale';
 
   revenueChart: any;
   regroupementPar: 'jour' | 'semaine' = 'jour';
@@ -31,15 +33,12 @@ export class StatVComponent implements OnInit {
     this.getAllCommandes();
   }
 
-  /**
-   * Récupérer toutes les commandes depuis le service
-   */
   getAllCommandes() {
     this.commandeService.getAllCommandes().subscribe({
       next: (data) => {
         this.commandes = data;
-        this.processSalesData();     // Traitement des ventes
-        this.processRevenueData();   // Traitement chiffre d'affaires
+        this.processSalesData();
+        this.processRevenueData();
       },
       error: (err) => {
         console.error('Erreur lors de la récupération des commandes :', err);
@@ -47,11 +46,8 @@ export class StatVComponent implements OnInit {
     });
   }
 
-  /**
-   * Traiter les données de vente pour identifier les produits les plus commandés et les quantités totales
-   */
   processSalesData() {
-    this.produitsStatistiques = {}; // Réinitialiser le compteur
+    this.produitsStatistiques = {};
     this.commandes.forEach((commande) => {
       const produitsDejaComptesDansCetteCommande = new Set<string>();
       commande.produits?.forEach((produit) => {
@@ -71,9 +67,6 @@ export class StatVComponent implements OnInit {
     this.generateChart();
   }
 
-  /**
-   * Trier les produits en fonction du critère sélectionné
-   */
   trierProduits() {
     this.produitsTrie = Object.entries(this.produitsStatistiques)
       .map(([nom, stats]) => ({ nom, occurrences: stats.occurrences, quantiteTotale: stats.quantiteTotale }))
@@ -86,18 +79,12 @@ export class StatVComponent implements OnInit {
       });
   }
 
-  /**
-   * Changer le critère de tri et mettre à jour l'affichage
-   */
   changerTri(critere: 'occurrences' | 'quantiteTotale') {
     this.triPar = critere;
     this.trierProduits();
     this.generateChart();
   }
 
-  /**
-   * Générer le graphique produits
-   */
   generateChart() {
     const labels = this.produitsTrie.map(p => p.nom);
     const data = this.produitsTrie.map(p => this.triPar === 'occurrences' ? p.occurrences : p.quantiteTotale);
@@ -158,9 +145,6 @@ export class StatVComponent implements OnInit {
     });
   }
 
-  /**
-   * Traiter les données chiffre d'affaires et générer le graphique
-   */
   processRevenueData() {
     this.revenusParDate = {};
     this.commandes.forEach(cmd => {
@@ -168,10 +152,10 @@ export class StatVComponent implements OnInit {
       let cle: string;
 
       if (this.regroupementPar === 'jour') {
-        cle = date.toISOString().split('T')[0]; // yyyy-mm-dd
+        cle = date.toISOString().split('T')[0];
       } else {
         const firstDayOfWeek = new Date(date);
-        firstDayOfWeek.setDate(date.getDate() - date.getDay()); // Dimanche = premier jour de la semaine
+        firstDayOfWeek.setDate(date.getDate() - date.getDay());
         cle = firstDayOfWeek.toISOString().split('T')[0];
       }
 
@@ -230,9 +214,6 @@ export class StatVComponent implements OnInit {
     });
   }
 
-  /**
-   * Changer le regroupement (jour/semaine) du chiffre d'affaires
-   */
   changerRegroupement(type: 'jour' | 'semaine') {
     this.regroupementPar = type;
     this.processRevenueData();
