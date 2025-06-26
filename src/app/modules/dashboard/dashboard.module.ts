@@ -19,11 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    LivreursComponent,
-    CategoriesComponent,
-    ProduitsComponent,
-    CommandesComponent,
-    StatVComponent
+    
   ],
   imports: [
     DashboardRoutingModule,
@@ -35,6 +31,11 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    LivreursComponent,
+    CategoriesComponent,
+    ProduitsComponent,
+    CommandesComponent,
+    StatVComponent
   ],
 })
 export class DashboardModule {}
