@@ -1,8 +1,6 @@
 <div *ngIf="successMessage" class="alert alert-success" role="alert">
     <span>ℹ️ {{ successMessage }}</span>
   </div>
-  
-  <!-- Formulaire d'ajout de catégorie -->
   <form (ngSubmit)="ajouterCategorie()" #categorieForm="ngForm" class="categorie-form">
     <div class="form-group">
       <label for="nom">Nom de la catégorie</label>
