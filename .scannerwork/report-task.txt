@@ -1,0 +1,8 @@
+organization=zaougaeya
+projectKey=Sport_Front
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.64952
+branch=prodFront
+dashboardUrl=https://sonarcloud.io/dashboard?id=Sport_Front&branch=prodFront&resolved=false
+ceTaskId=AZeteIeW0mXMB4GTA55O
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZeteIeW0mXMB4GTA55O
