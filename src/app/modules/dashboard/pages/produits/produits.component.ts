@@ -4,6 +4,7 @@ import { ProduitService, Produit } from './produit.service';
 import { CategoryService, Categorie } from '../categories/category.service';
 
 @Component({
+  standalone: true,
   selector: 'app-produit',
   templateUrl: './produits.component.html',
   styleUrls: ['./produits.component.scss'],

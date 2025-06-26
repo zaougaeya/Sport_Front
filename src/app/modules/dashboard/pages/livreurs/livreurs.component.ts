@@ -5,6 +5,7 @@ import { Livreur } from './livreur.model'; // ✅ séparé proprement
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: true,
   selector: 'app-livreur',
   templateUrl: './livreurs.component.html',
   styleUrls: ['./livreurs.component.scss'],
