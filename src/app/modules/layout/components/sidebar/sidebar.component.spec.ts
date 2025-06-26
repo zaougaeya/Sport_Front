@@ -3,6 +3,8 @@ import { SidebarComponent } from './sidebar.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
@@ -15,6 +17,15 @@ describe('SidebarComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule,
         AngularSvgIconModule.forRoot()
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({}),
+            snapshot: { paramMap: { get: () => null } }
+          }
+        }
       ]
     }).compileComponents();
   });

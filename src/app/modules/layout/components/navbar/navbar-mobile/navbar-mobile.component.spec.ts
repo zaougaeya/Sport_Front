@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ActivatedRoute } from '@angular/router'; // Importation de ActivatedRoute
-import { of } from 'rxjs'; // Pour simuler ActivatedRoute
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 import { NavbarMobileMenuComponent } from './navbar-mobile-menu/navbar-mobile-menu.component';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 
@@ -19,7 +19,6 @@ describe('NavbarMobileMenuComponent', () => {
         AngularSvgIconModule.forRoot() // Fournit SvgIconRegistryService et SvgLoader
       ],
       providers: [
-        // ActivatedRoute manquant, on le mocke
         {
           provide: ActivatedRoute,
           useValue: {
@@ -30,10 +29,7 @@ describe('NavbarMobileMenuComponent', () => {
               }
             }
           }
-        },
-        // SvgIconRegistryService est fourni par AngularSvgIconModule.forRoot(),
-        // donc pas besoin de le lister ici explicitement, sauf si vous avez une configuration spéciale.
-        // SvgIconRegistryService
+        }
       ]
     }).compileComponents();
   });

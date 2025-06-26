@@ -13,7 +13,7 @@ import { ResponsiveHelperComponent } from './shared/components/responsive-helper
   imports: [NgClass, RouterOutlet, ResponsiveHelperComponent],
 })
 export class AppComponent implements OnInit {
-  title = 'SportSync';
+  title = 'angular-tailwind';
 
   constructor(
     public themeService: ThemeService,

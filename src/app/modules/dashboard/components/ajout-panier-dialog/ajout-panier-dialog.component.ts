@@ -34,9 +34,8 @@ export class AjoutPanierDialogComponent {
   ajoutReussi = false;
   messageAjout: string = '';
   private userId: string = '683cd30c75078b686d4e44b5'; // Valeur par défaut
-   
- 
-    commandeEnCours: boolean = false;
+  
+  commandeEnCours: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AjoutPanierDialogComponent>,
@@ -45,11 +44,27 @@ export class AjoutPanierDialogComponent {
     private commandeService: CommandeService,
     private dialog: MatDialog,
     private router: Router
-     
   ) {
     const storedUserId = localStorage.getItem('userId');
     if (storedUserId) {
       this.userId = storedUserId;
+    }
+
+    // Sécurité : initialisation minimale de data.produit
+    if (!this.data) {
+      this.data = {};
+    }
+    if (!this.data.produit) {
+      this.data.produit = {
+        nom: 'Produit inconnu',
+        description: '',
+        imageUrl: '',
+        prix: 0,
+        pourcentagePromotion: 0,
+        quantiteEnStock: 0,
+        id: null,
+        _id: null
+      };
     }
   }
 
@@ -59,7 +74,11 @@ export class AjoutPanierDialogComponent {
       return;
     }
 
-    const produitId = this.data.produit.id || this.data.produit._id;
+    const produitId = this.data.produit?.id || this.data.produit?._id;
+    if (!produitId) {
+      this.messageAjout = 'Produit invalide.';
+      return;
+    }
 
     this.panierService.ajouterProduitAuPanier(this.userId, produitId, this.quantite).subscribe({
       next: () => {
@@ -74,43 +93,39 @@ export class AjoutPanierDialogComponent {
   }
 
   commander(): void {
-  if (this.commandeEnCours) {
-  
-    return;
-  }
+    if (this.commandeEnCours) {
+      return;
+    }
+    this.commandeEnCours = true;
 
-  this.commandeEnCours = true;
-
-
-  this.commandeService.creerCommande().subscribe({
-    next: (response: any) => {
-      const commande = response.commande;
-      const montant = commande?.montantTotal || 0;
-      const messagePromo = response.messagePromo || null;
-      const messageBase = `Votre commande est effectuée avec succès.
+    this.commandeService.creerCommande().subscribe({
+      next: (response: any) => {
+        const commande = response.commande;
+        const montant = commande?.montantTotal || 0;
+        const messagePromo = response.messagePromo || null;
+        const messageBase = `Votre commande est effectuée avec succès.
 Un e-mail de confirmation vous a été envoyé.
 Merci pour votre confiance !`;
 
-      if (montant > 400 && messagePromo) {
-        this.lancerConfetti();
+        if (montant > 400 && messagePromo) {
+          this.lancerConfetti();
+        }
+
+        this.dialog.open(CommandeSuccessDialogComponent, {
+          data: { messageBase, messagePromo },
+          width: '350px'
+        });
+
+        this.dialogRef.close(true);
+        this.commandeEnCours = false;
+      },
+      error: (error) => {
+        const message = error?.error || 'Une erreur est survenue lors de la commande.';
+        alert(message);
+        this.commandeEnCours = false;
       }
-
-      this.dialog.open(CommandeSuccessDialogComponent, {
-        data: { messageBase, messagePromo },
-        width: '350px'
-      });
-
-      this.dialogRef.close(true);
-      this.commandeEnCours = false;
-    },
-    error: (error) => {
-      const message = error?.error || 'Une erreur est survenue lors de la commande.';
-      alert(message);
-      this.commandeEnCours = false;
-    }
-  });
-}
-
+    });
+  }
 
   lancerConfetti(): void {
     confetti({
@@ -129,7 +144,7 @@ Merci pour votre confiance !`;
   }
 
   incrementerQuantite(): void {
-    if (this.quantite < this.data.produit.quantiteEnStock) {
+    if (this.quantite < (this.data.produit?.quantiteEnStock ?? 0)) {
       this.quantite++;
     }
   }
@@ -148,7 +163,7 @@ Merci pour votre confiance !`;
     if (this.quantite < 1) {
       this.quantite = 1;
     }
-    if (this.quantite > this.data.produit.quantiteEnStock) {
+    if (this.quantite > (this.data.produit?.quantiteEnStock ?? 0)) {
       this.quantite = this.data.produit.quantiteEnStock;
     }
   }
