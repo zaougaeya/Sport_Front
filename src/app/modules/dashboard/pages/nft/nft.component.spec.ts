@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NftComponent } from './nft.component';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { HttpClientTestingModule } from '@angular/common/http/testing'; // <-- À ajouter
 
 describe('NftComponent', () => {
   let component: NftComponent;
@@ -8,11 +9,13 @@ describe('NftComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [NftComponent],
-}).compileComponents();
-  });
+      imports: [
+        NftComponent,                   // Composant standalone
+        AngularSvgIconModule.forRoot(), // Pour SvgIconRegistryService
+        HttpClientTestingModule          // <--- Fournit HttpClient mock pour test
+      ]
+    }).compileComponents();
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(NftComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

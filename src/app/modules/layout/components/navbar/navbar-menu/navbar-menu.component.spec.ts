@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NavbarMenuComponent } from './navbar-menu.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { AngularSvgIconModule } from 'angular-svg-icon';
+import { HttpClientTestingModule } from '@angular/common/http/testing';  // <-- Indispensable
 
 describe('NavbarMenuComponent', () => {
   let component: NavbarMenuComponent;
@@ -8,8 +11,21 @@ describe('NavbarMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [NavbarMenuComponent],
-}).compileComponents();
+      imports: [
+        NavbarMenuComponent,
+        AngularSvgIconModule.forRoot(),
+        HttpClientTestingModule,  // <-- Ajout ici
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({}),
+            snapshot: { paramMap: { get: (key: string) => null } }
+          }
+        }
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {

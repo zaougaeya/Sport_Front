@@ -8,13 +8,17 @@ describe('NavbarSubmenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [NavbarSubmenuComponent],
-}).compileComponents();
+      imports: [NavbarSubmenuComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavbarSubmenuComponent);
     component = fixture.componentInstance;
+
+    // Ici on initialise submenu avec un tableau vide pour éviter l'erreur NG02200
+    component.submenu = [];
+
     fixture.detectChanges();
   });
 

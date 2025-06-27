@@ -152,12 +152,12 @@ export class Menu {
         },
         {
           icon: 'assets/icons/heroicons/outline/bell.svg',
-          label: 'session',
+          label: 'Session',
           route: '/dashboard/session',
         },
         {
           icon: 'assets/icons/heroicons/outline/bell.svg',
-          label: 'sessionJeu',
+          label: 'SessionJeu',
           route: '/dashboard/sessionJeu',
         },
       ],

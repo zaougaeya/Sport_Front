@@ -1,24 +1,10 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  AfterViewInit,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
-import {
-  Chart,
-  ChartConfiguration,
-  ChartDataset,
-  Plugin
-} from 'chart.js';
+import { Component, Input, Output, EventEmitter, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Chart, ChartConfiguration } from 'chart.js';
+import { Match } from '../../models/match.model';
 import { Equipe } from '../../models/equipe.model';
 import { EquipeService } from '../../services/equipe.service';
-import { CommonModule } from '@angular/common'; // 👈 à importer
 
 @Component({
-   imports: [CommonModule], // 👈 ajoute CommonModule ici
   selector: 'app-stat-equipes',
   standalone: true,
   templateUrl: './stat-equipes.component.html',
@@ -30,72 +16,28 @@ export class StatEquipesComponent implements AfterViewInit {
   @Input() equipes: Equipe[] = [];
 
   @ViewChild('barCanvas') barCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('pieCanvas') pieCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('fautesCanvas') fautesCanvas!: ElementRef<HTMLCanvasElement>;
-
-  barChart!: Chart;
+  constructor(
+    private equipeService: EquipeService
+    //private dialog: MatDialog // 💡 ajoute ça
+  ) { }
+  barChart!: Chart;  // Graphique pour la barre simple des cartons
+  pieChart!: Chart;  // Graphique pour le pie chart des scores
   fautesChart!: Chart;
-
-  statistiques: {
-    nomStat: string;
-    valeurEquipe1: number;
-    valeurEquipe2: number;
-  }[] = [];
-
-  private readonly valueLabelPlugin: Plugin = {
-    id: 'valueLabelPlugin',
-    afterDatasetsDraw(chart: Chart) {
-      const ctx = chart.ctx;
-      ctx.save();
-
-      chart.data.datasets.forEach((dataset: ChartDataset, datasetIndex: number) => {
-        const meta = chart.getDatasetMeta(datasetIndex);
-
-        meta.data.forEach((bar: any, index: number) => {
-          const value = dataset.data[index];
-          if (typeof value === 'number' && bar) {
-            const bgColor = dataset.backgroundColor as string;
-            ctx.fillStyle = 'black';
-
-            ctx.font = '12px sans-serif';
-            ctx.textBaseline = 'middle';
-
-            const padding = 6;
-            let xPos: number;
-            let textAlign: CanvasTextAlign;
-
-            if (datasetIndex === 0) {
-              // équipe 1 => valeur à gauche de la barre
-              xPos = bar.x - padding;
-              textAlign = 'right';
-            } else {
-              // équipe 2 => valeur à droite de la barre
-              xPos = bar.x + bar.width + padding;
-              textAlign = 'left';
-            }
-
-            ctx.textAlign = textAlign;
-            ctx.fillText(value.toString(), xPos, bar.y);
-          }
-        });
-      });
-
-      ctx.restore();
-    }
-  };
-
-  constructor(private equipeService: EquipeService) {}
 
   ngAfterViewInit() {
     if (this.match) {
-      this.loadEquipes();
-      this.setStatistiques();
+      this.loadEquipes(); // On commence par charger les équipes
     }
   }
-
   loadEquipes(): void {
     this.equipeService.getAllEquipes().subscribe({
       next: (data) => {
         this.equipes = data;
+        console.log('Équipes chargées :', this.equipes);
+
+        // ✅ Une fois que les équipes sont bien là, on peut créer les graphiques
         this.createBarChart();
         this.createFautesChart();
       },
@@ -108,34 +50,14 @@ export class StatEquipesComponent implements AfterViewInit {
     return equipe ? equipe.nameEquipe : 'Equipe Inexistante';
   }
 
-  setStatistiques() {
-    this.statistiques = [
-      {
-        nomStat: 'Score',
-        valeurEquipe1: this.match?.scoreEquipe1 ?? 0,
-        valeurEquipe2: this.match?.scoreEquipe2 ?? 0
-      },
-      {
-        nomStat: 'Cartons Jaunes',
-        valeurEquipe1: this.match?.cartonsJaunesEquipe1 ?? 0,
-        valeurEquipe2: this.match?.cartonsJaunesEquipe2 ?? 0
-      },
-      {
-        nomStat: 'Cartons Rouges',
-        valeurEquipe1: this.match?.cartonsRougesEquipe1 ?? 0,
-        valeurEquipe2: this.match?.cartonsRougesEquipe2 ?? 0
-      },
-      {
-        nomStat: 'Fautes',
-        valeurEquipe1: this.match?.fautesEquipe1 ?? 0,
-        valeurEquipe2: this.match?.fautesEquipe2 ?? 0
-      }
-    ];
-  }
 
+  // Fonction pour créer un graphique à barres simples pour les cartons
   createBarChart() {
     const labelEquipe1 = this.getEquipesName(this.match.idEquipe1);
     const labelEquipe2 = this.getEquipesName(this.match.idEquipe2);
+
+    console.log("label", this.match.idEquipe1);
+
 
     const data = {
       labels: ['Cartons jaunes', 'Cartons rouges'],
@@ -146,8 +68,9 @@ export class StatEquipesComponent implements AfterViewInit {
             this.match.cartonsJaunesEquipe1 ?? 0,
             this.match.cartonsRougesEquipe1 ?? 0
           ],
-          backgroundColor: '#000000',
-          stack: 'stack1',
+          backgroundColor: 'grey',
+          borderRadius: 5,
+          barThickness: 15,
         },
         {
           label: labelEquipe2,
@@ -155,8 +78,9 @@ export class StatEquipesComponent implements AfterViewInit {
             this.match.cartonsJaunesEquipe2 ?? 0,
             this.match.cartonsRougesEquipe2 ?? 0
           ],
-          backgroundColor: '#dc3545',
-          stack: 'stack1',
+          backgroundColor: 'red',
+          borderRadius: 5,
+          barThickness: 15,
         }
       ]
     };
@@ -165,38 +89,67 @@ export class StatEquipesComponent implements AfterViewInit {
       type: 'bar',
       data,
       options: {
-        indexAxis: 'y',
         responsive: true,
         plugins: {
-          legend: { position: 'top' },
+          legend: {
+            position: 'top'
+          },
           title: {
             display: true,
-            text: 'Cartons jaunes & rouges'
-          },
-          tooltip: {
-            enabled: false
+            text: 'Comparaison des Cartons'
           }
         },
         scales: {
           x: {
-            stacked: true,
-            display: false,
             beginAtZero: true,
-            ticks: { precision: 0 },
-            grid: { display: false }
+            max: 10 // Limiter la longueur de la barre si nécessaire
           },
           y: {
-            stacked: true,
-            display: false,
-            grid: { display: false }
+            ticks: {
+              stepSize: 1, // Définit l'incrément à 1, donc seulement des entiers seront affichés
+              precision: 0 // Cela garantit que les valeurs sur l'axe Y sont des entiers
+            }
           }
         }
-      },
-      plugins: [this.valueLabelPlugin]
+      }
     };
 
+    // Création du graphique Bar Chart
     this.barChart = new Chart(this.barCanvas.nativeElement, config);
   }
+
+
+  // createPieChart() {
+  //   const data = {
+  //     labels: [this.match?.equipe1?.nameEquipe || 'Équipe 1', this.match?.equipe2?.nameEquipe || 'Équipe 2'],
+  //     datasets: [{
+  //       label: 'Scores',
+  //       data: [
+  //         this.match?.scoreEquipe1 ?? 0,
+  //         this.match?.scoreEquipe2 ?? 0
+  //       ],
+  //       backgroundColor: ['#007bff', '#dc3545']
+  //     }]
+  //   };
+
+  //   const config: ChartConfiguration<'pie'> = {
+  //     type: 'pie',
+  //     data,
+  //     options: {
+  //       responsive: true,
+  //       plugins: {
+  //         legend: { position: 'top' },
+  //         title: {
+  //           display: true,
+  //           text: 'Répartition des Scores'
+  //         }
+  //       }
+  //     }
+  //   };
+
+  //   // Création du graphique Pie Chart
+  //   this.pieChart = new Chart(this.pieCanvas.nativeElement, config);
+  // }
 
   createFautesChart() {
     const labelEquipe1 = this.getEquipesName(this.match?.idEquipe1);
@@ -208,14 +161,16 @@ export class StatEquipesComponent implements AfterViewInit {
         {
           label: labelEquipe1,
           data: [this.match?.fautesEquipe1 ?? 0],
-          backgroundColor: '#000000',
-          stack: 'stack1',
+          backgroundColor: 'grey',
+          borderRadius: 5,
+          barThickness: 15,
         },
         {
           label: labelEquipe2,
           data: [this.match?.fautesEquipe2 ?? 0],
-          backgroundColor: '#dc3545',
-          stack: 'stack1',
+          backgroundColor: 'red',
+          borderRadius: 5,
+          barThickness: 15,
         }
       ]
     };
@@ -227,39 +182,45 @@ export class StatEquipesComponent implements AfterViewInit {
         indexAxis: 'y',
         responsive: true,
         plugins: {
-          legend: { position: 'top' },
+          legend: {
+            position: 'top'
+          },
           title: {
             display: true,
-            text: 'Nombre de Fautes'
-          },
-          tooltip: {
-            enabled: false
+            text: 'Comparaison des Fautes'
           }
         },
         scales: {
           x: {
-            stacked: true,
-            display: false,
-            beginAtZero: true,
-            ticks: { precision: 0 },
-            grid: { display: false }
+            beginAtZero: true
           },
           y: {
-            stacked: true,
-            display: false,
-            grid: { display: false }
+            ticks: {
+              precision: 0
+            }
           }
         }
-      },
-      plugins: [this.valueLabelPlugin]
+      }
     };
 
     this.fautesChart = new Chart(this.fautesCanvas.nativeElement, config);
   }
 
+
+
   onClose() {
-    if (this.barChart) this.barChart.destroy();
-    if (this.fautesChart) this.fautesChart.destroy();
+    // Vérification avant de détruire les graphiques
+    if (this.barChart) {
+      this.barChart.destroy();
+    }
+    if (this.pieChart) {
+      this.pieChart.destroy();
+    }
+    if (this.fautesChart) {
+      this.fautesChart.destroy();
+    }
     this.close.emit();
   }
+
+
 }

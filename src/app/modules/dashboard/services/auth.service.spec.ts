@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-
 import { AuthService } from './auth.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],  // <-- Ajout de ce module indispensable
+      providers: [AuthService]
+    });
     service = TestBed.inject(AuthService);
   });
 

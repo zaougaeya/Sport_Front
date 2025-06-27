@@ -182,10 +182,39 @@ export class SessionListComponent implements OnInit {
   }
 
   openDetails(session: Match): void {
-    this.sessionSelectionnee = session;
-    this.openPopUp = true;
-    this.choixEquipe1 = false;
-    this.choixEquipe2 = false;
+    const user = window.sessionStorage.getItem('auth-user'); // 🔁 Utilise ton vrai système d’auth
+    const userId = user ? JSON.parse(user).id : null;
+
+    console.log(userId);
+
+    this.authservice.getAllUsers().subscribe((joueurs: User[]) => {
+
+      const joueursEquipe1 = joueurs
+
+        .filter((u: User) => u.equipeId === session.idEquipe1)
+        .map((u: User) => u.iduser);
+
+      const joueursEquipe2 = joueurs
+        .filter((u: User) => u.equipeId === session.idEquipe2)
+        .map((u: User) => u.iduser
+        );
+
+
+      const dejaInscrit = joueursEquipe1.includes(userId!) || joueursEquipe2.includes(userId!);
+      console.log(window.sessionStorage);
+      console.log(joueursEquipe1.includes(userId!))
+      console.log(joueursEquipe2.includes(userId!))
+      if (dejaInscrit) {
+        alert("❌ Vous êtes déjà inscrit à cette session !");
+        return;
+      }
+      else {
+        this.sessionSelectionnee = session;
+        this.openPopUp = true;
+        this.choixEquipe1 = false;
+        this.choixEquipe2 = false;
+      }
+    })
   }
 
 
@@ -200,7 +229,6 @@ export class SessionListComponent implements OnInit {
     const userId = user ? JSON.parse(user).id : null;
 
     console.log(userId);
-    
 
     this.authservice.getAllUsers().subscribe((joueurs: User[]) => {
 
@@ -208,8 +236,6 @@ export class SessionListComponent implements OnInit {
 
         .filter((u: User) => u.equipeId === session.idEquipe1)
         .map((u: User) => u.iduser);
-
-
 
       const joueursEquipe2 = joueurs
         .filter((u: User) => u.equipeId === session.idEquipe2)
@@ -221,6 +247,7 @@ export class SessionListComponent implements OnInit {
       console.log(window.sessionStorage);
       console.log(joueursEquipe1.includes(userId!))
       console.log(joueursEquipe2.includes(userId!))
+
       if (dejaInscrit) {
         alert("❌ Vous êtes déjà inscrit à cette session !");
         return;
@@ -245,6 +272,7 @@ export class SessionListComponent implements OnInit {
         if (!confirmation) return;
 
         this.matchService.rejoindreSession(session.id!, equipeCibleId).subscribe({
+
           next: () => {
             alert(`Inscription réussie à l'équipe ${this.equipeCibleNom} !`);
             this.router.navigate(['/dashboard/nfts']);
