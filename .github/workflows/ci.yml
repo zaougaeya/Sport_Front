@@ -101,11 +101,19 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Log in to Nexus Docker Registry
-        
-        run: echo "${{ secrets.NEXUS_PASSWORD }}" | docker login https://a81d-197-15-124-194.ngrok-free.app -u ${{ secrets.NEXUS_USERNAME }} --password-stdin
+        env:
+          NEXUS_URL: ${{ secrets.NEXUS_URL }}  # ex: https://af8a-2c0f-f698-c137-da1c-4542-ce20-e080-db75.ngrok-free.app
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          echo "$NEXUS_PASSWORD" | docker login $NEXUS_URL -u $NEXUS_USERNAME --password-stdin
 
       - name: Build Docker image
-        run: docker build -t a81d-197-15-124-194.ngrok-free.app/frontapp:latest .
+        env:
+          NEXUS_URL: ${{ secrets.NEXUS_URL }}
+        run: docker build -t ${NEXUS_URL#https://}/frontapp:latest .
 
       - name: Push Docker image
-        run: docker push a81d-197-15-124-194.ngrok-free.app/frontapp:latest
+        env:
+          NEXUS_URL: ${{ secrets.NEXUS_URL }}
+        run: docker push ${NEXUS_URL#https://}/frontapp:latest
