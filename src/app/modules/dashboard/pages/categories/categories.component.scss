@@ -1,0 +1,122 @@
+.categorie-form {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px; /* Réduit le padding pour un champ plus petit */
+  font-size: 0.95rem; /* Taille de police plus petite */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #bb61b3;
+}
+
+
+
+.alert {
+  padding: 10px;
+  border-radius: 1px;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.alert-info {
+  background-color: #e7f3fe;
+  color: #47bb60;
+  border: 1px solid #bce8f1;
+}
+
+.table {
+  width: 60%;
+  margin: 10px auto;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 4px 8px; /* Réduction du padding vertical */
+  text-align: center;
+  font-size: 0.85rem; /* Réduction de la taille du texte */
+  line-height: 1;     /* Réduction de la hauteur de ligne */
+}
+
+.categorie-title {
+  text-align: center;
+  font-weight: bold;
+  color: #000;
+  font-size: 2rem;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.liste-title {
+  text-align: center;
+  font-weight: bold;
+  color: #000;
+  font-size: 1rem;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.table th {
+  background-color: #ada2ab;
+  color: white;
+  font-weight: bold;
+}
+
+.table td {
+  background-color: #f9f9f9;
+}
+
+.table-bordered {
+  border: 1px solid #ddd;
+}
+
+.table-bordered th, .table-bordered td {
+  border: 1px solid #ddd;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #9e8799;
+  border-color: #795d72;
+}
+
+.btn-primary:hover {
+  background-color: #a18ba1;
+  border-color: #851f66;
+}
+
+.mt-4 {
+  margin-top: 2rem;
+}

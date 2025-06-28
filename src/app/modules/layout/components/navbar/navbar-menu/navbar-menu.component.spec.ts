@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { NavbarMenuComponent } from './navbar-menu.component';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('NavbarMenuComponent', () => {
   let component: NavbarMenuComponent;
@@ -8,8 +9,20 @@ describe('NavbarMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [NavbarMenuComponent],
-}).compileComponents();
+      imports: [
+        NavbarMenuComponent,
+        RouterTestingModule
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { paramMap: { get: () => null } },
+            params: { subscribe: () => {} }
+          }
+        }
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {

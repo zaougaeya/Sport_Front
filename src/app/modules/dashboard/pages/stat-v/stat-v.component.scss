@@ -1,0 +1,22 @@
+button.active {
+  background-color: #d63384;
+  color: white;
+}
+
+button.active-blue {
+  background-color: #0d6efd;
+  color: white;
+}
+.revenue-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto;
+  width: 90%;         // Largeur maximale du graphique
+  max-width: 1000px;  // Limite la taille pour les grands écrans
+
+  canvas {
+    width: 100% !important;
+    height: 400px !important; // Hauteur du graphique
+  }
+}

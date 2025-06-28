@@ -1,0 +1,54 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg w-96 max-w-full p-6">
+    <h2 class="text-base font-bold mb-4 text-center text-gray-800">Votre Panier</h2>
+
+    <!-- Panier vide -->
+    <div *ngIf="produits.length === 0" class="text-center text-gray-500 italic">
+      Votre panier est vide.
+    </div>
+
+    <!-- Liste des produits -->
+    <ul *ngIf="produits.length > 0" class="divide-y divide-gray-200 max-h-60 overflow-auto mb-4">
+      <li *ngFor="let p of produits" class="flex justify-between items-center py-1">
+        <div class="text-gray-800 text-sm font-medium">
+          <strong>{{ p.produit.nom }}</strong> x {{ p.quantite }}
+        </div>
+        <button
+          (click)="supprimerProduit(p.produit.id)"
+          class="bg-red-100 text-red-700 font-semibold px-3 py-1 text-sm rounded-full hover:bg-red-200 transition-all duration-300"
+        >
+          Supprimer
+        </button>
+      </li>
+    </ul>
+
+    <!-- Boutons d'action -->
+    <div class="flex justify-end space-x-2 mt-3">
+      <!-- Vider le panier -->
+      <button
+        (click)="viderPanier()"
+        [disabled]="produits.length === 0"
+        class="bg-green-100 text-green-800 font-semibold px-3 py-1 text-sm rounded-full hover:bg-green-200 transition duration-300 disabled:opacity-50"
+      >
+        Vider le panier
+      </button>
+
+      <!-- Passer commande -->
+      <button
+        (click)="commander()"
+        [disabled]="produits.length === 0 || commandeEnCours"
+        class="bg-pink-100 text-pink-800 font-semibold px-3 py-1 text-sm rounded-full hover:bg-pink-200 transition duration-300 disabled:opacity-50"
+      >
+        Passer commande
+      </button>
+
+      <!-- Fermer -->
+      <button
+        (click)="fermer()"
+        class="bg-gray-200 text-gray-800 font-semibold px-3 py-1 text-sm rounded-full hover:bg-gray-300 transition duration-300"
+      >
+        Fermer
+      </button>
+    </div>
+  </div>
+</div>

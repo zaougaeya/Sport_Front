@@ -34,7 +34,7 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/download.svg',
+          icon: 'assets/icons/heroicons/outline/u.jbg',
           label: 'users',
           route: '/download',
         },
@@ -48,31 +48,26 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/cube.svg',
+          icon: 'assets/icons/heroicons/outline/checklist.png',
           label: 'Catégories',
-          route: '/categories',
+          route: '/dashboard/categories',
         },
         {
-          icon: 'assets/icons/heroicons/outline/cube-transparent.svg',
+          icon: 'assets/icons/heroicons/outline/cubes.png',
           label: 'Produits',
-          route: '/produits',
+          route: '/dashboard/produits',
         },
       ],
     },
   
     {
-      group: 'Commandes et Paniers',
+      group: 'Commandes ',
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/shopping-cart.svg',
-          label: 'Panier',
-          route: '/panier',
-        },
-        {
-          icon: 'assets/icons/heroicons/outline/clipboard-check.svg',
+          icon: 'assets/icons/heroicons/outline/list.png',
           label: 'Commandes',
-          route: '/commandes',
+          route: '/dashboard/commandes',
         },
       ],
     },
@@ -82,9 +77,9 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/truck.svg',
-          label: 'Suivi Livraison',
-          route: '/livraison',
+          icon: 'assets/icons/heroicons/outline/box.png',
+          label: 'Gestion Livreur',
+          route: '/dashboard/livreurs',
         },
       ],
     },
@@ -94,15 +89,11 @@ export class Menu {
       separator: true,
       items: [
         {
-          icon: 'assets/icons/heroicons/outline/chart-bar.svg',
+          icon: 'assets/icons/heroicons/outline/a.png',
           label: 'Ventes',
-          route: '/stats-ventes',
+          route: '/dashboard/stat-v',
         },
-        {
-          icon: 'assets/icons/heroicons/outline/trending-up.svg',
-          label: 'Performance Produits',
-          route: '/performances',
-        },
+       
       ],
     },
 

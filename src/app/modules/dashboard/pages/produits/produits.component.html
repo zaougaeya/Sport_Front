@@ -1,0 +1,185 @@
+<div class="container mx-auto p-6">
+  <!-- Alerte rupture stock -->
+<div *ngIf="showAlert" 
+     class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 max-w-7xl mx-auto transition-opacity duration-500"
+     role="alert">
+  <strong class="font-bold">Attention !</strong>
+  <span class="block">Les produits suivants sont en rupture de stock :</span>
+  <ul class="list-disc list-inside mt-2">
+    <li *ngFor="let nom of ruptureProduits">{{ nom }} est en rupture</li>
+  </ul>
+</div>
+
+  <h2 class="text-3xl font-semibold text-center mb-8 text-gray-800">Gestion des Produits</h2>
+
+  <div class="bg-white shadow-md rounded-lg p-6 max-w-5xl mx-auto">
+    <form [formGroup]="produitForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      
+      <!-- Première ligne -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="nom" class="block text-sm font-medium text-gray-700">Nom du produit</label>
+          <input type="text" id="nom" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-400" formControlName="nom" placeholder="Nom du produit" />
+          <div *ngIf="produitForm.controls['nom'].invalid && produitForm.controls['nom'].touched" class="text-red-500 text-sm mt-1">
+            Nom du produit requis.
+          </div>
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+          <input type="text" id="description" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" formControlName="description" placeholder="Description du produit" />
+          <div *ngIf="produitForm.controls['description'].invalid && produitForm.controls['description'].touched" class="text-red-500 text-sm mt-1">
+            Description requise.
+          </div>
+        </div>
+
+        <div>
+          <label for="prix" class="block text-sm font-medium text-gray-700">Prix (Dt)</label>
+          <input type="number" id="prix" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" formControlName="prix" placeholder="Prix" />
+          <div *ngIf="produitForm.controls['prix'].invalid && produitForm.controls['prix'].touched" class="text-red-500 text-sm mt-1">
+            Prix requis.
+          </div>
+        </div>
+
+        <div>
+          <label for="quantiteEnStock" class="block text-sm font-medium text-gray-700">Quantité</label>
+          <input type="number" id="quantiteEnStock" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" formControlName="quantiteEnStock" placeholder="Quantité" />
+          <div *ngIf="produitForm.controls['quantiteEnStock'].invalid && produitForm.controls['quantiteEnStock'].touched" class="text-red-500 text-sm mt-1">
+            Quantité requise.
+          </div>
+        </div>
+      </div>
+
+      <!-- Deuxième ligne -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="statut" class="block text-sm font-medium text-gray-700">Statut</label>
+          <input type="text" id="statut" class="mt-1 block w-full border border-gray-300 rounded-lg bg-gray-100 p-2" [value]="produitForm.get('quantiteEnStock')?.value > 0 ? 'EN STOCK' : 'RUPTURE DE STOCK'" readonly />
+        </div>
+
+        <div>
+          <label for="imageUrl" class="block text-sm font-medium text-gray-700">URL de l'image</label>
+          <input type="text" id="imageUrl" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" formControlName="imageUrl" placeholder="https://..." />
+          <div *ngIf="produitForm.controls['imageUrl'].invalid && produitForm.controls['imageUrl'].touched" class="text-red-500 text-sm mt-1">
+            URL de l'image requise.
+          </div>
+        </div>
+      </div>
+
+      <!-- Troisième ligne -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label for="pourcentagePromotion" class="block text-sm font-medium text-gray-700">Promotion (%)</label>
+          <input type="number" id="pourcentagePromotion" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" formControlName="pourcentagePromotion" />
+        </div>
+
+        <div>
+          <label for="genreProduit" class="block text-sm font-medium text-gray-700">Genre</label>
+          <select id="genreProduit" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" formControlName="genreProduit">
+            <option value="HOMME">Homme</option>
+            <option value="FEMME">Femme</option>
+            <option value="ENFANT">Enfant</option>
+            <option value="ENFANT">TOUT</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="categorie" class="block text-sm font-medium text-gray-700">Catégorie</label>
+          <select id="categorie" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2" formControlName="categorie">
+            <option *ngFor="let cat of categories" [ngValue]="cat">{{ cat.nom }}</option>
+          </select>
+          <div *ngIf="produitForm.controls['categorie'].invalid && produitForm.controls['categorie'].touched" class="text-red-500 text-sm mt-1">
+            Catégorie requise.
+          </div>
+        </div>
+      </div>
+
+      <!-- Date d'ajout -->
+      <div>
+        <label for="dateAjout" class="block text-sm font-medium text-gray-700">Date d'ajout</label>
+        <input type="date" id="dateAjout" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm p-2 bg-gray-100" formControlName="dateAjout" [disabled]="true" />
+      </div>
+
+      <!-- Bouton -->
+      <div class="text-center">
+        <button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 ease-in-out shadow-md disabled:opacity-50"
+          [disabled]="produitForm.invalid" >
+           {{ isEditing ? 'Mettre à jour' : 'Ajouter' }}
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="search-bar-container">
+     <label for="search" class="text-gray-500 font-medium">Rechercher : </label>
+    <input 
+      type="text" 
+      placeholder="Rechercher un produit par nom..." 
+      [(ngModel)]="searchTerm" 
+      name="search" 
+    />
+  </div>
+ 
+
+<!-- Liste des produits -->
+<div class="mt-12 max-w-7xl mx-auto">
+  <h3 class="text-2xl font-semibold text-gray-800 mb-6">Liste des Produits</h3>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white rounded-lg shadow-md">
+      <thead class="bg-gray-100 text-gray-700 text-sm whitespace-nowrap">
+        <tr>
+          <th class="px-6 py-4 text-left font-semibold">Nom</th>
+          <th class="px-6 py-4 text-left font-semibold">Description</th>
+          <th class="px-6 py-4 text-left font-semibold">Prix</th>
+          <th class="px-6 py-4 text-left font-semibold">Quantité</th>
+          <th class="px-6 py-4 text-left font-semibold">Statut</th>
+          <th class="px-6 py-4 text-center font-semibold">Image</th>
+          <th class="px-6 py-4 text-left font-semibold">Promo</th>
+          <th class="px-6 py-4 text-left font-semibold">Genre</th>
+          <th class="px-6 py-4 text-left font-semibold">Catégorie</th>
+          <th class="px-6 py-4 text-left font-semibold">Date</th>
+          <th class="px-6 py-4 text-center font-semibold">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let produit of filteredProduits | paginate: { itemsPerPage: 2, currentPage: currentPage }"
+            class="hover:bg-gray-50 border-t">
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.nom }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.description }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.prix }} Dt</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.quantiteEnStock }} pièces</td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="px-3 py-1 rounded-full text-white text-sm font-medium whitespace-nowrap"
+                  [ngClass]="produit.quantiteEnStock > 0 ? 'bg-green-500' : 'bg-red-500'">
+              {{ produit.quantiteEnStock > 0 ? 'EN STOCK' : 'RUPTURE' }}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-center">
+            <img [src]="produit.imageUrl" alt="Image"
+                 class="h-16 w-16 rounded-lg object-cover mx-auto" />
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.pourcentagePromotion }}%</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.genreProduit }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ getNomCategorie(produit.categorie.id) }}</td>
+          <td class="px-6 py-4 whitespace-nowrap">{{ produit.dateAjout | date: 'dd/MM/yyyy' }}</td>
+          <td class="px-6 py-4 text-center flex whitespace-nowrap justify-center">
+  <button (click)="modifier(produit)"
+          class="bg-white hover:bg-gray-100 text-black px-3 py-1 rounded text-sm transition border border-gray-300">
+    ✏️
+  </button>
+  <button (click)="supprimer(produit.id)"
+          class="bg-white hover:bg-gray-100 text-black px-3 py-1 rounded text-sm transition border border-gray-300">
+    🗑️
+  </button>
+</td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <pagination-controls (pageChange)="currentPage = $event"
+                         class="mt-6 flex justify-center"></pagination-controls>
+  </div>
+</div>

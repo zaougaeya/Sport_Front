@@ -1,0 +1,84 @@
+<div class="min-h-screen bg-gray-100 py-10 px-4">
+  <!-- Formulaire -->
+  <div class="max-w-3xl mx-auto bg-white p-8 rounded-2xl shadow-lg mb-12">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Ajout d'un Livreur</h2>
+    <form [formGroup]="livreurForm" (ngSubmit)="onSubmit()">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="nom" class="block text-sm font-medium text-gray-700">Nom <span class="text-red-500">*</span></label>
+          <input type="text" id="nom" formControlName="nom" class="mt-1 w-full px-4 py-2 border rounded-lg shadow-sm" required>
+          <div *ngIf="livreurForm.get('nom')?.touched && livreurForm.get('nom')?.invalid" class="text-red-500 text-sm mt-1">Le nom est obligatoire.</div>
+        </div>
+
+        <div>
+          <label for="prenom" class="block text-sm font-medium text-gray-700">Prénom <span class="text-red-500">*</span></label>
+          <input type="text" id="prenom" formControlName="prenom" class="mt-1 w-full px-4 py-2 border rounded-lg shadow-sm" required>
+          <div *ngIf="livreurForm.get('prenom')?.touched && livreurForm.get('prenom')?.invalid" class="text-red-500 text-sm mt-1">Le prénom est obligatoire.</div>
+        </div>
+
+        <div>
+          <label for="numeroTelephone" class="block text-sm font-medium text-gray-700">Numéro de téléphone <span class="text-red-500">*</span></label>
+          <input type="text" id="numeroTelephone" formControlName="numeroTelephone" class="mt-1 w-full px-4 py-2 border rounded-lg shadow-sm" required>
+          <div *ngIf="livreurForm.get('numeroTelephone')?.touched && livreurForm.get('numeroTelephone')?.invalid" class="text-red-500 text-sm mt-1">Le numéro est obligatoire.</div>
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
+          <input type="email" id="email" formControlName="email" class="mt-1 w-full px-4 py-2 border rounded-lg shadow-sm" required>
+          <div *ngIf="livreurForm.get('email')?.touched && livreurForm.get('email')?.invalid" class="text-red-500 text-sm mt-1">Email invalide ou manquant.</div>
+        </div>
+
+        <div class="md:col-span-2">
+          <label for="statutLivreur" class="block text-sm font-medium text-gray-700">Statut <span class="text-red-500">*</span></label>
+          <select id="statutLivreur" formControlName="statutLivreur" class="mt-1 w-full px-4 py-2 border rounded-lg shadow-sm" required>
+            <option value="">-- Sélectionnez un statut --</option>
+            <option value="DISPONIBLE">DISPONIBLE</option>
+            <option value="EN_COURS_DE_LIVRAISON">EN COURS DE LIVRAISON</option>
+          </select>
+          <div *ngIf="livreurForm.get('statutLivreur')?.touched && livreurForm.get('statutLivreur')?.invalid" class="text-red-500 text-sm mt-1">Le statut est obligatoire.</div>
+        </div>
+      </div>
+
+      <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg mt-8 transition-all duration-200 ease-in-out" [disabled]="livreurForm.invalid">
+        Ajouter
+      </button>
+    </form>
+  </div>
+
+  <!-- Tableau -->
+  <div class="max-w-5xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+    <h3 class="text-2xl font-semibold text-center text-gray-800 mb-6">Liste des Livreurs</h3>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-800 text-white">
+          <tr>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Nom</th>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Prénom</th>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Téléphone</th>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Email</th>
+            <th class="px-6 py-3 text-left text-sm font-medium uppercase">Statut</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr *ngFor="let livreur of livreurs | paginate: { itemsPerPage: 3, currentPage: p }" class="hover:bg-gray-50">
+
+            <td class="px-6 py-4 text-sm text-gray-800">{{ livreur.nom }}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">{{ livreur.prenom }}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">{{ livreur.numeroTelephone }}</td>
+            <td class="px-6 py-4 text-sm text-gray-800">{{ livreur.email }}</td>
+            <td class="px-6 py-4 text-sm">
+              <span [ngClass]="{
+                'text-green-600 font-medium': livreur.statutLivreur === 'DISPONIBLE',
+                'text-yellow-500 font-medium': livreur.statutLivreur === 'EN_COURS_DE_LIVRAISON'
+              }">
+                {{ livreur.statutLivreur }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event" class="mt-4 flex justify-center"></pagination-controls>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,131 @@
+/* Global Styles */
+body {
+  background-color: #f4f7fa;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;  /* Ajouté pour éviter les barres de défilement */
+}
+
+/* Center the container */
+.container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  height: auto; /* Ajuste la hauteur pour qu'elle soit dynamique */
+  overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+}
+
+/* Title Styles */
+h2 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Form Styles */
+.form-label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.form-control, .form-select {
+  width: 100%;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+button[type="submit"] {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 4px;
+  width: 100%;
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+button[type="submit"]:disabled {
+  background-color: #d6d6d6;
+  cursor: not-allowed;
+}
+
+.text-danger {
+  font-size: 12px;
+  font-weight: 400;
+  color: red;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  margin-top: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.table th, .table td {
+  padding: 12px 15px;
+}
+
+.table-dark {
+  background-color: #867979;
+  color: white;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+  background-color: #f8f9fa;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.text-success {
+  color: green;
+}
+
+.text-warning {
+  color: orange;
+}
+
+/* Adjustments for responsiveness */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+}

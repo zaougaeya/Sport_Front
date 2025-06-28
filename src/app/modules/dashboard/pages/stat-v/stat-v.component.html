@@ -1,0 +1,107 @@
+<div class="grid grid-cols-3 gap-6 p-6 bg-gray-100 min-h-screen">
+
+    <!-- Statistiques -->
+    <div class="col-span-1 bg-white shadow-lg rounded-xl p-4">
+        <h3 class="text-lg font-semibold mb-4 text-gray-600">Produits les plus vendus</h3>
+        
+        <div class="flex space-x-2 mb-4">
+            <button (click)="changerTri('quantiteTotale')" 
+                    [class.active]="triPar === 'quantiteTotale'"
+                    class="px-3 py-1 text-sm rounded-lg bg-gray-300 hover:bg-pink-500 hover:text-white transition duration-300">
+                Trier par Quantité Totale
+            </button>
+            <button (click)="changerTri('occurrences')" 
+                    [class.active]="triPar === 'occurrences'"
+                    class="px-3 py-1 text-sm rounded-lg bg-gray-300 hover:bg-pink-500 hover:text-white transition duration-300">
+                Trier par Nombre de Commandes
+            </button>
+        </div>
+
+        <table class="w-full border-collapse bg-white text-sm">
+            <thead>
+                <tr class="bg-gray-700 text-gray-200">
+                    <th class="p-2 text-left">Produit</th>
+                    <th class="p-2 text-left">Nb. Commandes</th>
+                    <th class="p-2 text-left">Quantité Totale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let produit of produitsTrie" class="hover:bg-gray-100">
+                    <td class="p-2 text-gray-600 font-medium">{{ produit.nom }}</td>
+                    <td class="p-2 text-gray-500">{{ produit.occurrences }}</td>
+                    <td class="p-2 text-gray-500">{{ produit.quantiteTotale }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Graphique -->
+    <div class="col-span-2 bg-white shadow-lg rounded-xl p-4">
+        <h3 class="text-lg font-semibold mb-4 text-gray-600">Visualisation des Ventes</h3>
+        <div class="h-96">
+            <canvas id="productChart"></canvas>
+        </div>
+    </div>
+    <!-- Chiffre d'affaires -->
+<div class="col-span-3 bg-white shadow-lg rounded-xl p-4 mt-6">
+  <h3 class="text-lg font-semibold mb-4 text-gray-600">Évolution du Chiffre d’Affaires</h3>
+  
+  <div class="flex space-x-2 mb-4">
+    <button (click)="changerRegroupement('jour')" 
+            [class.active]="regroupementPar === 'jour'"
+            class="px-3 py-1 text-sm rounded-lg bg-gray-300 hover:bg-blue-500 hover:text-white transition duration-300">
+      Par jour
+    </button>
+    <button (click)="changerRegroupement('semaine')" 
+            [class.active]="regroupementPar === 'semaine'"
+            class="px-3 py-1 text-sm rounded-lg bg-gray-300 hover:bg-blue-500 hover:text-white transition duration-300">
+      Par semaine
+    </button>
+  </div>
+</div>
+
+
+<div class="revenue-chart-container">
+  <canvas id="revenueChart"></canvas>
+</div>
+
+
+<style>
+    button.active {
+        background-color: #d63384; /* Rose vif */
+        color: white;
+    }
+</style>
+
+<script>
+    // Initialiser le graphique avec des couleurs personnalisées (rose et gris)
+    const ctx = document.getElementById('productChart').getContext('2d');
+    const productChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [], // Remplir dynamiquement avec les noms des produits
+            datasets: [{
+                label: 'Quantité Totale Vendue',
+                data: [], // Remplir dynamiquement avec les quantités
+                backgroundColor: '#d63384', // Rose
+                borderColor: '#d63384',
+                borderWidth: 1
+            },
+            {
+                label: 'Nombre de Commandes',
+                data: [], // Remplir dynamiquement avec le nombre de commandes
+                backgroundColor: '#6c757d', // Gris
+                borderColor: '#6c757d',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PodcastPlayerComponent } from './podcast-player.component';
 
 describe('PodcastPlayerComponent', () => {
@@ -8,9 +7,8 @@ describe('PodcastPlayerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [PodcastPlayerComponent]
-})
-    .compileComponents();
+      imports: [PodcastPlayerComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PodcastPlayerComponent);
     component = fixture.componentInstance;

@@ -1,0 +1,64 @@
+<div *ngIf="successMessage" class="alert alert-success" role="alert">
+    <span>ℹ️ {{ successMessage }}</span>
+  </div>
+  <form (ngSubmit)="ajouterCategorie()" #categorieForm="ngForm" class="categorie-form">
+    <div class="form-group">
+      <label for="nom">Nom de la catégorie</label>
+      <input
+        type="text"
+        id="nom"
+        name="nom"
+        [(ngModel)]="categorie.nom"
+        required
+        class="form-control"
+        placeholder="Entrez le nom de la catégorie"
+      />
+    </div>
+  
+    <div class="form-group">
+      <label for="description">Description de la catégorie</label>
+      <textarea
+        id="description"
+        name="description"
+        [(ngModel)]="categorie.description"
+        required
+        class="form-control"
+        placeholder="Entrez une description"
+      ></textarea>
+    </div>
+  
+    <button
+      type="submit"
+      [disabled]="!categorieForm.form.valid"
+      class="btn btn-primary"
+    >
+      Ajouter
+    </button>
+  </form>
+  
+  <!-- Tableau des catégories -->
+  <div *ngIf="categories.length > 0">
+    <table class="table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Nom de la catégorie</th>
+            <th>description de la categorie</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cat of categories | paginate: { itemsPerPage: 3, currentPage: p }; let i = index" [id]="'category-' + cat.id">
+
+            <td>{{ i + 1 }}</td>
+            <td>{{ cat.nom }}</td>
+            <td>{{ cat.description }}</td>
+            <td>
+              <button (click)="modifierCategorie(cat)" class="btn-edit"> ✏️</button>
+              <button (click)="supprimerCategorie(cat.id!)" class="btn-delete">🗑️</button>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>

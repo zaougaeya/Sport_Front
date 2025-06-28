@@ -1,0 +1,137 @@
+<div
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="dialog-title"
+>
+  <div
+    class="bg-white rounded-lg shadow-lg max-w-md w-full mx-4 p-6"
+  >
+    <h2 id="dialog-title" class="text-xl font-semibold mb-4 text-center">
+      {{ ajoutReussi ? 'Produit ajouté !' : data.produit?.nom }}
+    </h2>
+
+    <div *ngIf="ajoutReussi" class="text-center space-y-4">
+      <p *ngIf="messageAjout" class="flex items-center justify-center text-green-600 text-lg font-medium">
+        <mat-icon class="mr-2" color="primary">check_circle</mat-icon>
+        {{ messageAjout }}
+      </p>
+
+      <div class="flex justify-center gap-4 mt-4">
+        <button
+          (click)="continuerAchats()"
+          class="bg-green-400 hover:bg-green-500 text-white text-sm font-medium py-1.5 px-3 rounded transition"
+        >
+          Continuer Mes Achats
+        </button>
+
+        <button (click)="commander()"
+          class="bg-pink-400 hover:bg-pink-500 text-white text-sm font-medium py-1.5 px-3 rounded transition"
+        >
+          Commander ✔️
+        </button>
+
+        <button
+          (click)="annuler()"
+          class="bg-gray-200 hover:bg-gray-400 text-gray-800 text-sm font-medium py-1.5 px-3 rounded transition"
+        >
+          Fermer
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!ajoutReussi" class="flex flex-col sm:flex-row gap-6">
+      <!-- Image Section -->
+      <div class="flex-shrink-0 w-full sm:w-40">
+        <img
+          [src]="data.produit?.imageUrl"
+          alt="{{ data.produit?.nom }}"
+          class="rounded-md object-cover w-full h-40"
+        />
+      </div>
+
+      <!-- Details Section -->
+      <div class="flex flex-col flex-grow">
+        <p class="text-gray-700 mb-3 flex-grow">{{ data.produit?.description }}</p>
+
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <span *ngIf="(data.produit?.pourcentagePromotion ?? 0) > 0" class="line-through text-gray-400 mr-2">
+              {{ data.produit?.prix | number:'1.2-2' }} DT
+            </span>
+            <span class="font-bold text-lg text-green-700">
+              {{ calculPrixPromo(data.produit?.prix ?? 0, data.produit?.pourcentagePromotion ?? 0) | number:'1.2-2' }} DT
+            </span>
+          </div>
+          <span
+            *ngIf="(data.produit?.quantiteEnStock ?? 0) > 0"
+            class="text-sm font-semibold text-green-600 bg-green-100 px-2 py-1 rounded"
+          >
+            En stock
+          </span>
+          <span
+            *ngIf="(data.produit?.quantiteEnStock ?? 0) === 0"
+            class="text-sm font-semibold text-red-600 bg-red-100 px-2 py-1 rounded"
+          >
+            Rupture
+          </span>
+        </div>
+
+        <!-- Quantity Input -->
+        <div class="flex items-center space-x-2">
+          <label for="quantity" class="font-medium">Quantité</label>
+
+          <button
+            (click)="decrementerQuantite()"
+            [disabled]="quantite <= 1"
+            class="disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 hover:bg-gray-300 p-1 rounded"
+          >
+            <mat-icon>-</mat-icon>
+          </button>
+
+          <input
+            id="quantity"
+            type="number"
+            [(ngModel)]="quantite"
+            min="1"
+            [max]="data.produit?.quantiteEnStock ?? 0"
+            (change)="onQuantiteChange()"
+            class="w-16 text-center border border-gray-300 rounded py-1"
+          />
+
+          <button
+            (click)="incrementerQuantite()"
+            [disabled]="quantite >= (data.produit?.quantiteEnStock ?? 0)"
+            class="disabled:opacity-50 disabled:cursor-not-allowed bg-gray-200 hover:bg-gray-300 p-1 rounded"
+          >
+            <mat-icon>+</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div
+      *ngIf="!ajoutReussi"
+      class="mt-6 flex justify-end gap-3"
+    >
+      <button
+        (click)="annuler()"
+        class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded transition"
+      >
+        Annuler
+      </button>
+      <button
+        (click)="ajouterAuPanier()"
+        [disabled]="
+          quantite <= 0 ||
+          quantite > (data.produit?.quantiteEnStock ?? 0) ||
+          (data.produit?.quantiteEnStock ?? 0) === 0
+        "
+        class="bg-blue-600 disabled:bg-blue-300 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition disabled:cursor-not-allowed"
+      >
+        Ajouter au Panier
+      </button>
+    </div>
+  </div>
+</div>

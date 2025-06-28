@@ -1,0 +1,37 @@
+name: Angular CI with SonarCloud
+
+on:
+  push:
+    branches:
+      - prodFront
+  pull_request:
+    branches:
+      - prodFront
+
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'  # Ou la version utilisée dans ton projet
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests and generate coverage
+        run: |
+          npm run test -- --watch=false --code-coverage
+
+      - name: Install SonarCloud scanner
+        run: npm install -g sonar-scanner
+
+      - name: Run SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: sonar-scanner

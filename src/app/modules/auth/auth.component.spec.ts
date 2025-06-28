@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AuthComponent } from './auth.component';
+import { AngularSvgIconModule } from 'angular-svg-icon'; // Importation du module AngularSvgIcon
+import { HttpClientTestingModule } from '@angular/common/http/testing'; // Requis pour SvgIconRegistryService
 
 describe('AuthComponent', () => {
   let component: AuthComponent;
@@ -8,8 +9,12 @@ describe('AuthComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [AuthComponent],
-}).compileComponents();
+      imports: [
+        AuthComponent, // Le composant lui-même (s'il est standalone)
+        HttpClientTestingModule, // Nécessaire pour les services qui effectuent des requêtes HTTP (comme AngularSvgIcon)
+        AngularSvgIconModule.forRoot() // Importation du module SVG avec la configuration racine
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {

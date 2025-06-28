@@ -1,0 +1,23 @@
+.search-bar-container {
+    margin-top: 2rem; /* espace entre le formulaire et la barre */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .search-bar-container input {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db; /* équivaut à border-gray-300 */
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .search-bar-container input:focus {
+    border-color: #60a5fa; /* blue-400 */
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.4);
+  }
+  

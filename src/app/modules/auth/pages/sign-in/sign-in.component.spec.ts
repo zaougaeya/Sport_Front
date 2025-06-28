@@ -1,15 +1,29 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SignInComponent } from './sign-in.component';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
-describe('LoginComponent', () => {
+describe('SignInComponent', () => {
   let component: SignInComponent;
   let fixture: ComponentFixture<SignInComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [SignInComponent],
-}).compileComponents();
+      imports: [
+        SignInComponent,
+        AngularSvgIconModule.forRoot()
+      ],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            params: of({}),
+            snapshot: { paramMap: { get: () => null } }
+          }
+        }
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {

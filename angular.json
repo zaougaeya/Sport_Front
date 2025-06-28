@@ -31,13 +31,16 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+               "node_modules/swiper/swiper-bundle.min.css"
+            
             ],
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js"
             ],
             "allowedCommonJsDependencies": [
-              "apexcharts"
+              "apexcharts",
+               "sweetalert2"
             ]
           },
           "configurations": {
