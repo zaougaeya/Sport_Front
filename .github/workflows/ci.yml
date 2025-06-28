@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - prodFront
+      - main
   pull_request:
     branches:
-      - prodFront
+      - main
 
 jobs:
   install:
